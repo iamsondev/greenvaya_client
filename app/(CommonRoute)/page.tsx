@@ -1,3 +1,9 @@
+import Banner from "./_component/pages/home/Banner"
+
 export default function CommonRoutePage() {
-  return <div>HomePage</div>
+  return (
+    <div>
+      <Banner></Banner>
+    </div>
+  )
 }
