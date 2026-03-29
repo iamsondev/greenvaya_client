@@ -177,7 +177,8 @@ export default function Banner() {
       <div className="pointer-events-none absolute right-0 bottom-0 left-0 h-32 bg-gradient-to-t from-white/5 to-transparent" />
 
       {/* Float animation (CSS for Server Component) */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes float {
           0% {
             transform: translateY(0px) rotate(0deg);

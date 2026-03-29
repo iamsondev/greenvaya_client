@@ -1,10 +1,9 @@
-import Banner from "./pages/home/Banner";
-
+import Banner from "./home/Banner";
 
 export default function CommonRoutePage() {
   return (
-    <div>
-      <Banner></Banner>
+    <div className="pt-16">
+      <Banner />
     </div>
   )
 }
