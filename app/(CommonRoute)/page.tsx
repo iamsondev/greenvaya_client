@@ -1,4 +1,5 @@
-import Banner from "./_component/pages/home/Banner"
+import Banner from "./pages/home/Banner";
+
 
 export default function CommonRoutePage() {
   return (
