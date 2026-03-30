@@ -8,7 +8,7 @@ export default function CommonLayout({
 }) {
   return (
     <div>
-      <Navbar></Navbar>
+      <Navbar />
       {children}
       <div>Footer</div>
     </div>

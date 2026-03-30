@@ -29,6 +29,7 @@ type LoginFormData = z.infer<typeof loginSchema>
 interface JwtPayload {
     id: string
     email: string
+    name?: string
     role: "MEMBER" | "ADMIN"
 }
 
@@ -53,14 +54,15 @@ export default function LoginForm() {
             const { accessToken } = res.data.data
             const decoded = jwtDecode<JwtPayload>(accessToken)
             setAuth(
-                { id: decoded.id, email: decoded.email, role: decoded.role },
+                {
+                    id: decoded.id,
+                    email: decoded.email,
+                    role: decoded.role,
+                    name: decoded.name,
+                },
                 accessToken
             )
-            if (decoded.role === "ADMIN") {
-                router.push("/admin")
-            } else {
-                router.push("/member")
-            }
+            router.push(decoded.role === "ADMIN" ? "/admin-dashboard" : "/member-dashboard")
         } catch (err: any) {
             setServerError(
                 err?.response?.data?.message || "Invalid credentials. Please try again."
@@ -205,7 +207,7 @@ export default function LoginForm() {
                     <p className="text-center text-sm text-green-200/50">
                         Don&apos;t have an account?{" "}
                         <Link
-                            href="/signUp"
+                            href="/signup"
                             className="font-semibold text-green-400 hover:text-green-300 transition-colors"
                         >
                             Create one free

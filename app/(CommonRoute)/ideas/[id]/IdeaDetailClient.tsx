@@ -40,24 +40,24 @@ const statusConfig: Record<
 > = {
     APPROVED: {
         label: "Approved",
-            color: "bg-green-100 text-green-700 border-green-200",
-                icon: <CheckCircle className="h-3.5 w-3.5" />,
-  },
+        color: "bg-green-100 text-green-700 border-green-200",
+        icon: <CheckCircle className="h-3.5 w-3.5" />,
+    },
     UNDER_REVIEW: {
         label: "Under Review",
-            color: "bg-yellow-100 text-yellow-700 border-yellow-200",
-                icon: <Clock className="h-3.5 w-3.5" />,
-  },
+        color: "bg-yellow-100 text-yellow-700 border-yellow-200",
+        icon: <Clock className="h-3.5 w-3.5" />,
+    },
     REJECTED: {
         label: "Rejected",
-            color: "bg-red-100 text-red-700 border-red-200",
-                icon: <XCircle className="h-3.5 w-3.5" />,
-  },
+        color: "bg-red-100 text-red-700 border-red-200",
+        icon: <XCircle className="h-3.5 w-3.5" />,
+    },
     DRAFT: {
         label: "Draft",
-            color: "bg-gray-100 text-gray-700 border-gray-200",
-                icon: <Clock className="h-3.5 w-3.5" />,
-  },
+        color: "bg-gray-100 text-gray-700 border-gray-200",
+        icon: <Clock className="h-3.5 w-3.5" />,
+    },
 }
 
 export default function IdeaDetailClient({ idea }: { idea: Idea }) {
@@ -195,7 +195,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                                 asChild
                                                 className="rounded-xl bg-green-600 hover:bg-green-700 text-white"
                                             >
-                                                <Link href="/signUp">Register</Link>
+                                                <Link href="/signup">Register</Link>
                                             </Button>
                                         </div>
                                     </div>

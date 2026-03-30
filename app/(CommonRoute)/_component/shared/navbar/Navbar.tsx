@@ -87,7 +87,7 @@ export default function Navbar() {
             {isLoggedIn ? (
               <>
                 <Link
-                  href={user?.role === "ADMIN" ? "/admin" : "/member"}
+                  href={user?.role === "ADMIN" ? "/admin-dashboard" : "/member-dashboard"}
                   className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-all hover:bg-green-50 hover:text-green-700"
                 >
                   Dashboard
@@ -108,7 +108,7 @@ export default function Navbar() {
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link
-                        href={user?.role === "ADMIN" ? "/admin" : "/member"}
+                        href={user?.role === "ADMIN" ? "/admin-dashboard" : "/member-dashboard"}
                       >
                         Dashboard
                       </Link>
@@ -140,7 +140,7 @@ export default function Navbar() {
                   asChild
                   className="bg-green-600 text-white shadow-sm hover:bg-green-700"
                 >
-                  <Link href="/signUp" className="flex items-center gap-2">
+                  <Link href="/signup" className="flex items-center gap-2">
                     <UserPlus className="h-4 w-4" />
                     Register
                   </Link>
@@ -192,7 +192,7 @@ export default function Navbar() {
 
                   {isLoggedIn && (
                     <Link
-                      href={user?.role === "ADMIN" ? "/admin" : "/member"}
+                      href={user?.role === "ADMIN" ? "/admin-dashboard" : "/member-dashboard"}
                       onClick={() => setOpen(false)}
                       className="rounded-lg px-4 py-3 text-sm font-medium text-gray-600 transition-all hover:bg-green-50 hover:text-green-700"
                     >
@@ -231,7 +231,7 @@ export default function Navbar() {
                         className="w-full bg-green-600 text-white hover:bg-green-700"
                       >
                         <Link
-                          href="/signUp"
+                          href="/signup"
                           onClick={() => setOpen(false)}
                           className="flex items-center gap-2"
                         >
