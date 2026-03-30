@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Menu, X, Leaf, ChevronDown, LogIn, UserPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
+import { useAuthStore } from "@/store/authStore"
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -23,18 +24,24 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname()
+  const router = useRouter()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
-  // isLoggedIn — পরে Zustand store থেকে আসবে
-  const isLoggedIn = false
-  const userRole = null // "MEMBER" | "ADMIN"
+  // Zustand থেকে আসছে
+  const { user, logout } = useAuthStore()
+  const isLoggedIn = !!user
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  const handleLogout = () => {
+    logout()
+    router.push("/")
+  }
 
   return (
     <header
@@ -79,20 +86,18 @@ export default function Navbar() {
           <div className="hidden items-center gap-3 md:flex">
             {isLoggedIn ? (
               <>
-                {/* Dashboard link based on role */}
                 <Link
-                  href={userRole === "ADMIN" ? "/admin" : "/member"}
+                  href={user?.role === "ADMIN" ? "/admin" : "/member"}
                   className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-all hover:bg-green-50 hover:text-green-700"
                 >
                   Dashboard
                 </Link>
 
-                {/* Profile dropdown */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button className="flex items-center gap-2 rounded-lg px-3 py-2 transition-all hover:bg-green-50">
                       <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-600 text-sm font-semibold text-white">
-                        S
+                        {user?.name?.[0]?.toUpperCase() || "U"}
                       </div>
                       <ChevronDown className="h-3 w-3 text-gray-500" />
                     </button>
@@ -102,11 +107,16 @@ export default function Navbar() {
                       <Link href="/profile">My Profile</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href={userRole === "ADMIN" ? "/admin" : "/member"}>
+                      <Link
+                        href={user?.role === "ADMIN" ? "/admin" : "/member"}
+                      >
                         Dashboard
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600">
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="cursor-pointer text-red-600 focus:text-red-600"
+                    >
                       Logout
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -182,7 +192,7 @@ export default function Navbar() {
 
                   {isLoggedIn && (
                     <Link
-                      href={userRole === "ADMIN" ? "/admin" : "/member"}
+                      href={user?.role === "ADMIN" ? "/admin" : "/member"}
                       onClick={() => setOpen(false)}
                       className="rounded-lg px-4 py-3 text-sm font-medium text-gray-600 transition-all hover:bg-green-50 hover:text-green-700"
                     >
@@ -196,6 +206,10 @@ export default function Navbar() {
                   {isLoggedIn ? (
                     <Button
                       variant="outline"
+                      onClick={() => {
+                        handleLogout()
+                        setOpen(false)
+                      }}
                       className="w-full border-red-200 text-red-600 hover:bg-red-50"
                     >
                       Logout

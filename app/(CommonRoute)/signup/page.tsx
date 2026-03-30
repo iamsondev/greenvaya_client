@@ -1,7 +1,6 @@
+import SignUpForm from "./SignUpForm";
+
+
 export default function SignUpPage() {
-  return (
-    <div>
-      <h1>This is SignUp page component</h1>
-    </div>
-  )
+  return <div className="pt-12"><SignUpForm /></div>
 }
