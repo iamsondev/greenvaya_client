@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { CheckCircle, AlertCircle, FileEdit, Send, Loader2, ImagePlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { API_URL } from "@/lib/api-config"
 
 interface Category {
     id: string

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useAuthStore } from "@/store/authStore"
 import { ShoppingBag, Leaf, ExternalLink } from "lucide-react"
 import Link from "next/link"
+import { API_URL } from "@/lib/api-config"
 
 interface Purchase {
     id: string
@@ -26,7 +27,7 @@ export default function PurchasedIdeas() {
 
     useEffect(() => {
         if (!accessToken) return
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/payments/my-purchases`, {
+        fetch(`${API_URL}/payments/my-purchases`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },

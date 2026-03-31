@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation"
 import { CheckCircle, AlertCircle, FileEdit, Send, Loader2, ImagePlus, ArrowLeft } from "lucide-react"
 import { useAuthStore } from "@/store/authStore"
 import Link from "next/link"
+import { API_URL } from "@/lib/api-config"
 
 interface Category {
     id: string
@@ -40,7 +41,7 @@ export default function EditIdeaPage() {
 
     // Fetch categories
     useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`)
+        fetch(`${API_URL}/categories`)
             .then((r) => r.json())
             .then((d) => setCategories(d.data ?? []))
             .catch(() => { })
@@ -49,7 +50,7 @@ export default function EditIdeaPage() {
     // Fetch existing idea data
     useEffect(() => {
         if (!id || !accessToken) return
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/ideas/${id}`, {
+        fetch(`${API_URL}/ideas/${id}`, {
             headers: { Authorization: `Bearer ${accessToken}` },
         })
             .then((r) => r.json())
@@ -123,7 +124,7 @@ export default function EditIdeaPage() {
             }
 
             const res = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/ideas/${id}`,
+                `${API_URL}/ideas/${id}`,
                 {
                     method: "PATCH",
                     headers: {
@@ -138,7 +139,7 @@ export default function EditIdeaPage() {
 
             if (submitForReview) {
                 await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/ideas/${id}/submit`,
+                    `${API_URL}/ideas/${id}/submit`,
                     {
                         method: "PATCH",
                         headers: { Authorization: `Bearer ${accessToken}` },

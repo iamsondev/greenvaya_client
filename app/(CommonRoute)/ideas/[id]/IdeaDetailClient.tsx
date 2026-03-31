@@ -20,6 +20,7 @@ import {
     Loader2,
 } from "lucide-react"
 import { useAuthStore } from "@/store/authStore"
+import { API_URL } from "@/lib/api-config"
 
 interface Comment {
     id: string
@@ -194,7 +195,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
     useEffect(() => {
         if (!hydrated || !accessToken || !idea.isPaid) return
         // Using my-purchases as a reliable way to check if purchased
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/payments/my-purchases`, {
+        fetch(`${API_URL}/payments/my-purchases`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -224,7 +225,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
         setPurchasing(true)
         try {
             const res = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/payments/create-checkout-session`,
+                `${API_URL}/payments/create-checkout-session`,
                 {
                     method: "POST",
                     headers: {
@@ -249,7 +250,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
         if (!accessToken) return
         try {
             const res = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/votes/${idea.id}`,
+                `${API_URL}/votes/${idea.id}`,
                 {
                     method: "POST",
                     headers: {
@@ -263,7 +264,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
             if (data.success) {
                 // ✅ Backend থেকে actual vote count fetch করো
                 const ideaRes = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/ideas/${idea.id}`
+                    `${API_URL}/ideas/${idea.id}`
                 )
                 const ideaData = await ideaRes.json()
                 const updatedCount = ideaData?.data?._count?.votes ?? voteCount

@@ -19,6 +19,7 @@ import {
 import { useAuthStore } from "@/store/authStore"
 import { Button } from "@/components/ui/button"
 import HeroFadeIn from "@/components/Hero/HeroFadeIn"
+import { API_URL } from "@/lib/api-config"
 import {
     Sheet,
     SheetContent,
@@ -59,7 +60,7 @@ export default function ProfilePage() {
             return
         }
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
+        fetch(`${API_URL}/users/me`, {
             headers: { Authorization: `Bearer ${accessToken}` }
         })
             .then(res => res.json())

@@ -11,8 +11,7 @@ import Overview from "./Overview"
 import Sidebar from "./Slidebar"
 import Topbar from "./Topbar"
 import CreateIdea from "@/components/shared/CreateIdea"
-
-const BASE = process.env.NEXT_PUBLIC_API_URL
+import { API_URL } from "@/lib/api-config"
 
 type IdeaStatus = "DRAFT" | "UNDER_REVIEW" | "APPROVED" | "REJECTED"
 
@@ -52,7 +51,7 @@ export default function DashboardClient({ user, accessToken }: Props) {
   const fetchIdeas = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch(`${BASE}/ideas?authorId=${user?.id}&limit=100`, {
+      const res = await fetch(`${API_URL}/ideas?authorId=${user?.id}&limit=100`, {
         headers: { Authorization: `Bearer ${accessToken}` },
         cache: "no-store",
       })
@@ -69,7 +68,7 @@ export default function DashboardClient({ user, accessToken }: Props) {
 
   const handleSubmit = async (id: string) => {
     try {
-      const res = await fetch(`${BASE}/ideas/${id}/submit`, {
+      const res = await fetch(`${API_URL}/ideas/${id}/submit`, {
         method: "PATCH",
         headers: { Authorization: `Bearer ${accessToken}` },
       })
@@ -83,7 +82,7 @@ export default function DashboardClient({ user, accessToken }: Props) {
 
   const handleDelete = async (id: string) => {
     try {
-      const res = await fetch(`${BASE}/ideas/${id}`, {
+      const res = await fetch(`${API_URL}/ideas/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${accessToken}` },
       })

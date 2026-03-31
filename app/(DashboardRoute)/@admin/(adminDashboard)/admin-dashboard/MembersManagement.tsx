@@ -3,8 +3,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { Shield, User, Power, Loader2 } from "lucide-react"
 import { toast } from "sonner"
-
-const BASE = process.env.NEXT_PUBLIC_API_URL
+import { API_URL } from "@/lib/api-config"
 
 interface Member {
     id: string
@@ -21,7 +20,7 @@ export default function MembersManagement({ accessToken }: { accessToken: string
     const fetchMembers = useCallback(async () => {
         setLoading(true)
         try {
-            const res = await fetch(`${BASE}/users`, {
+            const res = await fetch(`${API_URL}/users`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
                 cache: "no-store",
             })
@@ -40,7 +39,7 @@ export default function MembersManagement({ accessToken }: { accessToken: string
 
     const handleRoleChange = async (id: string, newRole: string) => {
         try {
-            const res = await fetch(`${BASE}/users/${id}`, {
+            const res = await fetch(`${API_URL}/users/${id}`, {
                 method: "PATCH",
                 headers: { 
                     "Content-Type": "application/json",
@@ -58,7 +57,7 @@ export default function MembersManagement({ accessToken }: { accessToken: string
 
     const handleStatusChange = async (id: string, currentIsActive: boolean | undefined) => {
         try {
-            const res = await fetch(`${BASE}/users/${id}`, {
+            const res = await fetch(`${API_URL}/users/${id}`, {
                 method: "PATCH",
                 headers: { 
                     "Content-Type": "application/json",

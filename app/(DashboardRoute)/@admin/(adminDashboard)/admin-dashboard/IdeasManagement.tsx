@@ -4,8 +4,7 @@ import { useCallback, useEffect, useState } from "react"
 import { Shield, FileEdit, Clock, CheckCircle, XCircle, Trash2, Eye, MessageSquare, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 import Link from "next/link"
-
-const BASE = process.env.NEXT_PUBLIC_API_URL
+import { API_URL } from "@/lib/api-config"
 
 interface Idea {
     id: string
@@ -27,7 +26,7 @@ export default function IdeasManagement({ accessToken }: { accessToken: string }
     const fetchIdeas = useCallback(async () => {
         setLoading(true)
         try {
-            const res = await fetch(`${BASE}/ideas?limit=100`, {
+            const res = await fetch(`${API_URL}/ideas?limit=100`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
                 cache: "no-store",
             })
@@ -49,7 +48,7 @@ export default function IdeasManagement({ accessToken }: { accessToken: string }
             const body: any = { status }
             if (feedbackMsg) body.feedback = feedbackMsg
 
-            const res = await fetch(`${BASE}/ideas/${id}/admin-action`, {
+            const res = await fetch(`${API_URL}/ideas/${id}/admin-action`, {
                 method: "PATCH",
                 headers: { 
                     "Content-Type": "application/json",
@@ -74,7 +73,7 @@ export default function IdeasManagement({ accessToken }: { accessToken: string }
                 label: "Delete",
                 onClick: async () => {
                     try {
-                        const res = await fetch(`${BASE}/ideas/${id}`, {
+                        const res = await fetch(`${API_URL}/ideas/${id}`, {
                             method: "DELETE",
                             headers: { Authorization: `Bearer ${accessToken}` },
                         })

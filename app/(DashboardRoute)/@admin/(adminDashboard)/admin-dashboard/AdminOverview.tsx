@@ -2,8 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react"
 import { Users, Lightbulb, Clock, CheckCircle } from "lucide-react"
-
-const BASE = process.env.NEXT_PUBLIC_API_URL
+import { API_URL } from "@/lib/api-config"
 
 interface Props {
     accessToken: string
@@ -20,7 +19,7 @@ export default function AdminOverview({ accessToken }: Props) {
     const fetchStats = useCallback(async () => {
         try {
             // First get ideas
-            const resIdeas = await fetch(`${BASE}/ideas?limit=100`, {
+            const resIdeas = await fetch(`${API_URL}/ideas?limit=100`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
                 cache: "no-store",
             })
@@ -30,7 +29,7 @@ export default function AdminOverview({ accessToken }: Props) {
             // Then get users
             let mCount = 0
             try {
-                const resUsers = await fetch(`${BASE}/users`, {
+                const resUsers = await fetch(`${API_URL}/users`, {
                     headers: { Authorization: `Bearer ${accessToken}` },
                     cache: "no-store",
                 })
