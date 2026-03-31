@@ -41,6 +41,25 @@ export default function MyIdeas({ ideas, onSubmit, onDelete }: Props) {
 
     const filtered = filter === "ALL" ? ideas : ideas.filter(i => i.status === filter)
 
+    const handleDelete = (id: string) => {
+        toast("Are you sure you want to delete this idea?", {
+            action: {
+                label: "Delete",
+                onClick: async () => {
+                    setActing(id)
+                    await onDelete(id)
+                    setActing(null)
+                    toast.success("Idea deleted successfully!")
+                },
+            },
+            cancel: {
+                label: "Cancel",
+                onClick: () => { },
+            },
+            duration: 5000,
+        })
+    }
+
     return (
         <div className="space-y-6">
             <div>
@@ -87,7 +106,7 @@ export default function MyIdeas({ ideas, onSubmit, onDelete }: Props) {
                                                 <span className="font-semibold text-white">{idea.title}</span>
                                                 {idea.isPaid && (
                                                     <span className="rounded-full border border-yellow-400/20 bg-yellow-400/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-yellow-400">
-                                                        Paid · ${idea.price}
+                                                        Paid · ৳{idea.price}
                                                     </span>
                                                 )}
                                             </div>
@@ -141,23 +160,7 @@ export default function MyIdeas({ ideas, onSubmit, onDelete }: Props) {
                                                         </Link>
                                                         <button
                                                             disabled={acting === idea.id}
-                                                            onClick={async () => {
-                                                                const toastId = toast("Are you sure you want to delete this idea?", {
-                                                                    action: {
-                                                                        label: "Delete",
-                                                                        onClick: async () => {
-                                                                            setActing(idea.id)
-                                                                            await onDelete(idea.id)
-                                                                            setActing(null)
-                                                                        },
-                                                                    },
-                                                                    cancel: {
-                                                                        label: "Cancel",
-                                                                        onClick: () => { },
-                                                                    },
-                                                                    duration: 5000,
-                                                                })
-                                                            }}
+                                                            onClick={() => handleDelete(idea.id)}
                                                             className="rounded-lg p-1.5 text-green-200/40 hover:bg-red-400/10 hover:text-red-400 disabled:opacity-50"
                                                             title="Delete"
                                                         >
