@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import IdeaDetailClient from "./IdeaDetailClient"
+import { API_URL } from "@/lib/api-config"
 
 export default async function IdeaDetailPage({
     params,
@@ -9,7 +10,7 @@ export default async function IdeaDetailPage({
     const { id } = await params
 
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/ideas/${id}`,
+        `${API_URL}/ideas/${id}`,
         { cache: "no-store" }
     )
 

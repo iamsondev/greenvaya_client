@@ -279,7 +279,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
         const text = replyText !== undefined ? replyText : comment
         if (!accessToken || !text.trim()) return
         try {
-            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comments`, {
+            await fetch(`${API_URL}/comments`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

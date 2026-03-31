@@ -1,4 +1,5 @@
 import IdeasClient from "./_component/IdeasClient"
+import { API_URL } from "@/lib/api-config"
 
 interface SearchParams {
     page?: string
@@ -30,19 +31,19 @@ export default async function IdeasPage({
     if (status === "free") queryParams.set("isPaid", "false")
     if (status === "paid") queryParams.set("isPaid", "true")
     if (authorId) queryParams.set("authorId", authorId)
-    
+
     if (sort === "top") queryParams.set("sortBy", "votes")
     if (sort === "commented") queryParams.set("sortBy", "comments")
     if (sort === "recent") queryParams.set("sortBy", "createdAt")
 
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/ideas?${queryParams.toString()}`,
+        `${API_URL}/ideas?${queryParams.toString()}`,
         { cache: "no-store" }
     )
     const data = await res.json()
 
     const categoriesRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/categories`,
+        `${API_URL}/categories`,
         { cache: "no-store" }
     )
     const categoriesData = await categoriesRes.json()

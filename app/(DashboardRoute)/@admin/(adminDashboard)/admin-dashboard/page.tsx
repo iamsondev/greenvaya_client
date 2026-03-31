@@ -1,6 +1,7 @@
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import AdminDashboardClient from "./AdminDashboardClient"
+import { API_URL } from "@/lib/api-config"
 
 export default async function AdminDashboardPage() {
     const cookieStore = await cookies()
@@ -11,7 +12,7 @@ export default async function AdminDashboardPage() {
     }
 
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`,
+        `${API_URL}/auth/refresh-token`,
         {
             method: "POST",
             headers: { cookie: `refreshToken=${refreshToken}` },

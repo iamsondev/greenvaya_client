@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { 
-    User, 
-    Mail, 
-    Shield, 
-    Calendar, 
-    Edit3, 
-    Camera, 
-    TrendingUp, 
-    MessageSquare, 
+import {
+    User,
+    Mail,
+    Shield,
+    Calendar,
+    Edit3,
+    Camera,
+    TrendingUp,
+    MessageSquare,
     Lightbulb,
     Loader2,
     CheckCircle,
@@ -46,7 +46,7 @@ interface UserProfile {
 export default function ProfilePage() {
     const { user, accessToken } = useAuthStore()
     const router = useRouter()
-    
+
     const [profile, setProfile] = useState<UserProfile | null>(null)
     const [loading, setLoading] = useState(true)
     const [editForm, setEditForm] = useState({ name: "", profileImage: "" })
@@ -80,7 +80,7 @@ export default function ProfilePage() {
         setMsg({ type: "", text: "" })
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
+            const res = await fetch(`${API_URL}/users/me`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -164,7 +164,7 @@ export default function ProfilePage() {
                                         </Button>
                                     </SheetTrigger>
                                     <SheetContent className="w-full sm:max-w-md border-white/10 bg-green-950 p-0">
-                                         <div className="h-full bg-gradient-to-br from-green-950 via-green-900 to-emerald-950 p-8">
+                                        <div className="h-full bg-gradient-to-br from-green-950 via-green-900 to-emerald-950 p-8">
                                             <SheetHeader className="mb-8">
                                                 <SheetTitle className="text-2xl font-black text-white">Edit Profile</SheetTitle>
                                                 <SheetDescription className="text-green-200/60 font-light">
@@ -175,8 +175,8 @@ export default function ProfilePage() {
                                             <form onSubmit={handleUpdate} className="space-y-6">
                                                 <div>
                                                     <label className="mb-1.5 block text-xs font-bold uppercase tracking-widest text-green-200/50">Full Name</label>
-                                                    <input 
-                                                        type="text" 
+                                                    <input
+                                                        type="text"
                                                         className="w-full rounded-2xl border border-white/10 bg-white/5 p-4 text-white placeholder-white/20 outline-none focus:border-green-400/50"
                                                         value={editForm.name}
                                                         onChange={e => setEditForm({ ...editForm, name: e.target.value })}
@@ -184,8 +184,8 @@ export default function ProfilePage() {
                                                 </div>
                                                 <div>
                                                     <label className="mb-1.5 block text-xs font-bold uppercase tracking-widest text-green-200/50">Profile Image URL</label>
-                                                    <input 
-                                                        type="text" 
+                                                    <input
+                                                        type="text"
                                                         className="w-full rounded-2xl border border-white/10 bg-white/5 p-4 text-white placeholder-white/20 outline-none focus:border-green-400/50"
                                                         placeholder="https://..."
                                                         value={editForm.profileImage}
@@ -194,22 +194,21 @@ export default function ProfilePage() {
                                                 </div>
 
                                                 {msg.text && (
-                                                    <div className={`flex items-center gap-3 rounded-2xl border p-4 text-sm ${
-                                                        msg.type === "success" ? "border-green-400/20 bg-green-400/10 text-green-400" : "border-red-400/20 bg-red-400/10 text-red-400"
-                                                    }`}>
+                                                    <div className={`flex items-center gap-3 rounded-2xl border p-4 text-sm ${msg.type === "success" ? "border-green-400/20 bg-green-400/10 text-green-400" : "border-red-400/20 bg-red-400/10 text-red-400"
+                                                        }`}>
                                                         {msg.type === "success" ? <CheckCircle className="h-5 w-5" /> : <AlertCircle className="h-5 w-5" />}
                                                         {msg.text}
                                                     </div>
                                                 )}
 
-                                                <Button 
+                                                <Button
                                                     disabled={updating}
                                                     className="h-14 w-full rounded-2xl bg-green-500 font-black text-green-950 shadow-xl shadow-green-500/20 hover:bg-green-400 disabled:opacity-50"
                                                 >
                                                     {updating ? <Loader2 className="h-5 w-5 animate-spin" /> : "Save Changes"}
                                                 </Button>
                                             </form>
-                                         </div>
+                                        </div>
                                     </SheetContent>
                                 </Sheet>
                             </div>
