@@ -6,6 +6,7 @@ import {
     Leaf, TrendingUp, Clock, CheckCircle, XCircle,
     FileEdit, Eye, Trash2, Send, AlertCircle, Loader2,
 } from "lucide-react"
+import { toast } from "sonner"
 
 type IdeaStatus = "DRAFT" | "UNDER_REVIEW" | "APPROVED" | "REJECTED"
 
@@ -54,8 +55,8 @@ export default function MyIdeas({ ideas, onSubmit, onDelete }: Props) {
                         key={s}
                         onClick={() => setFilter(s)}
                         className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${filter === s
-                                ? "bg-green-500 text-green-950"
-                                : "border border-white/10 bg-white/5 text-green-200/60 hover:border-green-400/30 hover:text-white"
+                            ? "bg-green-500 text-green-950"
+                            : "border border-white/10 bg-white/5 text-green-200/60 hover:border-green-400/30 hover:text-white"
                             }`}
                     >
                         {s === "ALL" ? "All" : STATUS[s].label}
@@ -141,10 +142,21 @@ export default function MyIdeas({ ideas, onSubmit, onDelete }: Props) {
                                                         <button
                                                             disabled={acting === idea.id}
                                                             onClick={async () => {
-                                                                if (!confirm("Delete this idea?")) return
-                                                                setActing(idea.id)
-                                                                await onDelete(idea.id)
-                                                                setActing(null)
+                                                                const toastId = toast("Are you sure you want to delete this idea?", {
+                                                                    action: {
+                                                                        label: "Delete",
+                                                                        onClick: async () => {
+                                                                            setActing(idea.id)
+                                                                            await onDelete(idea.id)
+                                                                            setActing(null)
+                                                                        },
+                                                                    },
+                                                                    cancel: {
+                                                                        label: "Cancel",
+                                                                        onClick: () => { },
+                                                                    },
+                                                                    duration: 5000,
+                                                                })
                                                             }}
                                                             className="rounded-lg p-1.5 text-green-200/40 hover:bg-red-400/10 hover:text-red-400 disabled:opacity-50"
                                                             title="Delete"
