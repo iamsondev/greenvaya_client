@@ -45,11 +45,15 @@ export default function MyIdeas({ ideas, onSubmit, onDelete }: Props) {
         toast("Are you sure you want to delete this idea?", {
             action: {
                 label: "Delete",
-                onClick: async () => {
+                onClick: () => {
                     setActing(id)
-                    await onDelete(id)
-                    setActing(null)
-                    toast.success("Idea deleted successfully!")
+                    onDelete(id).then(() => {
+                        setActing(null)
+                        toast.success("Idea deleted successfully!")
+                    }).catch(() => {
+                        setActing(null)
+                        toast.error("Failed to delete idea.")
+                    })
                 },
             },
             cancel: {
