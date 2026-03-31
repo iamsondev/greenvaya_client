@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useAuthStore } from "@/store/authStore";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
+const isBrowser = typeof window !== "undefined";
+const API_BASE_URL = isBrowser
+  ? process.env.NEXT_PUBLIC_API_PROXY_URL || "/api/v1"
+  : process.env.NEXT_PUBLIC_API_URL || "https://greenvaya-backend.vercel.app/api/v1";
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,

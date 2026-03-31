@@ -1,12 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import { CheckCircle, XCircle, Loader2 } from "lucide-react"
 import axiosInstance from "@/lib/axios"
 
-export default function PaymentSuccessPage() {
+function PaymentSuccessContent() {
     const searchParams = useSearchParams()
     const router = useRouter()
     const sessionId = searchParams.get("session_id")
@@ -92,3 +92,21 @@ export default function PaymentSuccessPage() {
         </div>
     )
 }
+
+export default function PaymentSuccessPage() {
+    return (
+        <Suspense
+            fallback={
+                <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+                    <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm">
+                        <Loader2 className="mx-auto mb-6 h-16 w-16 animate-spin text-green-500" />
+                        <h1 className="mb-2 text-2xl font-black text-gray-900">Initialing...</h1>
+                        <p className="text-sm text-gray-500">Preparing payment verification.</p>
+                    </div>
+                </div>
+            }
+        >
+            <PaymentSuccessContent />
+        </Suspense>
+    )
+}
