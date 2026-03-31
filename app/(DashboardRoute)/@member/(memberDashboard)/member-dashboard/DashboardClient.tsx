@@ -8,9 +8,9 @@ import { toast } from "sonner"
 import MyIdeas from "./MyIdeas"
 import PurchasedIdeas from "./PurchasedIdea"
 import Overview from "./Overview"
-import CreateIdea from "./Createida"
 import Sidebar from "./Slidebar"
 import Topbar from "./Topbar"
+import CreateIdea from "@/components/shared/CreateIdea"
 
 const BASE = process.env.NEXT_PUBLIC_API_URL
 
@@ -29,7 +29,7 @@ interface Idea {
 }
 
 interface Props {
-  user: { name: string; email: string } | null
+  user: { id?: string; name: string; email: string } | null
   accessToken: string
 }
 
@@ -52,7 +52,7 @@ export default function DashboardClient({ user, accessToken }: Props) {
   const fetchIdeas = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch(`${BASE}/ideas?myIdeas=true&limit=100`, {
+      const res = await fetch(`${BASE}/ideas?authorId=${user?.id}&limit=100`, {
         headers: { Authorization: `Bearer ${accessToken}` },
         cache: "no-store",
       })
@@ -124,7 +124,19 @@ export default function DashboardClient({ user, accessToken }: Props) {
   }
 
   return (
-    <>
+    <div className="relative min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-emerald-800">
+      {/* Background effects */}
+      <div className="pointer-events-none fixed inset-0">
+        <div className="absolute top-1/4 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-green-400/8 blur-[120px]" />
+        <div className="absolute bottom-0 left-0 h-[300px] w-[300px] rounded-full bg-emerald-500/8 blur-[100px]" />
+      </div>
+      <div
+        className="pointer-events-none fixed inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px)`,
+          backgroundSize: "60px 60px",
+        }}
+      />
       <Sidebar
         active={active}
         onNavigate={setActive}
@@ -138,6 +150,6 @@ export default function DashboardClient({ user, accessToken }: Props) {
           {renderSection()}
         </main>
       </div>
-    </>
+    </div>
   )
 }

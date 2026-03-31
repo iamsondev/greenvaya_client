@@ -21,6 +21,15 @@ import {
 } from "lucide-react"
 import { useAuthStore } from "@/store/authStore"
 
+interface Comment {
+    id: string
+    content: string
+    authorId: string
+    author: { name: string; profileImage?: string | null }
+    createdAt: string
+    replies?: Comment[]
+}
+
 interface Idea {
     id: string
     title: string
@@ -35,6 +44,7 @@ interface Idea {
     author: { name: string; email: string }
     _count: { votes: number; comments: number }
     createdAt: string
+    comments?: Comment[]
 }
 
 const statusConfig: Record<string, { label: string; color: string; icon: ReactNode }> = {
@@ -58,6 +68,112 @@ const statusConfig: Record<string, { label: string; color: string; icon: ReactNo
         color: "bg-gray-100 text-gray-700 border-gray-200",
         icon: <Clock className="h-3.5 w-3.5" />,
     },
+}
+
+// Recursive Comment Component
+function CommentItem({
+    comment,
+    onReply,
+    isLoggedIn,
+    accessToken,
+}: {
+    comment: any
+    onReply: (parentId: string, content: string) => Promise<void>
+    isLoggedIn: boolean
+    accessToken: string | null
+}) {
+    const [isReplying, setIsReplying] = useState(false)
+    const [replyContent, setReplyContent] = useState("")
+    const [submitting, setSubmitting] = useState(false)
+
+    const handleSubmit = async () => {
+        if (!replyContent.trim()) return
+        setSubmitting(true)
+        await onReply(comment.id, replyContent)
+        setReplyContent("")
+        setIsReplying(false)
+        setSubmitting(false)
+    }
+
+    return (
+        <div className="py-6 first:pt-0 last:pb-0">
+            <div className="flex gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-50 text-xs font-bold text-green-600 border border-green-100">
+                    {comment.author?.name?.[0]?.toUpperCase() || "U"}
+                </div>
+                <div className="flex-1">
+                    <div className="rounded-2xl border border-gray-100 bg-gray-50/50 px-4 py-3 shadow-sm">
+                        <div className="mb-1 flex items-center justify-between">
+                            <span className="text-xs font-bold text-gray-900">{comment.author?.name}</span>
+                            <span className="text-[10px] text-gray-400">
+                                {new Date(comment.createdAt).toLocaleDateString()}
+                            </span>
+                        </div>
+                        <p className="text-sm text-gray-600 leading-relaxed">{comment.content}</p>
+                    </div>
+                    
+                    {isLoggedIn && (
+                        <button
+                            onClick={() => setIsReplying(!isReplying)}
+                            className="mt-2 text-xs font-semibold text-green-600 hover:text-green-700 transition-colors ml-2"
+                        >
+                            Reply
+                        </button>
+                    )}
+
+                    {isReplying && (
+                        <div className="mt-4 flex gap-3 ml-2 sm:ml-4">
+                             <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-green-50 text-[10px] font-bold text-green-600 border border-green-100">
+                                R
+                            </div>
+                            <div className="flex-1">
+                                <textarea
+                                    value={replyContent}
+                                    onChange={(e) => setReplyContent(e.target.value)}
+                                    placeholder="Write a reply..."
+                                    className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm outline-none focus:border-green-400 focus:ring-1 focus:ring-green-400 resize-none"
+                                    rows={2}
+                                />
+                                <div className="flex gap-2 mt-2">
+                                    <Button 
+                                        size="sm" 
+                                        onClick={handleSubmit} 
+                                        disabled={submitting || !replyContent.trim()}
+                                        className="bg-green-600 hover:bg-green-700 text-white rounded-lg h-8 text-[11px] px-4"
+                                    >
+                                        {submitting ? "Posting..." : "Post Reply"}
+                                    </Button>
+                                    <Button 
+                                        size="sm" 
+                                        variant="ghost" 
+                                        onClick={() => setIsReplying(false)} 
+                                        className="h-8 text-[11px] hover:bg-red-50 hover:text-red-600"
+                                    >
+                                        Cancel
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Replies List */}
+                    {comment.replies && comment.replies.length > 0 && (
+                        <div className="ml-4 border-l-2 border-green-50 pl-6 mt-4 space-y-2">
+                            {comment.replies.map((reply: any) => (
+                                <CommentItem
+                                    key={reply.id}
+                                    comment={reply}
+                                    onReply={onReply}
+                                    isLoggedIn={isLoggedIn}
+                                    accessToken={accessToken}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default function IdeaDetailClient({ idea }: { idea: Idea }) {
@@ -158,8 +274,9 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
         }
     }
 
-    const handleComment = async () => {
-        if (!accessToken || !comment.trim()) return
+    const handleComment = async (parentId?: string, replyText?: string) => {
+        const text = replyText !== undefined ? replyText : comment
+        if (!accessToken || !text.trim()) return
         try {
             await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comments`, {
                 method: "POST",
@@ -169,11 +286,11 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                 },
                 body: JSON.stringify({
                     ideaId: idea.id,
-                    content: comment,
-                    parentId: null,
+                    content: text,
+                    parentId: parentId || null,
                 }),
             })
-            setComment("")
+            if (!parentId) setComment("")
             router.refresh()
         } catch (err) {
             console.error("Comment failed", err)
@@ -363,8 +480,10 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                 <MessageCircle className="h-5 w-5 text-blue-500" />
                                 Comments ({idea._count?.comments ?? 0})
                             </h2>
+                            
+                            {/* Root Comment Input */}
                             {isLoggedIn ? (
-                                <div className="flex gap-3">
+                                <div className="flex gap-3 mb-10">
                                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-100 text-sm font-bold text-green-700">
                                         {user?.name?.[0]?.toUpperCase() || "U"}
                                     </div>
@@ -378,7 +497,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                         />
                                         <Button
                                             size="sm"
-                                            onClick={handleComment}
+                                            onClick={() => handleComment()}
                                             disabled={!comment.trim()}
                                             className="mt-2 bg-green-600 hover:bg-green-700 text-white rounded-xl"
                                         >
@@ -387,7 +506,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                     </div>
                                 </div>
                             ) : (
-                                <p className="text-sm text-gray-400 text-center py-4">
+                                <p className="text-sm text-gray-400 text-center py-4 mb-10">
                                     <Link
                                         href="/login"
                                         className="text-green-600 hover:underline"
@@ -397,6 +516,26 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                     to leave a comment.
                                 </p>
                             )}
+
+                            {/* Comment List */}
+                            <div className="divide-y divide-gray-50">
+                                {idea.comments && idea.comments.length > 0 ? (
+                                    idea.comments.map((c) => (
+                                        <CommentItem 
+                                            key={c.id} 
+                                            comment={c} 
+                                            onReply={(parentId, text) => handleComment(parentId, text)}
+                                            isLoggedIn={isLoggedIn}
+                                            accessToken={accessToken}
+                                        />
+                                    ))
+                                ) : (
+                                    <div className="text-center py-10">
+                                        <MessageCircle className="h-10 w-10 text-gray-100 mx-auto mb-2" />
+                                        <p className="text-xs text-gray-400">No comments yet. Be the first to share your experience!</p>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
 

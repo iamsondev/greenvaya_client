@@ -57,6 +57,7 @@ interface Props {
     currentSort: string
     currentCategory: string
     currentSearch: string
+    currentStatus: string
 }
 
 export default function IdeasClient({
@@ -67,6 +68,7 @@ export default function IdeasClient({
     currentSort,
     currentCategory,
     currentSearch,
+    currentStatus,
 }: Props) {
     const router = useRouter()
     const pathname = usePathname()
@@ -79,6 +81,7 @@ export default function IdeasClient({
             sort: currentSort,
             category: currentCategory,
             q: currentSearch,
+            status: currentStatus,
             ...updates,
         }
         Object.entries(current).forEach(([k, v]) => {
@@ -165,12 +168,13 @@ export default function IdeasClient({
                                 <SelectContent>
                                     <SelectItem value="recent">🕐 Recent</SelectItem>
                                     <SelectItem value="top">🔥 Top Voted</SelectItem>
+                                    <SelectItem value="commented">💬 Most Commented</SelectItem>
                                 </SelectContent>
                             </Select>
 
                             {/* Free/Paid Filter */}
                             <Select
-                                defaultValue="all"
+                                value={currentStatus || "all"}
                                 onValueChange={(v) =>
                                     updateParams({ status: v === "all" ? "" : v, page: "1" })
                                 }

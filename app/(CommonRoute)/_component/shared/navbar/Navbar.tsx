@@ -191,13 +191,22 @@ export default function Navbar() {
                   ))}
 
                   {isLoggedIn && (
-                    <Link
-                      href={user?.role === "ADMIN" ? "/admin-dashboard" : "/member-dashboard"}
-                      onClick={() => setOpen(false)}
-                      className="rounded-lg px-4 py-3 text-sm font-medium text-gray-600 transition-all hover:bg-green-50 hover:text-green-700"
-                    >
-                      Dashboard
-                    </Link>
+                    <>
+                      <Link
+                        href="/profile"
+                        onClick={() => setOpen(false)}
+                        className="rounded-lg px-4 py-3 text-sm font-medium text-gray-600 transition-all hover:bg-green-50 hover:text-green-700"
+                      >
+                        My Profile
+                      </Link>
+                      <Link
+                        href={user?.role === "ADMIN" ? "/admin-dashboard" : "/member-dashboard"}
+                        onClick={() => setOpen(false)}
+                        className="rounded-lg px-4 py-3 text-sm font-medium text-gray-600 transition-all hover:bg-green-50 hover:text-green-700"
+                      >
+                        Dashboard
+                      </Link>
+                    </>
                   )}
                 </nav>
 

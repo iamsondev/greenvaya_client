@@ -10,6 +10,7 @@ import {
 } from "lucide-react"
 import HeroSearch from "@/components/Hero/HeroSearch"
 import HeroFadeIn from "@/components/Hero/HeroFadeIn"
+import SubmitIdeaCTA from "./SubmitIdeaCTA"
 
 const floatingLeaves = [
   { top: "10%", left: "5%", size: 24, delay: 0, duration: 6 },
@@ -104,8 +105,7 @@ export default function Banner() {
             <HeroSearch />
           </HeroFadeIn>
 
-          {/* CTA Buttons */}
-          <HeroFadeIn delay={400} className="mb-16 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <HeroFadeIn delay={400} className="mb-16 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button
               asChild
               size="lg"
@@ -116,20 +116,7 @@ export default function Banner() {
                 <ArrowRight className="h-5 w-5" />
               </Link>
             </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="rounded-xl border-green-400/40 px-8 py-6 text-base text-green-100 backdrop-blur-sm transition-all hover:scale-[1.03] hover:border-green-400 hover:bg-green-500/10"
-            >
-              <Link
-                href="/member/create-idea"
-                className="flex items-center gap-2"
-              >
-                <Leaf className="h-5 w-5" />
-                Submit Your Idea
-              </Link>
-            </Button>
+            <SubmitIdeaCTA />
           </HeroFadeIn>
 
           {/* Category Pills */}

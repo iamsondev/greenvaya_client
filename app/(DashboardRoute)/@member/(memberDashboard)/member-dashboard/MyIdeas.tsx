@@ -41,18 +41,24 @@ export default function MyIdeas({ ideas, onSubmit, onDelete }: Props) {
 
     const filtered = filter === "ALL" ? ideas : ideas.filter(i => i.status === filter)
 
-    const handleDelete = async (id: string) => {
-        if (!window.confirm("Are you sure you want to delete this idea?")) return
-        
-        setActing(id)
-        try {
-            await onDelete(id)
-            toast.success("Idea deleted successfully!")
-        } catch {
-            toast.error("Failed to delete idea.")
-        } finally {
-            setActing(null)
-        }
+    const handleDelete = (id: string) => {
+        toast("Are you sure you want to delete this idea?", {
+            action: {
+                label: "Delete",
+                onClick: async () => {
+                    setActing(id)
+                    try {
+                        await onDelete(id)
+                    } finally {
+                        setActing(null)
+                    }
+                }
+            },
+            cancel: {
+                label: "Cancel",
+                onClick: () => {}
+            }
+        })
     }
 
     return (

@@ -1,5 +1,6 @@
 import React from "react"
 import Navbar from "./_component/shared/navbar/Navbar"
+import Footer from "./_component/shared/footer/Footer"
 
 export default function CommonLayout({
   children,
@@ -10,7 +11,7 @@ export default function CommonLayout({
     <div>
       <Navbar />
       {children}
-      <div>Footer</div>
+      <Footer />
     </div>
   )
 }

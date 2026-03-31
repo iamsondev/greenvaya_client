@@ -1,5 +1,7 @@
 import Banner from "./home/Banner"
 import FeaturedIdeas from "./home/FeaturedIdeas"
+import Testimonials from "./home/Testimonials"
+import Newsletter from "./home/Newsletter"
 
 
 export default async function CommonRoutePage() {
@@ -22,6 +24,8 @@ export default async function CommonRoutePage() {
         ideas={data?.data || []}
         categories={categoriesData?.data || []}
       />
+      <Testimonials ideas={data?.data || []} />
+      <Newsletter />
     </div>
   )
 }
