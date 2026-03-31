@@ -15,24 +15,36 @@ export default async function DashboardLayout({
     let role = null;
 
     if (refreshToken) {
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`,
-            {
-                method: "POST",
-                headers: { cookie: `refreshToken=${refreshToken}` },
-                cache: "no-store",
-            }
-        );
-        const data = await res.json();
-        console.log("refresh response:", data);
-        const accessToken = data?.data?.accessToken;
-
-        if (accessToken) {
-            const payload = JSON.parse(
-                Buffer.from(accessToken.split(".")[1], "base64").toString()
+        try {
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`,
+                {
+                    method: "POST",
+                    headers: { cookie: `refreshToken=${refreshToken}` },
+                    cache: "no-store",
+                }
             );
-            role = payload.role;
-            console.log("role:", role);
+
+            if (res.ok) {
+                const data = await res.json();
+                console.log("refresh response:", data);
+                const accessToken = data?.data?.accessToken;
+
+                if (accessToken && typeof accessToken === "string") {
+                    const parts = accessToken.split(".");
+                    if (parts.length === 3) {
+                        const payload = JSON.parse(
+                            Buffer.from(parts[1], "base64").toString()
+                        );
+                        role = payload.role;
+                        console.log("role:", role);
+                    }
+                }
+            } else {
+                console.error("Refresh token request failed with status:", res.status);
+            }
+        } catch (error) {
+            console.error("Error during token refresh fetch:", error);
         }
     }
 

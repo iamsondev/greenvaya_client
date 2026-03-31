@@ -285,8 +285,11 @@ export default function CreateIdea({ accessToken, onCreated, isModal = false }: 
                             min={0}
                             className={inputCls}
                             placeholder="500"
-                            value={form.price}
-                            onChange={(e) => setField("price", parseFloat(e.target.value))}
+                            value={isNaN(form.price) ? "" : form.price}
+                            onChange={(e) => {
+                                const val = parseFloat(e.target.value)
+                                setField("price", isNaN(val) ? 0 : val)
+                            }}
                         />
                     </div>
                 )}
