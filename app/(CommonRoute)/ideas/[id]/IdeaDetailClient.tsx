@@ -145,10 +145,13 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
             )
             const data = await res.json()
             if (data.success) {
-                setVoteCount((prev) =>
-                    type === "UPVOTE" ? prev + 1 : Math.max(0, prev - 1)
+                // ✅ Backend থেকে actual vote count fetch করো
+                const ideaRes = await fetch(
+                    `${process.env.NEXT_PUBLIC_API_URL}/ideas/${idea.id}`
                 )
-                router.refresh()
+                const ideaData = await ideaRes.json()
+                const updatedCount = ideaData?.data?._count?.votes ?? voteCount
+                setVoteCount(updatedCount)
             }
         } catch (err) {
             console.error("Vote failed", err)
