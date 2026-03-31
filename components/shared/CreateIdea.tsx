@@ -38,7 +38,7 @@ export default function CreateIdea({ accessToken, onCreated, isModal = false }: 
     const [success, setSuccess] = useState("")
 
     useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`)
+        fetch(`${API_URL}/categories`)
             .then((r) => r.json())
             .then((d) => setCategories(d.data ?? []))
             .catch(() => { })
@@ -75,7 +75,8 @@ export default function CreateIdea({ accessToken, onCreated, isModal = false }: 
             !form.title ||
             !form.categoryId ||
             !form.problemStatement ||
-            !form.proposedSolution
+            !form.proposedSolution ||
+            !form.description
         ) {
             setError("Please fill in all required fields.")
             return
@@ -104,7 +105,7 @@ export default function CreateIdea({ accessToken, onCreated, isModal = false }: 
             }
 
             const res = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/ideas`,
+                `${API_URL}/ideas`,
                 {
                     method: "POST",
                     headers: {
@@ -119,7 +120,7 @@ export default function CreateIdea({ accessToken, onCreated, isModal = false }: 
 
             if (submitForReview) {
                 await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/ideas/${data.data.id}/submit`,
+                    `${API_URL}/ideas/${data.data.id}/submit`,
                     {
                         method: "PATCH",
                         headers: { Authorization: `Bearer ${accessToken}` },
@@ -247,7 +248,7 @@ export default function CreateIdea({ accessToken, onCreated, isModal = false }: 
 
                     {/* Description */}
                     <div className="md:col-span-2">
-                        <label className={labelCls}>Full Description</label>
+                        <label className={labelCls}>Full Description *</label>
                         <textarea
                             className={inputCls + " min-h-[120px] resize-none"}
                             placeholder="Detailed description of your idea..."

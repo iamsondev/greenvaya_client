@@ -97,7 +97,7 @@ export default function EditIdeaPage() {
     }
 
     const handleSave = async (submitForReview: boolean) => {
-        if (!form.title || !form.categoryId || !form.problemStatement || !form.proposedSolution) {
+        if (!form.title || !form.categoryId || !form.problemStatement || !form.proposedSolution || !form.description) {
             setError("Please fill in all required fields.")
             return
         }
@@ -261,7 +261,7 @@ export default function EditIdeaPage() {
 
                             {/* Description */}
                             <div className="md:col-span-2">
-                                <label className={labelCls}>Full Description</label>
+                                <label className={labelCls}>Full Description *</label>
                                 <textarea
                                     className={inputCls + " min-h-[120px] resize-none"}
                                     placeholder="Detailed description of your idea..."
