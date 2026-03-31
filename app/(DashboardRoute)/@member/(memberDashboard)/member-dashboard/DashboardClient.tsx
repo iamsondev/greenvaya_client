@@ -1,12 +1,12 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { useSearchParams, useRouter, usePathname } from "next/navigation"
 import { Loader2 } from "lucide-react"
+import { toast } from "sonner"
 
 import MyIdeas from "./MyIdeas"
-
 import PurchasedIdeas from "./PurchasedIdea"
-import { useEffect } from "react"
 import Overview from "./Overview"
 import CreateIdea from "./Createida"
 import Sidebar from "./Slidebar"
@@ -34,7 +34,17 @@ interface Props {
 }
 
 export default function DashboardClient({ user, accessToken }: Props) {
-  const [active, setActive] = useState("overview")
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  // ✅ URL থেকে active tab নাও — refresh এও টিকে থাকবে
+  const active = searchParams.get("tab") || "overview"
+
+  const setActive = (tab: string) => {
+    router.push(`${pathname}?tab=${tab}`)
+  }
+
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [ideas, setIdeas] = useState<Idea[]>([])
   const [loading, setLoading] = useState(true)
@@ -42,7 +52,7 @@ export default function DashboardClient({ user, accessToken }: Props) {
   const fetchIdeas = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch(`${BASE}/api/v1/ideas?myIdeas=true&limit=100`, {
+      const res = await fetch(`${BASE}/ideas?myIdeas=true&limit=100`, {
         headers: { Authorization: `Bearer ${accessToken}` },
         cache: "no-store",
       })
@@ -58,19 +68,31 @@ export default function DashboardClient({ user, accessToken }: Props) {
   useEffect(() => { fetchIdeas() }, [fetchIdeas])
 
   const handleSubmit = async (id: string) => {
-    await fetch(`${BASE}/api/v1/ideas/${id}/submit`, {
-      method: "PATCH",
-      headers: { Authorization: `Bearer ${accessToken}` },
-    })
-    await fetchIdeas()
+    try {
+      const res = await fetch(`${BASE}/ideas/${id}/submit`, {
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+      if (!res.ok) throw new Error()
+      toast.success("Idea submitted for review!")
+      await fetchIdeas()
+    } catch {
+      toast.error("Failed to submit idea.")
+    }
   }
 
   const handleDelete = async (id: string) => {
-    await fetch(`${BASE}/api/v1/ideas/${id}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${accessToken}` },
-    })
-    await fetchIdeas()
+    try {
+      const res = await fetch(`${BASE}/ideas/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+      if (!res.ok) throw new Error()
+      setIdeas((prev) => prev.filter((i) => i.id !== id))
+      toast.success("Idea deleted successfully!")
+    } catch {
+      toast.error("Failed to delete idea.")
+    }
   }
 
   const renderSection = () => {
@@ -110,7 +132,6 @@ export default function DashboardClient({ user, accessToken }: Props) {
         isOpen={sidebarOpen}
         user={user}
       />
-
       <div className="lg:pl-64">
         <Topbar active={active} onMenuOpen={() => setSidebarOpen(true)} />
         <main className="relative z-10 p-6 lg:p-8">

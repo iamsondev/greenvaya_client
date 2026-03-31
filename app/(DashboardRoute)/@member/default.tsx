@@ -85,7 +85,13 @@ export default function MemberDashboard() {
     }
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Delete this idea?")) return
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ideas/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        })
+        if (!res.ok) throw new Error("Failed to delete idea")
         setIdeas((prev) => prev.filter((i) => i.id !== id))
     }
     const handleIdeaCreated = () => { }
