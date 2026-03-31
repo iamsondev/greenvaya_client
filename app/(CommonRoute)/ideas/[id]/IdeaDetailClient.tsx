@@ -1,6 +1,7 @@
 "use client"
-
+import { useState, useEffect, ReactNode } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -16,7 +17,9 @@ import {
     CheckCircle,
     Clock,
     XCircle,
+    Loader2,
 } from "lucide-react"
+import { useAuthStore } from "@/store/authStore"
 
 interface Idea {
     id: string
@@ -34,10 +37,7 @@ interface Idea {
     createdAt: string
 }
 
-const statusConfig: Record<
-    string,
-    { label: string; color: string; icon: React.ReactNode }
-> = {
+const statusConfig: Record<string, { label: string; color: string; icon: ReactNode }> = {
     APPROVED: {
         label: "Approved",
         color: "bg-green-100 text-green-700 border-green-200",
@@ -61,6 +61,36 @@ const statusConfig: Record<
 }
 
 export default function IdeaDetailClient({ idea }: { idea: Idea }) {
+    const router = useRouter()
+    const { user, accessToken } = useAuthStore()
+    const isLoggedIn = !!user
+    const [hasPurchased, setHasPurchased] = useState(false)
+    const isContentLocked = idea.isPaid && !hasPurchased
+
+    const [purchasing, setPurchasing] = useState(false)
+    const [voteCount, setVoteCount] = useState(idea._count?.votes ?? 0)
+    const [comment, setComment] = useState("")
+    const [hydrated, setHydrated] = useState(false)
+    useEffect(() => {
+        setHydrated(true)
+    }, [])
+
+    useEffect(() => {
+        if (!hydrated || !accessToken || !idea.isPaid) return
+        // Using my-purchases as a reliable way to check if purchased
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/payments/my-purchases`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        })
+            .then((r) => r.json())
+            .then((d) => {
+                const purchases = d?.data || []
+                const isBought = purchases.some((p: any) => p.idea?.id === idea.id)
+                if (isBought) setHasPurchased(true)
+            })
+            .catch(() => { })
+    }, [hydrated, accessToken, idea.id, idea.isPaid])
     const status = statusConfig[idea.status] || statusConfig["DRAFT"]
     const imageUrl =
         idea.images?.[0]?.url && !idea.images[0].url.includes("example.com")
@@ -73,10 +103,79 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
         day: "numeric",
     })
 
-    // isLoggedIn + hasPurchased — পরে Zustand থেকে আসবে
-    const isLoggedIn = false
-    const hasPurchased = false
-    const isContentLocked = idea.isPaid && !hasPurchased
+    const handlePurchase = async () => {
+        if (!accessToken) return
+        setPurchasing(true)
+        try {
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/payments/create-checkout-session`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                    body: JSON.stringify({ ideaId: idea.id }),
+                }
+            )
+            const data = await res.json()
+            if (data?.data?.checkoutUrl) {
+                window.location.href = data.data.checkoutUrl
+            }
+        } catch (err) {
+            console.error("Payment failed", err)
+        } finally {
+            setPurchasing(false)
+        }
+    }
+
+    const handleVote = async (type: "UPVOTE" | "DOWNVOTE") => {
+        if (!accessToken) return
+        try {
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/votes/${idea.id}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                    body: JSON.stringify({ type }),
+                }
+            )
+            const data = await res.json()
+            if (data.success) {
+                setVoteCount((prev) =>
+                    type === "UPVOTE" ? prev + 1 : Math.max(0, prev - 1)
+                )
+                router.refresh()
+            }
+        } catch (err) {
+            console.error("Vote failed", err)
+        }
+    }
+
+    const handleComment = async () => {
+        if (!accessToken || !comment.trim()) return
+        try {
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comments`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({
+                    ideaId: idea.id,
+                    content: comment,
+                    parentId: null,
+                }),
+            })
+            setComment("")
+            router.refresh()
+        } catch (err) {
+            console.error("Comment failed", err)
+        }
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 pt-20">
@@ -133,7 +232,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                         </span>
                         <span className="flex items-center gap-1.5">
                             <ThumbsUp className="h-4 w-4" />
-                            {idea._count?.votes ?? 0} votes
+                            {voteCount} votes
                         </span>
                         <span className="flex items-center gap-1.5">
                             <MessageCircle className="h-4 w-4" />
@@ -175,8 +274,19 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                     ৳{idea.price}
                                 </div>
                                 {isLoggedIn ? (
-                                    <Button className="bg-amber-500 hover:bg-amber-600 text-white rounded-xl px-8">
-                                        Purchase to Unlock
+                                    <Button
+                                        onClick={handlePurchase}
+                                        disabled={purchasing}
+                                        className="bg-amber-500 hover:bg-amber-600 text-white rounded-xl px-8"
+                                    >
+                                        {purchasing ? (
+                                            <span className="flex items-center gap-2">
+                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                                Processing...
+                                            </span>
+                                        ) : (
+                                            `Purchase to Unlock · ৳${idea.price}`
+                                        )}
                                     </Button>
                                 ) : (
                                     <div className="flex flex-col items-center gap-3">
@@ -244,7 +354,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                             </div>
                         )}
 
-                        {/* Comments Section placeholder */}
+                        {/* Comments Section */}
                         <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
                             <h2 className="mb-4 flex items-center gap-2 text-base font-bold text-gray-900">
                                 <MessageCircle className="h-5 w-5 text-blue-500" />
@@ -253,16 +363,20 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                             {isLoggedIn ? (
                                 <div className="flex gap-3">
                                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-100 text-sm font-bold text-green-700">
-                                        U
+                                        {user?.name?.[0]?.toUpperCase() || "U"}
                                     </div>
                                     <div className="flex-1">
                                         <textarea
+                                            value={comment}
+                                            onChange={(e) => setComment(e.target.value)}
                                             placeholder="Share your thoughts..."
                                             className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-green-400 focus:ring-1 focus:ring-green-400 resize-none"
                                             rows={3}
                                         />
                                         <Button
                                             size="sm"
+                                            onClick={handleComment}
+                                            disabled={!comment.trim()}
                                             className="mt-2 bg-green-600 hover:bg-green-700 text-white rounded-xl"
                                         >
                                             Post Comment
@@ -271,7 +385,10 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                 </div>
                             ) : (
                                 <p className="text-sm text-gray-400 text-center py-4">
-                                    <Link href="/login" className="text-green-600 hover:underline">
+                                    <Link
+                                        href="/login"
+                                        className="text-green-600 hover:underline"
+                                    >
                                         Login
                                     </Link>{" "}
                                     to leave a comment.
@@ -288,13 +405,14 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                 Community Votes
                             </p>
                             <div className="text-4xl font-black text-green-600 mb-4">
-                                {idea._count?.votes ?? 0}
+                                {voteCount}
                             </div>
                             {isLoggedIn ? (
                                 <div className="flex gap-2">
                                     <Button
                                         variant="outline"
                                         size="sm"
+                                        onClick={() => handleVote("UPVOTE")}
                                         className="flex-1 rounded-xl border-green-200 text-green-700 hover:bg-green-50 gap-1.5"
                                     >
                                         <ThumbsUp className="h-4 w-4" />
@@ -303,6 +421,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                     <Button
                                         variant="outline"
                                         size="sm"
+                                        onClick={() => handleVote("DOWNVOTE")}
                                         className="flex-1 rounded-xl border-red-200 text-red-500 hover:bg-red-50 gap-1.5"
                                     >
                                         <ThumbsDown className="h-4 w-4" />
@@ -311,7 +430,10 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                 </div>
                             ) : (
                                 <p className="text-xs text-gray-400">
-                                    <Link href="/login" className="text-green-600 hover:underline">
+                                    <Link
+                                        href="/login"
+                                        className="text-green-600 hover:underline"
+                                    >
                                         Login
                                     </Link>{" "}
                                     to vote
@@ -339,7 +461,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-gray-400">Status</span>
-                                    <span className={`font-medium`}>{status.label}</span>
+                                    <span className="font-medium">{status.label}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-gray-400">Type</span>

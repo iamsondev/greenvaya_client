@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
     LogOut,
     Menu,
@@ -18,6 +18,7 @@ import Overview from "./(memberDashboard)/member-dashboard/Overview"
 import MyIdeas from "./(memberDashboard)/member-dashboard/MyIdeas"
 import CreateIdea from "./(memberDashboard)/member-dashboard/Createida"
 import PurchasedIdeas from "./(memberDashboard)/member-dashboard/PurchasedIdea"
+import Link from "next/link"
 
 interface Idea {
     id: string
@@ -44,8 +45,20 @@ export default function MemberDashboard() {
     const [activeSection, setActiveSection] = useState("overview")
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [ideas, setIdeas] = useState<Idea[]>(MOCK_IDEAS)
-    const { user, logout, token } = useAuthStore()
+    const { user, logout, accessToken } = useAuthStore()
     const router = useRouter()
+
+    useEffect(() => {
+        if (!accessToken) return
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/ideas?authorId=${user?.id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        })
+            .then((r) => r.json())
+            .then((d) => setIdeas(d.data ?? []))
+            .catch(() => { })
+    }, [accessToken])
 
     const handleLogout = () => {
         logout()
@@ -53,11 +66,22 @@ export default function MemberDashboard() {
     }
 
     const handleSubmit = async (id: string) => {
-        setIdeas((prev) =>
-            prev.map((i) =>
-                i.id === id ? { ...i, status: "UNDER_REVIEW" as const } : i
+        try {
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ideas/${id}/submit`, {
+                method: "PATCH",
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+            // API call success হলে local state update
+            setIdeas((prev) =>
+                prev.map((i) =>
+                    i.id === id ? { ...i, status: "UNDER_REVIEW" as const } : i
+                )
             )
-        )
+        } catch (err) {
+            alert("Failed to submit idea. Please try again.")
+        }
     }
 
     const handleDelete = async (id: string) => {
@@ -75,12 +99,12 @@ export default function MemberDashboard() {
             case "create":
                 return (
                     <CreateIdea
-                        accessToken={token || ""}
+                        accessToken={accessToken || ""}
                         onCreated={handleIdeaCreated}
                     />
                 )
             case "purchased":
-                return <PurchasedIdeas ideas={[]} />
+                return <PurchasedIdeas />
             default:
                 return <Overview ideas={ideas} />
         }
@@ -115,11 +139,16 @@ export default function MemberDashboard() {
                     }`}
             >
                 {/* Logo */}
+                import Link from "next/link"
+
+                // Logo section:
                 <div className="flex items-center gap-2.5 border-b border-white/10 px-6 py-5">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-500/20">
-                        <Leaf className="h-4 w-4 text-green-400" />
-                    </div>
-                    <span className="font-black tracking-tight text-white">GreenVaya</span>
+                    <Link href="/" className="flex items-center gap-2.5">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-500/20">
+                            <Leaf className="h-4 w-4 text-green-400" />
+                        </div>
+                        <span className="font-black tracking-tight text-white">GreenVaya</span>
+                    </Link>
                     <button
                         className="ml-auto text-green-200/40 hover:text-white lg:hidden"
                         onClick={() => setSidebarOpen(false)}

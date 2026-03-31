@@ -95,7 +95,7 @@ export default function DashboardClient({ user, accessToken }: Props) {
           />
         )
       case "purchased":
-        return <PurchasedIdeas ideas={[]} />
+        return <PurchasedIdeas />
       default:
         return <Overview ideas={ideas} />
     }

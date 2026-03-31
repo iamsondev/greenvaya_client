@@ -10,8 +10,9 @@ interface User {
 
 interface AuthState {
   user: User | null
-  token: string | null
-  setAuth: (user: User, token: string) => void
+  accessToken: string | null
+  setAuth: (user: User, accessToken: string) => void
+  setAccessToken: (token: string) => void
   logout: () => void
 }
 
@@ -19,15 +20,27 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      token: null,
-      setAuth: (user, token) => set({ user, token }),
+      accessToken: null,
+      setAuth: (user, accessToken) => set({ user, accessToken }),
+      setAccessToken: (token) => set({ accessToken: token }),
       logout: () => {
-        set({ user: null, token: null })
+        set({ user: null, accessToken: null })
         localStorage.removeItem("auth-storage")
       },
     }),
     {
       name: "auth-storage",
+      version: 1,
+      migrate: (persistedState: any, version: number) => {
+        if (version === 0) {
+          // Migrate 'token' to 'accessToken'
+          if (persistedState.token) {
+            persistedState.accessToken = persistedState.token
+            delete persistedState.token
+          }
+        }
+        return persistedState
+      },
     }
   )
 )
