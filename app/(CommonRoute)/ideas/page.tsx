@@ -42,7 +42,7 @@ export default async function IdeasPage({
     const data = await res.json()
 
     const categoriesRes = await fetch(
-        `https://greenvaya-backend.vercel.app/api/v1/categories`,
+        `${process.env.NEXT_PUBLIC_API_URL}/categories`,
         { cache: "no-store" }
     )
     const categoriesData = await categoriesRes.json()

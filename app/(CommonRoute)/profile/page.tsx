@@ -35,6 +35,11 @@ interface UserProfile {
     role: string
     profileImage: string
     createdAt: string
+    _count?: {
+        ideas: number
+        votes: number
+        comments: number
+    }
 }
 
 export default function ProfilePage() {
@@ -214,9 +219,9 @@ export default function ProfilePage() {
                 {/* Account Statistics */}
                 <section className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {[
-                        { label: "Ideas Shared", value: "12", icon: Lightbulb, color: "text-blue-600 bg-blue-50" },
-                        { label: "Community Votes", value: "248", icon: TrendingUp, color: "text-green-600 bg-green-50" },
-                        { label: "Total Comments", value: "64", icon: MessageSquare, color: "text-purple-600 bg-purple-50" }
+                        { label: "Ideas Shared", value: profile._count?.ideas || 0, icon: Lightbulb, color: "text-blue-600 bg-blue-50" },
+                        { label: "Community Votes", value: profile._count?.votes || 0, icon: TrendingUp, color: "text-green-600 bg-green-50" },
+                        { label: "Total Comments", value: profile._count?.comments || 0, icon: MessageSquare, color: "text-purple-600 bg-purple-50" }
                     ].map((stat, i) => (
                         <div key={i} className="flex flex-col items-center rounded-[2rem] border border-gray-100 bg-gray-50/50 p-8 transition-all hover:bg-white hover:shadow-xl hover:shadow-green-900/5">
                             <div className={`mb-4 flex h-14 w-14 items-center justify-center rounded-2xl ${stat.color} shadow-sm`}>

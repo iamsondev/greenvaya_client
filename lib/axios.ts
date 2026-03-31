@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useAuthStore } from "@/store/authStore";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
+
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1",
+  baseURL: API_BASE_URL,
   timeout: 10000,
-  withCredentials: true, // HttpOnly cookie automatic পাঠাবে
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
@@ -60,7 +62,7 @@ axiosInstance.interceptors.response.use(
       try {
         // Refresh token cookie automatically যাবে (withCredentials: true)
         const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`,
+          `${API_BASE_URL}/auth/refresh-token`,
           {},
           { withCredentials: true }
         );

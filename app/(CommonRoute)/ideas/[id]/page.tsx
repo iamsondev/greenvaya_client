@@ -9,7 +9,7 @@ export default async function IdeaDetailPage({
     const { id } = await params
 
     const res = await fetch(
-        `https://greenvaya-backend.vercel.app/api/v1/ideas/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/ideas/${id}`,
         { cache: "no-store" }
     )
 
