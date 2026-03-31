@@ -112,7 +112,7 @@ function CommentItem({
                         </div>
                         <p className="text-sm text-gray-600 leading-relaxed">{comment.content}</p>
                     </div>
-                    
+
                     {isLoggedIn && (
                         <button
                             onClick={() => setIsReplying(!isReplying)}
@@ -124,7 +124,7 @@ function CommentItem({
 
                     {isReplying && (
                         <div className="mt-4 flex gap-3 ml-2 sm:ml-4">
-                             <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-green-50 text-[10px] font-bold text-green-600 border border-green-100">
+                            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-green-50 text-[10px] font-bold text-green-600 border border-green-100">
                                 R
                             </div>
                             <div className="flex-1">
@@ -136,18 +136,18 @@ function CommentItem({
                                     rows={2}
                                 />
                                 <div className="flex gap-2 mt-2">
-                                    <Button 
-                                        size="sm" 
-                                        onClick={handleSubmit} 
+                                    <Button
+                                        size="sm"
+                                        onClick={handleSubmit}
                                         disabled={submitting || !replyContent.trim()}
                                         className="bg-green-600 hover:bg-green-700 text-white rounded-lg h-8 text-[11px] px-4"
                                     >
                                         {submitting ? "Posting..." : "Post Reply"}
                                     </Button>
-                                    <Button 
-                                        size="sm" 
-                                        variant="ghost" 
-                                        onClick={() => setIsReplying(false)} 
+                                    <Button
+                                        size="sm"
+                                        variant="ghost"
+                                        onClick={() => setIsReplying(false)}
                                         className="h-8 text-[11px] hover:bg-red-50 hover:text-red-600"
                                     >
                                         Cancel
@@ -481,7 +481,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                 <MessageCircle className="h-5 w-5 text-blue-500" />
                                 Comments ({idea._count?.comments ?? 0})
                             </h2>
-                            
+
                             {/* Root Comment Input */}
                             {isLoggedIn ? (
                                 <div className="flex gap-3 mb-10">
@@ -493,7 +493,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                             value={comment}
                                             onChange={(e) => setComment(e.target.value)}
                                             placeholder="Share your thoughts..."
-                                            className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-green-400 focus:ring-1 focus:ring-green-400 resize-none"
+                                            className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-black text-sm outline-none focus:border-green-400 focus:ring-1 focus:ring-green-400 resize-none"
                                             rows={3}
                                         />
                                         <Button
@@ -522,9 +522,9 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                             <div className="divide-y divide-gray-50">
                                 {idea.comments && idea.comments.length > 0 ? (
                                     idea.comments.map((c) => (
-                                        <CommentItem 
-                                            key={c.id} 
-                                            comment={c} 
+                                        <CommentItem
+                                            key={c.id}
+                                            comment={c}
                                             onReply={(parentId, text) => handleComment(parentId, text)}
                                             isLoggedIn={isLoggedIn}
                                             accessToken={accessToken}
