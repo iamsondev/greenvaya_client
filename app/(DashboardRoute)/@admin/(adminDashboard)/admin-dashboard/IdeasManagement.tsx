@@ -99,14 +99,14 @@ export default function IdeasManagement({ accessToken }: { accessToken: string }
     return (
         <div className="space-y-6">
             <div>
-                <h2 className="text-2xl font-black text-white">Ideas Management</h2>
-                <p className="mt-1 text-sm text-green-200/50">Oversee all platform ideas, approve submissions, or provide rejection feedback.</p>
+                <h2 className="text-2xl font-black text-gray-900 dark:text-white">Ideas Management</h2>
+                <p className="mt-1 text-sm text-gray-500 dark:text-green-200/50">Oversee all platform ideas, approve submissions, or provide rejection feedback.</p>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden">
+            <div className="rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 backdrop-blur-sm overflow-hidden shadow-sm dark:shadow-none">
                 <div className="overflow-x-auto">
-                    <table className="w-full text-left text-sm text-green-100">
-                        <thead className="bg-white/5 text-xs uppercase text-green-200/60">
+                    <table className="w-full text-left text-sm text-gray-600 dark:text-green-100">
+                        <thead className="bg-gray-50 dark:bg-white/5 text-xs uppercase text-gray-500 dark:text-green-200/60">
                             <tr>
                                 <th className="px-6 py-4 font-medium">Idea Title</th>
                                 <th className="px-6 py-4 font-medium">Author</th>
@@ -114,18 +114,18 @@ export default function IdeasManagement({ accessToken }: { accessToken: string }
                                 <th className="px-6 py-4 font-medium text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-white/5">
+                        <tbody className="divide-y divide-gray-100 dark:divide-white/5">
                             {ideas.map(idea => (
-                                <tr key={idea.id} className="transition-colors hover:bg-white/5">
+                                <tr key={idea.id} className="transition-colors hover:bg-gray-50 dark:hover:bg-white/5">
                                     <td className="px-6 py-4">
-                                        <div className="font-medium text-white line-clamp-1">{idea.title}</div>
-                                        <div className="mt-0.5 text-xs text-green-200/50">
+                                        <div className="font-medium text-gray-900 dark:text-white line-clamp-1">{idea.title}</div>
+                                        <div className="mt-0.5 text-xs text-gray-500 dark:text-green-200/50">
                                             {idea.category?.name || "Uncategorized"} • {new Date(idea.createdAt).toLocaleDateString()}
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-2">
-                                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-[10px] font-bold text-white">
+                                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 dark:bg-white/10 text-[10px] font-bold text-gray-900 dark:text-white">
                                                 {idea.author?.name?.[0]?.toUpperCase() || "A"}
                                             </div>
                                             <span className="text-sm font-medium">{idea.author?.name || "Unknown"}</span>
@@ -133,10 +133,10 @@ export default function IdeasManagement({ accessToken }: { accessToken: string }
                                     </td>
                                     <td className="px-6 py-4">
                                         <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold ${
-                                            idea.status === "APPROVED" ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-400" :
-                                            idea.status === "REJECTED" ? "border-red-400/20 bg-red-400/10 text-red-400" :
-                                            idea.status === "UNDER_REVIEW" ? "border-amber-400/20 bg-amber-400/10 text-amber-400" :
-                                            "border-zinc-400/20 bg-zinc-400/10 text-zinc-400"
+                                            idea.status === "APPROVED" ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-600 dark:text-emerald-400" :
+                                            idea.status === "REJECTED" ? "border-red-400/20 bg-red-400/10 text-red-600 dark:text-red-400" :
+                                            idea.status === "UNDER_REVIEW" ? "border-amber-400/20 bg-amber-400/10 text-amber-600 dark:text-amber-400" :
+                                            "border-zinc-400/20 bg-zinc-400/10 text-zinc-500 dark:text-zinc-400"
                                         }`}>
                                             {idea.status === "APPROVED" && <CheckCircle className="h-3 w-3" />}
                                             {idea.status === "REJECTED" && <XCircle className="h-3 w-3" />}
@@ -149,7 +149,7 @@ export default function IdeasManagement({ accessToken }: { accessToken: string }
                                         <div className="flex items-center justify-end gap-2">
                                             <Link 
                                                 href={`/ideas/${idea.id}`}
-                                                className="rounded-lg p-2 text-green-200/50 hover:bg-white/10 hover:text-white transition-colors"
+                                                className="rounded-lg p-2 text-gray-400 dark:text-green-200/50 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white transition-colors"
                                                 title="View Idea"
                                             >
                                                 <Eye className="h-4 w-4" />
@@ -159,14 +159,14 @@ export default function IdeasManagement({ accessToken }: { accessToken: string }
                                                 <>
                                                     <button 
                                                         onClick={() => handleStatusChange(idea.id, "APPROVED")}
-                                                        className="rounded-lg p-2 text-emerald-400/60 hover:bg-emerald-400/10 hover:text-emerald-400 transition-colors"
+                                                        className="rounded-lg p-2 text-emerald-500/60 dark:text-emerald-400/60 hover:bg-emerald-400/10 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
                                                         title="Approve Idea"
                                                     >
                                                         <CheckCircle className="h-4 w-4" />
                                                     </button>
                                                     <button 
                                                         onClick={() => setRejectId(idea.id)}
-                                                        className="rounded-lg p-2 text-red-400/60 hover:bg-red-400/10 hover:text-red-400 transition-colors"
+                                                        className="rounded-lg p-2 text-red-500/60 dark:text-red-400/60 hover:bg-red-400/10 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                                                         title="Reject Idea"
                                                     >
                                                         <XCircle className="h-4 w-4" />
@@ -176,7 +176,7 @@ export default function IdeasManagement({ accessToken }: { accessToken: string }
                                             
                                             <button 
                                                 onClick={() => handleDelete(idea.id)}
-                                                className="rounded-lg p-2 text-red-400/60 hover:bg-red-400/10 hover:text-red-400 transition-colors"
+                                                className="rounded-lg p-2 text-red-500/60 dark:text-red-400/60 hover:bg-red-400/10 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                                                 title="Delete Idea"
                                             >
                                                 <Trash2 className="h-4 w-4" />
@@ -187,7 +187,7 @@ export default function IdeasManagement({ accessToken }: { accessToken: string }
                             ))}
                             {ideas.length === 0 && (
                                 <tr>
-                                    <td colSpan={4} className="px-6 py-8 text-center text-green-200/50">
+                                    <td colSpan={4} className="px-6 py-8 text-center text-gray-500 dark:text-green-200/50">
                                         No ideas found.
                                     </td>
                                 </tr>
@@ -200,30 +200,30 @@ export default function IdeasManagement({ accessToken }: { accessToken: string }
             {/* Reject Modal */}
             {rejectId && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-                    <div className="w-full max-w-md rounded-2xl border border-white/10 bg-green-950 p-6 shadow-2xl">
+                    <div className="w-full max-w-md rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-green-950 p-6 shadow-2xl">
                         <div className="mb-4 flex items-center justify-between">
-                            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                                <MessageSquare className="h-5 w-5 text-amber-400" />
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                <MessageSquare className="h-5 w-5 text-amber-600 dark:text-amber-400" />
                                 Rejection Feedback
                             </h3>
-                            <button onClick={() => setRejectId(null)} className="text-green-200/50 hover:text-white">
+                            <button onClick={() => setRejectId(null)} className="text-gray-400 dark:text-green-200/50 hover:text-gray-900 dark:hover:text-white">
                                 <XCircle className="h-5 w-5" />
                             </button>
                         </div>
-                        <p className="mb-4 text-sm text-green-200/60">
+                        <p className="mb-4 text-sm text-gray-500 dark:text-green-200/60">
                             Provide a reason for rejecting this idea. This feedback will be visible to the author.
                         </p>
                         <textarea
                             value={feedback}
                             onChange={(e) => setFeedback(e.target.value)}
                             placeholder="Explain why this idea cannot be approved at this time..."
-                            className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-sm text-white placeholder:text-green-200/30 focus:border-amber-400/50 focus:outline-none focus:ring-1 focus:ring-amber-400/50"
+                            className="w-full rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-black/20 p-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-green-200/30 focus:border-amber-400/50 focus:outline-none focus:ring-1 focus:ring-amber-400/50"
                             rows={4}
                         />
                         <div className="mt-6 flex justify-end gap-3">
                             <button
                                 onClick={() => setRejectId(null)}
-                                className="rounded-xl px-4 py-2 text-sm font-semibold text-green-200/60 hover:bg-white/5 hover:text-white transition-colors"
+                                className="rounded-xl px-4 py-2 text-sm font-semibold text-gray-500 dark:text-green-200/60 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors"
                             >
                                 Cancel
                             </button>

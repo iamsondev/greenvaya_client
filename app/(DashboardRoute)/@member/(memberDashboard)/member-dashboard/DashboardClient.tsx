@@ -123,16 +123,16 @@ export default function DashboardClient({ user, accessToken }: Props) {
   }
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-emerald-800">
+    <div className="relative min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-green-950 dark:via-green-900 dark:to-emerald-800 transition-colors duration-500">
       {/* Background effects */}
       <div className="pointer-events-none fixed inset-0">
-        <div className="absolute top-1/4 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-green-400/8 blur-[120px]" />
-        <div className="absolute bottom-0 left-0 h-[300px] w-[300px] rounded-full bg-emerald-500/8 blur-[100px]" />
+        <div className="absolute top-1/4 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-green-600/5 dark:bg-green-400/8 blur-[120px]" />
+        <div className="absolute bottom-0 left-0 h-[300px] w-[300px] rounded-full bg-emerald-600/5 dark:bg-emerald-500/8 blur-[100px]" />
       </div>
       <div
-        className="pointer-events-none fixed inset-0 opacity-[0.03]"
+        className="pointer-events-none fixed inset-0 opacity-[0.03] dark:opacity-[0.03]"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px)`,
+          backgroundImage: `linear-gradient(currentColor 1px,transparent 1px),linear-gradient(90deg,currentColor 1px,transparent 1px)`,
           backgroundSize: "60px 60px",
         }}
       />

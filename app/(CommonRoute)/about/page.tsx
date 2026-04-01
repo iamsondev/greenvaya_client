@@ -16,7 +16,7 @@ import HeroFadeIn from "@/components/Hero/HeroFadeIn"
 
 export default function AboutPage() {
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white dark:bg-zinc-950 transition-colors duration-500">
             {/* Hero Section */}
             <section className="relative overflow-hidden bg-gradient-to-br from-green-950 via-green-900 to-emerald-800 py-24 lg:py-32">
                 {/* Radial glow */}
@@ -47,24 +47,24 @@ export default function AboutPage() {
             </section>
 
             {/* Mission & Vision Section */}
-            <section className="py-20 lg:py-28">
+            <section className="py-20 lg:py-28 relative">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 items-stretch gap-12 lg:grid-cols-2">
-                        <div className="flex flex-col justify-center rounded-3xl border border-green-100 bg-green-50/30 p-8 lg:p-12">
+                        <div className="flex flex-col justify-center rounded-3xl border border-green-100 dark:border-white/10 bg-green-50/30 dark:bg-white/5 p-8 lg:p-12 backdrop-blur-sm transition-all hover:bg-green-50/50 dark:hover:bg-white/[0.08]">
                             <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-green-600 shadow-lg shadow-green-600/20">
                                 <Target className="h-6 w-6 text-white" />
                             </div>
-                            <h2 className="mb-4 text-3xl font-black text-gray-900 lg:text-4xl">Our Mission</h2>
-                            <p className="text-lg leading-relaxed text-gray-600">
+                            <h2 className="mb-4 text-3xl font-black text-gray-900 dark:text-white lg:text-4xl">Our Mission</h2>
+                            <p className="text-lg leading-relaxed text-gray-600 dark:text-green-100/60">
                                 To provide an open, transparent platform where every individual can share, discuss, and implement green ideas. We aim to bridge the gap between abstract concepts and real-world environmental impact by crowdsourcing wisdom and community support.
                             </p>
                         </div>
-                        <div className="flex flex-col justify-center rounded-3xl border border-emerald-100 bg-emerald-50/30 p-8 lg:p-12">
+                        <div className="flex flex-col justify-center rounded-3xl border border-emerald-100 dark:border-white/10 bg-emerald-50/30 dark:bg-white/5 p-8 lg:p-12 backdrop-blur-sm transition-all hover:bg-emerald-50/50 dark:hover:bg-white/[0.08]">
                             <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 shadow-lg shadow-emerald-600/20">
                                 <Globe className="h-6 w-6 text-white" />
                             </div>
-                            <h2 className="mb-4 text-3xl font-black text-gray-900 lg:text-4xl">Our Vision</h2>
-                            <p className="text-lg leading-relaxed text-gray-600">
+                            <h2 className="mb-4 text-3xl font-black text-gray-900 dark:text-white lg:text-4xl">Our Vision</h2>
+                            <p className="text-lg leading-relaxed text-gray-600 dark:text-green-100/60">
                                 We envision a world where sustainability is driven from the ground up. Our goal is to host a global library of validated, community-vetted solutions for solar power, zero-waste, and efficient transportation that anyone, anywhere can adopt.
                             </p>
                         </div>
@@ -73,11 +73,11 @@ export default function AboutPage() {
             </section>
 
             {/* How It Works Section */}
-            <section className="bg-gray-50 py-20 lg:py-28">
+            <section className="bg-gray-50 dark:bg-white/[0.02] py-20 lg:py-28 transition-colors duration-500">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-16 text-center">
-                        <h2 className="mb-4 text-3xl font-black text-gray-900 lg:text-4xl">How It Works</h2>
-                        <p className="mx-auto max-w-xl text-gray-500">Creating change is easy when you have a community behind you.</p>
+                        <h2 className="mb-4 text-3xl font-black text-gray-900 dark:text-white lg:text-4xl">How It Works</h2>
+                        <p className="mx-auto max-w-xl text-gray-500 dark:text-green-200/40">Creating change is easy when you have a community behind you.</p>
                     </div>
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
                         {[
@@ -107,12 +107,12 @@ export default function AboutPage() {
                             }
                         ].map((item, i) => (
                             <div key={i} className="group relative flex flex-col items-center text-center">
-                                <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-white shadow-sm ring-1 ring-gray-200 transition-all group-hover:-translate-y-1 group-hover:shadow-md group-hover:ring-green-400/50">
-                                    <item.icon className="h-8 w-8 text-green-600" />
+                                <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-white dark:bg-white/5 shadow-sm ring-1 ring-gray-200 dark:ring-white/10 transition-all group-hover:-translate-y-1 group-hover:shadow-md group-hover:ring-green-400/50">
+                                    <item.icon className="h-8 w-8 text-green-600 dark:text-green-400" />
                                 </div>
-                                <span className="mb-2 text-xs font-black tracking-widest text-green-600/40 uppercase">{item.step}</span>
-                                <h3 className="mb-2 text-xl font-bold text-gray-900">{item.title}</h3>
-                                <p className="text-sm leading-relaxed text-gray-500">{item.desc}</p>
+                                <span className="mb-2 text-xs font-black tracking-widest text-green-600/40 dark:text-green-400/30 uppercase">{item.step}</span>
+                                <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">{item.title}</h3>
+                                <p className="text-sm leading-relaxed text-gray-500 dark:text-green-100/40">{item.desc}</p>
                             </div>
                         ))}
                     </div>
@@ -124,29 +124,29 @@ export default function AboutPage() {
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
                         <div>
-                            <h2 className="mb-6 text-4xl font-black text-gray-900 lg:text-5xl">Values That <br />Drive Us</h2>
-                            <p className="mb-8 text-lg leading-relaxed text-gray-600">
+                            <h2 className="mb-6 text-4xl font-black text-gray-900 dark:text-white lg:text-5xl">Values That <br />Drive Us</h2>
+                            <p className="mb-8 text-lg leading-relaxed text-gray-600 dark:text-green-100/60">
                                 At GreenVaya, we believe that the tools for a sustainable future should be accessible to all. Our platform is built on four non-negotiable principles.
                             </p>
                             <Link href="/ideas">
-                                <Button className="bg-green-600 hover:bg-green-700 h-14 px-8 rounded-2xl text-base font-bold shadow-lg shadow-green-600/20">
+                                <Button className="bg-green-600 dark:bg-green-500 hover:bg-green-700 dark:hover:bg-green-400 h-14 px-8 rounded-2xl text-base font-bold shadow-lg shadow-green-600/20 dark:shadow-green-500/30 text-white dark:text-green-950">
                                     Explore the Ideas <ArrowRight className="ml-2 h-5 w-5" />
                                 </Button>
                             </Link>
                         </div>
                         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                             {[
-                                { title: "Transparency", icon: ShieldCheck, color: "text-blue-600 bg-blue-50" },
-                                { title: "Innovation", icon: Zap, color: "text-yellow-600 bg-yellow-50" },
-                                { title: "Inclusion", icon: Users, color: "text-purple-600 bg-purple-50" },
-                                { title: "Integrity", icon: Leaf, color: "text-green-600 bg-green-50" }
+                                { title: "Transparency", icon: ShieldCheck, color: "text-blue-600 bg-blue-50 dark:bg-blue-500/10 dark:text-blue-400" },
+                                { title: "Innovation", icon: Zap, color: "text-yellow-600 bg-yellow-50 dark:bg-yellow-500/10 dark:text-yellow-400" },
+                                { title: "Inclusion", icon: Users, color: "text-purple-600 bg-purple-50 dark:bg-purple-500/10 dark:text-purple-400" },
+                                { title: "Integrity", icon: Leaf, color: "text-green-600 bg-green-50 dark:bg-green-500/10 dark:text-green-400" }
                             ].map((val, i) => (
-                                <div key={i} className="flex flex-col items-start gap-4 rounded-3xl border border-gray-100 bg-white p-6 transition-all hover:border-green-100 hover:bg-green-50/20">
+                                <div key={i} className="flex flex-col items-start gap-4 rounded-3xl border border-gray-100 dark:border-white/10 bg-white dark:bg-white/5 p-6 transition-all hover:border-green-100 dark:hover:border-green-500/30 hover:bg-green-50/20 dark:hover:bg-green-500/5">
                                     <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${val.color}`}>
                                         <val.icon className="h-6 w-6" />
                                     </div>
-                                    <h4 className="text-lg font-bold text-gray-900">{val.title}</h4>
-                                    <p className="text-sm text-gray-500">Committed to maintaining the highest standards in every project shared.</p>
+                                    <h4 className="text-lg font-bold text-gray-900 dark:text-white">{val.title}</h4>
+                                    <p className="text-sm text-gray-500 dark:text-green-200/40">Committed to maintaining the highest standards in every project shared.</p>
                                 </div>
                             ))}
                         </div>

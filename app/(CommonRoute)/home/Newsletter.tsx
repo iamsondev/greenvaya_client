@@ -24,7 +24,7 @@ export default function Newsletter() {
   }
 
   return (
-    <section className="relative px-4 py-24 sm:px-6 lg:px-8 bg-white">
+    <section className="relative px-4 py-24 sm:px-6 lg:px-8 bg-white dark:bg-zinc-950 transition-colors duration-500">
       <div className="relative mx-auto max-w-5xl rounded-[2.5rem] bg-green-950 p-8 shadow-2xl overflow-hidden sm:p-16">
         {/* Background Decorative Rings */}
         <div className="pointer-events-none absolute inset-0">

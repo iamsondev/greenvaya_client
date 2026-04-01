@@ -55,30 +55,30 @@ export default function AdminOverview({ accessToken }: Props) {
     }, [fetchStats])
 
     const statCards = [
-        { v: stats.totalMembers, label: "Total Members", icon: Users, a: "bg-blue-500/20 text-blue-400" },
-        { v: stats.totalIdeas, label: "Total Ideas", icon: Lightbulb, a: "bg-green-500/20 text-green-400" },
-        { v: stats.pendingIdeas, label: "Pending Review", icon: Clock, a: "bg-amber-500/20 text-amber-400" },
-        { v: stats.approvedIdeas, label: "Approved Ideas", icon: CheckCircle, a: "bg-emerald-500/20 text-emerald-400" },
+        { v: stats.totalMembers, label: "Total Members", icon: Users, a: "bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400" },
+        { v: stats.totalIdeas, label: "Total Ideas", icon: Lightbulb, a: "bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400" },
+        { v: stats.pendingIdeas, label: "Pending Review", icon: Clock, a: "bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400" },
+        { v: stats.approvedIdeas, label: "Approved Ideas", icon: CheckCircle, a: "bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400" },
     ]
 
     return (
         <div className="space-y-8">
             <div>
-                <h2 className="text-2xl font-black text-white">Platform Overview</h2>
-                <p className="mt-1 text-sm text-green-200/50">Manage the GreenVaya platform from bird's eye view.</p>
+                <h2 className="text-2xl font-black text-gray-900 dark:text-white">Platform Overview</h2>
+                <p className="mt-1 text-sm text-gray-500 dark:text-green-200/50">Manage the GreenVaya platform from bird's eye view.</p>
             </div>
 
             <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
                 {statCards.map(({ v, label, icon: Icon, a }) => (
                     <div
                         key={label}
-                        className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:border-amber-400/30 hover:bg-white/8"
+                        className="relative overflow-hidden rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 p-6 backdrop-blur-sm shadow-sm dark:shadow-none transition-all hover:border-amber-400/30 hover:bg-gray-50 dark:hover:bg-white/8"
                     >
                         <div className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl ${a}`}>
                             <Icon className="h-5 w-5" />
                         </div>
-                        <div className="text-3xl font-black text-white">{v}</div>
-                        <div className="mt-1 text-xs font-medium uppercase tracking-wider text-green-200/50">{label}</div>
+                        <div className="text-3xl font-black text-gray-900 dark:text-white">{v}</div>
+                        <div className="mt-1 text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-green-200/50">{label}</div>
                         <div className="pointer-events-none absolute -right-4 -bottom-4 h-20 w-20 rounded-full bg-amber-400/5 blur-2xl" />
                     </div>
                 ))}

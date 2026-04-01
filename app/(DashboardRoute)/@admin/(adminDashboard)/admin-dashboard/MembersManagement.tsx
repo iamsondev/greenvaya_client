@@ -84,14 +84,14 @@ export default function MembersManagement({ accessToken }: { accessToken: string
     return (
         <div className="space-y-6">
             <div>
-                <h2 className="text-2xl font-black text-white">Members Management</h2>
-                <p className="mt-1 text-sm text-green-200/50">View all users, edit roles and activate/deactivate accounts.</p>
+                <h2 className="text-2xl font-black text-gray-900 dark:text-white">Members Management</h2>
+                <p className="mt-1 text-sm text-gray-500 dark:text-green-200/50">View all users, edit roles and activate/deactivate accounts.</p>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden">
+            <div className="rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 backdrop-blur-sm overflow-hidden shadow-sm dark:shadow-none">
                 <div className="overflow-x-auto">
-                    <table className="w-full text-left text-sm text-green-100">
-                        <thead className="bg-white/5 text-xs uppercase text-green-200/60">
+                    <table className="w-full text-left text-sm text-gray-600 dark:text-green-100">
+                        <thead className="bg-gray-50 dark:bg-white/5 text-xs uppercase text-gray-500 dark:text-green-200/60">
                             <tr>
                                 <th className="px-6 py-4 font-medium">User</th>
                                 <th className="px-6 py-4 font-medium">Role</th>
@@ -99,25 +99,25 @@ export default function MembersManagement({ accessToken }: { accessToken: string
                                 <th className="px-6 py-4 font-medium text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-white/5">
+                        <tbody className="divide-y divide-gray-100 dark:divide-white/5">
                             {members.map(member => (
-                                <tr key={member.id} className="transition-colors hover:bg-white/5">
+                                <tr key={member.id} className="transition-colors hover:bg-gray-50 dark:hover:bg-white/5">
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
                                             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-emerald-500 text-sm font-bold text-green-950">
                                                 {member.name?.[0]?.toUpperCase() || "M"}
                                             </div>
                                             <div>
-                                                <div className="font-medium text-white">{member.name}</div>
-                                                <div className="text-xs text-green-200/50">{member.email}</div>
+                                                <div className="font-medium text-gray-900 dark:text-white">{member.name}</div>
+                                                <div className="text-xs text-gray-500 dark:text-green-200/50">{member.email}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
                                         <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold ${
                                             member.role === "ADMIN" 
-                                            ? "border-amber-400/20 bg-amber-400/10 text-amber-400"
-                                            : "border-green-400/20 bg-green-400/10 text-green-400"
+                                            ? "border-amber-400/20 bg-amber-400/10 text-amber-600 dark:text-amber-400"
+                                            : "border-green-400/20 bg-green-400/10 text-green-600 dark:text-green-400"
                                         }`}>
                                             {member.role === "ADMIN" ? <Shield className="h-3 w-3" /> : <User className="h-3 w-3" />}
                                             {member.role}
@@ -126,8 +126,8 @@ export default function MembersManagement({ accessToken }: { accessToken: string
                                     <td className="px-6 py-4">
                                         <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold ${
                                             (member.isActive !== false)
-                                            ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-400"
-                                            : "border-red-400/20 bg-red-400/10 text-red-400"
+                                            ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-600 dark:text-emerald-400"
+                                            : "border-red-400/20 bg-red-400/10 text-red-600 dark:text-red-400"
                                         }`}>
                                             <Power className="h-3 w-3" />
                                             {(member.isActive !== false) ? "Active" : "Inactive"}
@@ -150,7 +150,7 @@ export default function MembersManagement({ accessToken }: { accessToken: string
                                             <select
                                                 value={member.role}
                                                 onChange={(e) => handleRoleChange(member.id, e.target.value)}
-                                                className="rounded-lg border border-white/10 bg-green-950/50 px-3 py-1.5 text-xs text-white outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/50"
+                                                className="rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-green-950/50 px-3 py-1.5 text-xs text-gray-900 dark:text-white outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/50"
                                             >
                                                 <option value="MEMBER">Member</option>
                                                 <option value="ADMIN">Admin</option>
@@ -161,7 +161,7 @@ export default function MembersManagement({ accessToken }: { accessToken: string
                             ))}
                             {members.length === 0 && (
                                 <tr>
-                                    <td colSpan={4} className="px-6 py-8 text-center text-green-200/50">
+                                    <td colSpan={4} className="px-6 py-8 text-center text-gray-500 dark:text-green-200/50">
                                         No members found.
                                     </td>
                                 </tr>

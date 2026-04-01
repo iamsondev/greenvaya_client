@@ -44,7 +44,7 @@ export default function PurchasedIdeas() {
     if (loading) {
         return (
             <div className="flex items-center justify-center py-20">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-green-400 border-t-transparent" />
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-green-500 dark:border-green-400 border-t-transparent" />
             </div>
         )
     }
@@ -52,22 +52,22 @@ export default function PurchasedIdeas() {
     return (
         <div className="space-y-6">
             <div>
-                <h2 className="text-2xl font-black text-white">Purchased Ideas</h2>
-                <p className="mt-1 text-sm text-green-200/50">
+                <h2 className="text-2xl font-black text-gray-900 dark:text-white">Purchased Ideas</h2>
+                <p className="mt-1 text-sm text-gray-500 dark:text-green-200/50">
                     Ideas you have unlocked
                 </p>
             </div>
 
             {purchases.length === 0 ? (
-                <div className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/5 py-20 text-center backdrop-blur-sm">
-                    <ShoppingBag className="mb-4 h-12 w-12 text-green-400/30" />
-                    <h3 className="text-lg font-bold text-white">No purchases yet</h3>
+                <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 py-20 text-center backdrop-blur-sm shadow-sm dark:shadow-none">
+                    <ShoppingBag className="mb-4 h-12 w-12 text-green-600/30 dark:text-green-400/30" />
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">No purchases yet</h3>
                     <p className="mt-2 text-sm text-green-200/40">
                         Browse paid ideas and unlock them to see them here.
                     </p>
                     <Link
                         href="/ideas"
-                        className="mt-6 rounded-xl bg-green-500 px-6 py-2.5 text-sm font-bold text-green-950 hover:bg-green-400 transition-all"
+                        className="mt-6 rounded-xl bg-green-600 dark:bg-green-500 px-6 py-2.5 text-sm font-bold text-white dark:text-green-950 hover:bg-green-700 dark:hover:bg-green-400 transition-all shadow-md dark:shadow-none"
                     >
                         Browse Ideas
                     </Link>
@@ -89,7 +89,7 @@ export default function PurchasedIdeas() {
                         return (
                             <div
                                 key={purchaseId}
-                                className="flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all hover:border-green-400/30"
+                                className="flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 backdrop-blur-sm shadow-sm dark:shadow-none transition-all hover:border-green-400/30"
                             >
                                 {/* Image */}
                                 <div className="relative h-40 w-full overflow-hidden bg-gradient-to-br from-green-400/10 to-emerald-600/10">
@@ -113,20 +113,20 @@ export default function PurchasedIdeas() {
 
                                 {/* Content */}
                                 <div className="flex flex-1 flex-col p-4">
-                                    <h3 className="mb-2 line-clamp-2 text-sm font-bold text-white">
+                                    <h3 className="mb-2 line-clamp-2 text-sm font-bold text-gray-900 dark:text-white">
                                         {idea.title}
                                     </h3>
-                                    <p className="mb-4 line-clamp-2 flex-1 text-xs text-green-200/50">
+                                    <p className="mb-4 line-clamp-2 flex-1 text-xs text-gray-500 dark:text-green-200/50">
                                         {idea.description}
                                     </p>
 
                                     <div className="flex items-center justify-between">
-                                        <span className="text-xs font-semibold text-green-400">
+                                        <span className="text-xs font-semibold text-green-600 dark:text-green-400">
                                             ৳{amount}
                                         </span>
                                         <Link
                                             href={`/ideas/${idea.id}`}
-                                            className="flex items-center gap-1.5 rounded-xl bg-green-500/20 px-3 py-1.5 text-xs font-semibold text-green-400 hover:bg-green-500/30 transition-all"
+                                            className="flex items-center gap-1.5 rounded-xl bg-green-100 dark:bg-green-500/20 px-3 py-1.5 text-xs font-semibold text-green-700 dark:text-green-400 hover:bg-green-600 dark:hover:bg-green-500/30 hover:text-white transition-all shadow-sm dark:shadow-none"
                                         >
                                             View Idea
                                             <ExternalLink className="h-3 w-3" />

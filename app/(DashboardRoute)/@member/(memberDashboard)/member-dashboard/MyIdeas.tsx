@@ -23,10 +23,10 @@ interface Idea {
 }
 
 const STATUS: Record<IdeaStatus, { label: string; cls: string; icon: React.ElementType }> = {
-    DRAFT: { label: "Draft", cls: "text-zinc-400 bg-zinc-400/10 border-zinc-400/20", icon: FileEdit },
-    UNDER_REVIEW: { label: "Under Review", cls: "text-yellow-400 bg-yellow-400/10 border-yellow-400/20", icon: Clock },
-    APPROVED: { label: "Approved", cls: "text-green-400 bg-green-400/10 border-green-400/20", icon: CheckCircle },
-    REJECTED: { label: "Rejected", cls: "text-red-400 bg-red-400/10 border-red-400/20", icon: XCircle },
+    DRAFT: { label: "Draft", cls: "text-zinc-500 dark:text-zinc-400 bg-zinc-400/10 border-zinc-400/20", icon: FileEdit },
+    UNDER_REVIEW: { label: "Under Review", cls: "text-yellow-600 dark:text-yellow-400 bg-yellow-400/10 border-yellow-400/20", icon: Clock },
+    APPROVED: { label: "Approved", cls: "text-green-600 dark:text-green-400 bg-green-400/10 border-green-400/20", icon: CheckCircle },
+    REJECTED: { label: "Rejected", cls: "text-red-600 dark:text-red-400 bg-red-400/10 border-red-400/20", icon: XCircle },
 }
 
 interface Props {
@@ -64,8 +64,8 @@ export default function MyIdeas({ ideas, onSubmit, onDelete }: Props) {
     return (
         <div className="space-y-6">
             <div>
-                <h2 className="text-2xl font-black text-white">My Ideas</h2>
-                <p className="mt-1 text-sm text-green-200/50">Manage and track your submitted ideas</p>
+                <h2 className="text-2xl font-black text-gray-900 dark:text-white">My Ideas</h2>
+                <p className="mt-1 text-sm text-gray-500 dark:text-green-200/50">Manage and track your submitted ideas</p>
             </div>
 
             {/* Filter tabs */}
@@ -75,8 +75,8 @@ export default function MyIdeas({ ideas, onSubmit, onDelete }: Props) {
                         key={s}
                         onClick={() => setFilter(s)}
                         className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${filter === s
-                            ? "bg-green-500 text-green-950"
-                            : "border border-white/10 bg-white/5 text-green-200/60 hover:border-green-400/30 hover:text-white"
+                            ? "bg-green-600 dark:bg-green-500 text-white dark:text-green-950 shadow-md dark:shadow-none"
+                            : "border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 text-gray-500 dark:text-green-200/60 hover:border-green-400/30 hover:text-green-700 dark:hover:text-white"
                             }`}
                     >
                         {s === "ALL" ? "All" : STATUS[s].label}
@@ -88,37 +88,37 @@ export default function MyIdeas({ ideas, onSubmit, onDelete }: Props) {
             </div>
 
             {/* List */}
-            <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm">
+            <div className="overflow-hidden rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 backdrop-blur-sm shadow-sm dark:shadow-none">
                 {filtered.length === 0 ? (
                     <div className="flex flex-col items-center justify-center gap-3 py-16">
-                        <Leaf className="h-10 w-10 text-green-400/30" />
-                        <p className="text-sm text-green-200/40">No ideas found.</p>
+                        <Leaf className="h-10 w-10 text-green-600/30 dark:text-green-400/30" />
+                        <p className="text-sm text-gray-400 dark:text-green-200/40">No ideas found.</p>
                     </div>
                 ) : (
-                    <div className="divide-y divide-white/5">
+                    <div className="divide-y divide-gray-100 dark:divide-white/5">
                         {filtered.map(idea => {
                             const S = STATUS[idea.status]
                             const Icon = S.icon
                             return (
-                                <div key={idea.id} className="group px-6 py-4 transition-colors hover:bg-white/5">
+                                <div key={idea.id} className="group px-6 py-4 transition-colors hover:bg-gray-50 dark:hover:bg-white/5">
                                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                                         <div className="flex-1 space-y-1.5">
                                             <div className="flex flex-wrap items-center gap-2">
-                                                <span className="font-semibold text-white">{idea.title}</span>
+                                                <span className="font-semibold text-gray-900 dark:text-white">{idea.title}</span>
                                                 {idea.isPaid && (
-                                                    <span className="rounded-full border border-yellow-400/20 bg-yellow-400/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-yellow-400">
+                                                    <span className="rounded-full border border-yellow-400/20 bg-yellow-400/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-yellow-600 dark:text-yellow-400">
                                                         Paid · ৳{idea.price}
                                                     </span>
                                                 )}
                                             </div>
-                                            <div className="flex flex-wrap items-center gap-2 text-xs text-green-200/40">
+                                            <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-green-200/40">
                                                 <span>{idea.category?.name}</span>
                                                 <span>·</span>
                                                 <span>{new Date(idea.createdAt).toLocaleDateString()}</span>
                                                 {idea.status === "APPROVED" && (
                                                     <>
                                                         <span>·</span>
-                                                        <span className="flex items-center gap-1 text-green-400">
+                                                        <span className="flex items-center gap-1 text-green-600 dark:text-green-400">
                                                             <TrendingUp className="h-3 w-3" />{idea.upvotes ?? 0} votes
                                                         </span>
                                                     </>
@@ -144,7 +144,7 @@ export default function MyIdeas({ ideas, onSubmit, onDelete }: Props) {
                                             <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
                                                 <Link
                                                     href={`/ideas/${idea.id}`}
-                                                    className="rounded-lg p-1.5 text-green-200/40 hover:bg-white/10 hover:text-green-400"
+                                                    className="rounded-lg p-1.5 text-gray-400 dark:text-green-200/40 hover:bg-gray-200/50 dark:hover:bg-white/10 hover:text-green-600 dark:hover:text-green-400"
                                                     title="View"
                                                 >
                                                     <Eye className="h-4 w-4" />
@@ -154,7 +154,7 @@ export default function MyIdeas({ ideas, onSubmit, onDelete }: Props) {
                                                     <>
                                                         <Link
                                                             href={`/member-dashboard/edit/${idea.id}`}
-                                                            className="rounded-lg p-1.5 text-green-200/40 hover:bg-white/10 hover:text-green-400"
+                                                            className="rounded-lg p-1.5 text-gray-400 dark:text-green-200/40 hover:bg-gray-200/50 dark:hover:bg-white/10 hover:text-green-600 dark:hover:text-green-400"
                                                             title="Edit"
                                                         >
                                                             <FileEdit className="h-4 w-4" />
@@ -162,7 +162,7 @@ export default function MyIdeas({ ideas, onSubmit, onDelete }: Props) {
                                                         <button
                                                             disabled={acting === idea.id}
                                                             onClick={() => handleDelete(idea.id)}
-                                                            className="rounded-lg p-1.5 text-green-200/40 hover:bg-red-400/10 hover:text-red-400 disabled:opacity-50"
+                                                            className="rounded-lg p-1.5 text-gray-400 dark:text-green-200/40 hover:bg-red-400/10 hover:text-red-500 disabled:opacity-50"
                                                             title="Delete"
                                                         >
                                                             {acting === idea.id
@@ -174,15 +174,15 @@ export default function MyIdeas({ ideas, onSubmit, onDelete }: Props) {
                                                 )}
 
                                                 {idea.status === "DRAFT" && (
-                                                    <button
-                                                        disabled={acting === idea.id}
-                                                        onClick={async () => {
-                                                            setActing(idea.id)
-                                                            await onSubmit(idea.id)
-                                                            setActing(null)
-                                                        }}
-                                                        className="ml-1 flex items-center gap-1.5 rounded-lg bg-green-500/20 px-3 py-1.5 text-xs font-semibold text-green-400 hover:bg-green-500 hover:text-green-950 disabled:opacity-50"
-                                                    >
+                                                        <button
+                                                            disabled={acting === idea.id}
+                                                            onClick={async () => {
+                                                                setActing(idea.id)
+                                                                await onSubmit(idea.id)
+                                                                setActing(null)
+                                                            }}
+                                                            className="ml-1 flex items-center gap-1.5 rounded-lg bg-green-100 dark:bg-green-500/20 px-3 py-1.5 text-xs font-semibold text-green-700 dark:text-green-400 hover:bg-green-600 dark:hover:bg-green-500 hover:text-white dark:hover:text-green-950 disabled:opacity-50 transition-all shadow-sm dark:shadow-none"
+                                                        >
                                                         {acting === idea.id
                                                             ? <Loader2 className="h-3 w-3 animate-spin" />
                                                             : <Send className="h-3 w-3" />

@@ -135,28 +135,28 @@ export default function SignUpForm() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-green-950 via-green-900 to-emerald-800 flex items-center justify-center px-4 py-20">
-            {/* Background effects */}
-            <div className="pointer-events-none absolute inset-0">
-                <div className="absolute top-1/4 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-green-400/10 blur-[100px]" />
-                <div className="absolute bottom-0 left-0 h-[300px] w-[300px] rounded-full bg-emerald-500/10 blur-[80px]" />
+        <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 flex items-center justify-center px-4 py-20 transition-colors duration-500 relative overflow-hidden">
+            {/* Background Decorations */}
+            <div className="absolute inset-0 z-0">
+                <div className="absolute -top-[10%] -right-[10%] h-[45%] w-[45%] rounded-full bg-green-500/5 dark:bg-green-500/10 blur-[130px]" />
+                <div className="absolute -bottom-[10%] -left-[10%] h-[45%] w-[45%] rounded-full bg-emerald-500/5 dark:bg-emerald-500/10 blur-[130px]" />
             </div>
 
-            <div className="relative w-full max-w-md">
+            <div className="relative z-10 w-full max-w-md">
                 {/* Card */}
-                <div className="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-xl">
+                <div className="rounded-3xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 p-8 shadow-2xl backdrop-blur-xl">
                     {/* Logo */}
                     <div className="mb-8 flex flex-col items-center gap-3">
                         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-500 shadow-lg shadow-green-500/30">
                             <Leaf className="h-6 w-6 text-white" />
                         </div>
                         <div className="text-center">
-                            <h1 className="text-2xl font-black text-white">
+                            <h1 className="text-2xl font-black text-gray-900 dark:text-white">
                                 Create Account
                             </h1>
-                            <p className="mt-1 text-sm text-green-200/60">
+                            <p className="mt-1 text-sm text-gray-500 dark:text-green-200/60">
                                 Join the{" "}
-                                <span className="text-green-400 font-semibold">GreenVaya</span>{" "}
+                                <span className="text-green-600 dark:text-green-400 font-semibold">GreenVaya</span>{" "}
                                 community
                             </p>
                         </div>
@@ -187,7 +187,7 @@ export default function SignUpForm() {
                                         </div>
                                     )}
                                 </div>
-                                <label className="absolute -bottom-1 -right-1 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-green-500 shadow-md hover:bg-green-400 transition-colors">
+                                <label className="absolute -bottom-1 -right-1 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-green-600 dark:bg-green-500 shadow-md hover:bg-green-700 dark:hover:bg-green-400 transition-colors">
                                     <ImagePlus className="h-3.5 w-3.5 text-white" />
                                     <input
                                         type="file"
@@ -204,7 +204,7 @@ export default function SignUpForm() {
 
                         {/* Name */}
                         <div className="space-y-1.5">
-                            <label className="text-sm font-medium text-green-200/80">
+                            <label className="text-sm font-medium text-gray-700 dark:text-green-200/80">
                                 Full Name
                             </label>
                             <div className="relative">
@@ -213,7 +213,7 @@ export default function SignUpForm() {
                                     {...register("name")}
                                     type="text"
                                     placeholder="John Doe"
-                                    className="border-white/10 bg-white/8 pl-10 text-white placeholder:text-green-300/30 focus-visible:border-green-400 focus-visible:ring-green-400/20 rounded-xl"
+                                    className="border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/8 pl-10 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-green-300/30 focus-visible:border-green-400 focus-visible:ring-green-400/20 rounded-xl"
                                 />
                             </div>
                             {errors.name && (
@@ -223,7 +223,7 @@ export default function SignUpForm() {
 
                         {/* Email */}
                         <div className="space-y-1.5">
-                            <label className="text-sm font-medium text-green-200/80">
+                            <label className="text-sm font-medium text-gray-700 dark:text-green-200/80">
                                 Email Address
                             </label>
                             <div className="relative">
@@ -232,7 +232,7 @@ export default function SignUpForm() {
                                     {...register("email")}
                                     type="email"
                                     placeholder="you@example.com"
-                                    className="border-white/10 bg-white/8 pl-10 text-white placeholder:text-green-300/30 focus-visible:border-green-400 focus-visible:ring-green-400/20 rounded-xl"
+                                    className="border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/8 pl-10 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-green-300/30 focus-visible:border-green-400 focus-visible:ring-green-400/20 rounded-xl"
                                 />
                             </div>
                             {errors.email && (
@@ -242,7 +242,7 @@ export default function SignUpForm() {
 
                         {/* Password */}
                         <div className="space-y-1.5">
-                            <label className="text-sm font-medium text-green-200/80">
+                            <label className="text-sm font-medium text-gray-700 dark:text-green-200/80">
                                 Password
                             </label>
                             <div className="relative">
@@ -274,7 +274,7 @@ export default function SignUpForm() {
 
                         {/* Confirm Password */}
                         <div className="space-y-1.5">
-                            <label className="text-sm font-medium text-green-200/80">
+                            <label className="text-sm font-medium text-gray-700 dark:text-green-200/80">
                                 Confirm Password
                             </label>
                             <div className="relative">
@@ -308,7 +308,7 @@ export default function SignUpForm() {
                         <Button
                             type="submit"
                             disabled={isSubmitting || imageUploading}
-                            className="mt-2 w-full rounded-xl bg-green-500 py-5 font-bold text-green-950 shadow-lg shadow-green-500/30 hover:bg-green-400 hover:shadow-green-400/40 transition-all hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                            className="mt-2 w-full rounded-xl bg-green-600 dark:bg-green-500 py-5 font-bold text-white dark:text-green-950 shadow-lg shadow-green-600/20 dark:shadow-green-500/30 hover:bg-green-700 dark:hover:bg-green-400 hover:shadow-green-700/30 dark:hover:shadow-green-400/40 transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
                         >
                             {isSubmitting || imageUploading ? (
                                 <span className="flex items-center gap-2">
@@ -344,17 +344,17 @@ export default function SignUpForm() {
 
                     {/* Divider */}
                     <div className="my-6 flex items-center gap-3">
-                        <div className="h-px flex-1 bg-white/10" />
-                        <span className="text-xs text-green-300/40">or</span>
-                        <div className="h-px flex-1 bg-white/10" />
+                        <div className="h-px flex-1 bg-gray-100 dark:bg-white/10" />
+                        <span className="text-xs text-gray-400 dark:text-green-300/40 font-medium">or</span>
+                        <div className="h-px flex-1 bg-gray-100 dark:bg-white/10" />
                     </div>
 
                     {/* Login Link */}
-                    <p className="text-center text-sm text-green-200/50">
+                    <p className="text-center text-sm text-gray-500 dark:text-green-200/50">
                         Already have an account?{" "}
                         <Link
                             href="/login"
-                            className="font-semibold text-green-400 hover:text-green-300 transition-colors"
+                            className="font-bold text-green-600 dark:text-green-400 hover:underline transition-colors"
                         >
                             Sign in
                         </Link>
@@ -362,13 +362,13 @@ export default function SignUpForm() {
                 </div>
 
                 {/* Bottom text */}
-                <p className="mt-6 text-center text-xs text-green-300/30">
+                <p className="mt-6 text-center text-xs text-gray-400 dark:text-green-300/30">
                     By creating an account, you agree to our{" "}
-                    <span className="text-green-400/60 hover:text-green-400 cursor-pointer">
+                    <span className="text-green-600/60 dark:text-green-400/60 hover:text-green-700 dark:hover:text-green-400 cursor-pointer hover:underline">
                         Terms
                     </span>{" "}
                     &{" "}
-                    <span className="text-green-400/60 hover:text-green-400 cursor-pointer">
+                    <span className="text-green-600/60 dark:text-green-400/60 hover:text-green-700 dark:hover:text-green-400 cursor-pointer hover:underline">
                         Privacy Policy
                     </span>
                 </p>

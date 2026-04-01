@@ -95,7 +95,7 @@ export default function IdeasClient({
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 pt-20">
+        <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 transition-colors duration-500 pt-20">
             {/* Header */}
             <div className="bg-gradient-to-br from-green-950 via-green-900 to-emerald-800 px-4 py-14 text-center">
                 <div className="inline-flex items-center gap-2 rounded-full border border-green-400/30 bg-green-500/15 px-4 py-1.5 mb-4">
@@ -114,17 +114,17 @@ export default function IdeasClient({
 
             <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
                 {/* Filters Bar */}
-                <div className="mb-8 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+                <div className="mb-8 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-4 shadow-sm">
                     <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
                         {/* Search */}
-                        <div className="flex flex-1 items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2">
-                            <Search className="h-4 w-4 shrink-0 text-gray-400" />
+                        <div className="flex flex-1 items-center gap-2 rounded-xl border border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950 px-4 py-2">
+                            <Search className="h-4 w-4 shrink-0 text-gray-400 dark:text-gray-500" />
                             <input
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                                 placeholder="Search ideas..."
-                                className="flex-1 bg-transparent text-sm outline-none placeholder:text-gray-400"
+                                className="flex-1 bg-transparent text-sm text-gray-900 dark:text-white outline-none placeholder:text-gray-400 dark:placeholder:text-gray-600"
                             />
                             <Button
                                 onClick={handleSearch}
@@ -143,8 +143,8 @@ export default function IdeasClient({
                                     updateParams({ category: v === "all" ? "" : v, page: "1" })
                                 }
                             >
-                                <SelectTrigger className="w-40 rounded-xl border-gray-200 text-sm">
-                                    <Filter className="mr-2 h-3.5 w-3.5 text-gray-400" />
+                                <SelectTrigger className="w-40 rounded-xl border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-sm text-gray-900 dark:text-gray-200">
+                                    <Filter className="mr-2 h-3.5 w-3.5 text-gray-400 dark:text-gray-500" />
                                     <SelectValue placeholder="Category" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -162,7 +162,7 @@ export default function IdeasClient({
                                 value={currentSort}
                                 onValueChange={(v) => updateParams({ sort: v, page: "1" })}
                             >
-                                <SelectTrigger className="w-36 rounded-xl border-gray-200 text-sm">
+                                <SelectTrigger className="w-36 rounded-xl border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-sm text-gray-900 dark:text-gray-200">
                                     <SelectValue placeholder="Sort by" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -179,7 +179,7 @@ export default function IdeasClient({
                                     updateParams({ status: v === "all" ? "" : v, page: "1" })
                                 }
                             >
-                                <SelectTrigger className="w-32 rounded-xl border-gray-200 text-sm">
+                                <SelectTrigger className="w-32 rounded-xl border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-sm text-gray-900 dark:text-gray-200">
                                     <SelectValue placeholder="Type" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -223,11 +223,11 @@ export default function IdeasClient({
 
                 {/* Results count */}
                 <div className="mb-4 flex items-center justify-between">
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                         Showing{" "}
-                        <span className="font-semibold text-gray-800">{ideas.length}</span>{" "}
+                        <span className="font-semibold text-gray-800 dark:text-gray-200">{ideas.length}</span>{" "}
                         of{" "}
-                        <span className="font-semibold text-gray-800">{meta.total}</span>{" "}
+                        <span className="font-semibold text-gray-800 dark:text-gray-200">{meta.total}</span>{" "}
                         ideas
                     </p>
                 </div>
@@ -235,11 +235,11 @@ export default function IdeasClient({
                 {/* Ideas Grid */}
                 {ideas.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-24 text-center">
-                        <Leaf className="mb-4 h-12 w-12 text-green-200" />
-                        <h3 className="text-lg font-semibold text-gray-700">
+                        <Leaf className="mb-4 h-12 w-12 text-green-200 dark:text-green-900" />
+                        <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
                             No ideas found
                         </h3>
-                        <p className="mt-1 text-sm text-gray-400">
+                        <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">
                             Try adjusting your filters or search
                         </p>
                     </div>
@@ -307,7 +307,7 @@ function IdeaCard({ idea }: { idea: Idea }) {
             : null
 
     return (
-        <div className="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+        <div className="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-green-900/10">
             {/* Image */}
             <div className="relative h-44 w-full overflow-hidden bg-gradient-to-br from-green-50 to-emerald-100">
                 {imageUrl ? (
@@ -340,33 +340,33 @@ function IdeaCard({ idea }: { idea: Idea }) {
 
             {/* Content */}
             <div className="flex flex-1 flex-col p-4">
-                <h3 className="mb-2 line-clamp-2 text-sm font-bold text-gray-900 leading-snug group-hover:text-green-700 transition-colors">
+                <h3 className="mb-2 line-clamp-2 text-sm font-bold text-gray-900 dark:text-white leading-snug group-hover:text-green-700 dark:group-hover:text-green-400 transition-colors">
                     {idea.title}
                 </h3>
-                <p className="mb-4 line-clamp-2 flex-1 text-xs text-gray-500 leading-relaxed">
+                <p className="mb-4 line-clamp-2 flex-1 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
                     {idea.description}
                 </p>
 
                 {/* Author */}
                 <div className="mb-3 flex items-center gap-2">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-xs font-bold text-green-700">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 text-xs font-bold text-green-700 dark:text-green-400">
                         {idea.author?.name?.[0]?.toUpperCase()}
                     </div>
-                    <span className="text-xs text-gray-400">{idea.author?.name}</span>
+                    <span className="text-xs text-gray-400 dark:text-gray-500">{idea.author?.name}</span>
                 </div>
 
                 {/* Stats */}
-                <div className="mb-4 flex items-center gap-3 text-xs text-gray-400">
+                <div className="mb-4 flex items-center gap-3 text-xs text-gray-400 dark:text-gray-500">
                     <span className="flex items-center gap-1">
                         <ThumbsUp className="h-3.5 w-3.5 text-green-500" />
-                        {idea._count?.votes ?? 0}
+                        <span className="text-gray-600 dark:text-gray-400">{idea._count?.votes ?? 0}</span>
                     </span>
                     <span className="flex items-center gap-1">
                         <MessageCircle className="h-3.5 w-3.5 text-blue-400" />
-                        {idea._count?.comments ?? 0}
+                        <span className="text-gray-600 dark:text-gray-400">{idea._count?.comments ?? 0}</span>
                     </span>
                     {idea.isPaid && idea.price > 0 && (
-                        <span className="ml-auto font-semibold text-amber-600">
+                        <span className="ml-auto font-semibold text-amber-600 dark:text-amber-500">
                             ৳{idea.price}
                         </span>
                     )}
