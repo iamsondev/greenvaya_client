@@ -1,17 +1,25 @@
 "use client"
 
-import { Suspense, useEffect, useState } from "react"
+import { Suspense, useEffect, useState, useRef } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import { CheckCircle, XCircle, Loader2 } from "lucide-react"
 import axiosInstance from "@/lib/axios"
+import { useAuthStore } from "@/store/authStore"
 
 function PaymentSuccessContent() {
     const searchParams = useSearchParams()
     const router = useRouter()
     const sessionId = searchParams.get("session_id")
+    const { accessToken } = useAuthStore()
 
     const [status, setStatus] = useState<"loading" | "success" | "error">("loading")
+    const [hydrated, setHydrated] = useState(false)
+    const verificationAttempted = useRef(false)
+
+    useEffect(() => {
+        setHydrated(true)
+    }, [])
 
     useEffect(() => {
         if (!sessionId) {
@@ -19,17 +27,26 @@ function PaymentSuccessContent() {
             return
         }
 
+        // Wait for token hydration from local storage
+        if (!hydrated) return
+        if (!accessToken) return
+        
+        // Prevent strict-mode double firing
+        if (verificationAttempted.current) return
+        verificationAttempted.current = true
+
         const verify = async () => {
             try {
                 await axiosInstance.get(`/payments/verify?session_id=${sessionId}`)
                 setStatus("success")
             } catch (err) {
                 setStatus("error")
+                console.error("Payment verification failed:", err)
             }
         }
 
         verify()
-    }, [sessionId])
+    }, [sessionId, hydrated, accessToken])
 
     // Loading
     if (status === "loading") {
