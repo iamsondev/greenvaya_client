@@ -51,7 +51,7 @@ export default function LoginForm() {
             setValue('email', 'admin@gmail.com')
             setValue('password', 'admin1234')
         } else if (role === 'MODERATOR') {
-            setValue('email', 'moderator@gmail.com')
+            setValue('email', 'moderator2@gmail.com')
             setValue('password', 'moderator123')
         } else {
             setValue('email', 'hikaru@gmail.com')
@@ -64,13 +64,13 @@ export default function LoginForm() {
     const handleGoogleLogin = () => {
         setIsGoogleLoading(true)
         setServerError("")
-        
+
         // Redirect to Backend Google Auth Endpoint
         // We use window.location.href because this is an external redirect to the backend
         const backendUrl = process.env.NEXT_PUBLIC_API_URL || "https://greenvaya-backend.vercel.app/api/v1";
         // Remove trailing / if any
         const baseUrl = backendUrl.endsWith('/') ? backendUrl.slice(0, -1) : backendUrl;
-        
+
         window.location.href = `${baseUrl}/auth/google`;
     }
 
@@ -245,8 +245,8 @@ export default function LoginForm() {
                         >
                             {isGoogleLoading ? (
                                 <div className="flex items-center gap-2">
-                                     <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-                                     Authenticating...
+                                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                                    Authenticating...
                                 </div>
                             ) : (
                                 <>
