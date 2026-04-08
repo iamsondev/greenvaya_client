@@ -25,25 +25,27 @@ const publicLinks = [
 
 const memberLinks = [
   { label: "Home", href: "/" },
-  { label: "All Ideas", href: "/ideas" },
-  { label: "My Ideas", href: "/member-dashboard?tab=my-ideas" },
-  { label: "Submit Idea", href: "/member-dashboard?tab=create-idea" },
+  { label: "Ideas", href: "/ideas" },
+  { label: "About", href: "/about" },
+  { label: "Blog", href: "/blog" },
   { label: "Community", href: "/community" },
   { label: "Help Center", href: "/help" },
 ]
 
 const adminLinks = [
   { label: "Home", href: "/" },
-  { label: "Manage Ideas", href: "/admin-dashboard?tab=ideas" },
-  { label: "Manage Users", href: "/admin-dashboard?tab=members" },
-  { label: "Statistics", href: "/admin-dashboard?tab=overview" },
+  { label: "Ideas", href: "/ideas" },
+  { label: "About", href: "/about" },
+  { label: "Blog", href: "/blog" },
   { label: "System Logs", href: "/admin-dashboard?tab=logs" },
   { label: "Settings", href: "/admin-dashboard?tab=settings" },
 ]
 
 const moderatorLinks = [
   { label: "Home", href: "/" },
-  { label: "Review Ideas", href: "/moderator-dashboard?tab=ideas" },
+  { label: "Ideas", href: "/ideas" },
+  { label: "About", href: "/about" },
+  { label: "Blog", href: "/blog" },
   { label: "System Stats", href: "/moderator-dashboard?tab=overview" },
   { label: "Green Support", href: "/moderator-dashboard?tab=support" },
 ]
@@ -58,10 +60,10 @@ export default function Navbar() {
   const { user, logout } = useAuthStore()
   const isLoggedIn = !!user
 
-  const links = !isLoggedIn 
-    ? publicLinks 
-    : user?.role === "ADMIN" 
-      ? adminLinks 
+  const links = !isLoggedIn
+    ? publicLinks
+    : user?.role === "ADMIN"
+      ? adminLinks
       : user?.role === "MODERATOR"
         ? moderatorLinks
         : memberLinks
@@ -128,22 +130,22 @@ export default function Navbar() {
                 </Link>
 
                 <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <button className="flex items-center gap-2 rounded-lg px-3 py-2 transition-all hover:bg-primary/5">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-sm font-semibold text-white overflow-hidden shadow-sm">
-                          {user?.profileImage ? (
-                            <img 
-                              src={user.profileImage} 
-                              alt={user.name || 'User'} 
-                              className="h-full w-full object-cover"
-                            />
-                          ) : (
-                            <span>{user?.name?.[0]?.toUpperCase() || "U"}</span>
-                          )}
-                        </div>
-                        <ChevronDown className="h-3 w-3 text-muted-foreground" />
-                      </button>
-                    </DropdownMenuTrigger>
+                  <DropdownMenuTrigger asChild>
+                    <button className="flex items-center gap-2 rounded-lg px-3 py-2 transition-all hover:bg-primary/5">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-sm font-semibold text-white overflow-hidden shadow-sm">
+                        {user?.profileImage ? (
+                          <img
+                            src={user.profileImage}
+                            alt={user.name || 'User'}
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <span>{user?.name?.[0]?.toUpperCase() || "U"}</span>
+                        )}
+                      </div>
+                      <ChevronDown className="h-3 w-3 text-muted-foreground" />
+                    </button>
+                  </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48">
                     <DropdownMenuItem asChild>
                       <Link href="/profile">My Profile</Link>
