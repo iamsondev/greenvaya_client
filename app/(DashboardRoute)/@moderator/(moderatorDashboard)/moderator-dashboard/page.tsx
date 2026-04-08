@@ -1,9 +1,9 @@
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
-import AdminDashboardClient from "./AdminDashboardClient"
+import ModeratorDashboardClient from "./ModeratorDashboardClient"
 import { API_URL } from "@/lib/api-config"
 
-export default async function AdminDashboardPage() {
+export default async function ModeratorDashboardPage() {
     const cookieStore = await cookies()
     const refreshToken = cookieStore.get("refreshToken")?.value
 
@@ -31,20 +31,20 @@ export default async function AdminDashboardPage() {
         Buffer.from(accessToken.split(".")[1], "base64").toString()
     )
 
-    if (payload.role === "MODERATOR") {
-        redirect("/moderator-dashboard")
+    if (payload.role === "ADMIN") {
+        redirect("/admin-dashboard")
     }
 
-    if (payload.role !== "ADMIN") {
+    if (payload.role !== "MODERATOR") {
         redirect("/member-dashboard")
     }
 
     const user = {
         id: payload.id as string,
-        name: (payload.name as string) || "Admin",
+        name: (payload.name as string) || "Moderator",
         email: payload.email as string,
         role: payload.role as string,
     }
 
-    return <AdminDashboardClient user={user} accessToken={accessToken} />
+    return <ModeratorDashboardClient user={user} accessToken={accessToken} />
 }

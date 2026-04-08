@@ -4,9 +4,11 @@ import { API_URL } from "@/lib/api-config"
 export default async function DashboardLayout({
     admin,
     member,
+    moderator,
 }: {
     admin: React.ReactNode
     member: React.ReactNode
+    moderator: React.ReactNode
 }) {
     const cookieStore = await cookies();
 
@@ -57,6 +59,7 @@ export default async function DashboardLayout({
         <div>
             {role === "ADMIN" && admin}
             {role === "MEMBER" && member}
+            {role === "MODERATOR" && moderator}
         </div>
     )
-}
+}
