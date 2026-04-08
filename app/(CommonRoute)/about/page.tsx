@@ -1,185 +1,95 @@
-import Link from "next/link"
-import { 
-    Leaf, 
-    Target, 
-    Zap, 
-    Users, 
-    ShieldCheck, 
-    Globe, 
-    ArrowRight,
-    MessageSquare,
-    Lightbulb,
-    TrendingUp
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import HeroFadeIn from "@/components/Hero/HeroFadeIn"
+import { Leaf, Target, Heart, Award, Users, Globe } from "lucide-react"
 
 export default function AboutPage() {
     return (
-        <div className="min-h-screen bg-white dark:bg-zinc-950 transition-colors duration-500">
+        <div className="pt-24 pb-20">
             {/* Hero Section */}
-            <section className="relative overflow-hidden bg-gradient-to-br from-green-950 via-green-900 to-emerald-800 py-24 lg:py-32">
-                {/* Radial glow */}
-                <div className="pointer-events-none absolute inset-0">
-                    <div className="absolute top-1/4 left-1/2 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-green-400/10 blur-[120px]" />
-                    <div className="absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-emerald-500/10 blur-[100px]" />
+            <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-950 via-green-900 to-emerald-900">
+                    <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
                 </div>
-                
-                <div className="relative z-10 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-                    <HeroFadeIn>
-                        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-400/30 bg-green-500/15 px-4 py-2">
-                            <Leaf className="h-4 w-4 text-green-400" />
-                            <span className="text-sm font-medium tracking-wide text-green-300 uppercase">
-                                Our Mission
-                            </span>
-                        </div>
-                        <h1 className="mb-8 text-5xl font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
-                            Empowering Communities to <br className="hidden lg:block" /> 
-                            <span className="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">
-                                Shape a Sustainable Future
-                            </span>
-                        </h1>
-                        <p className="mx-auto max-w-2xl text-lg font-light leading-relaxed text-green-100/70 sm:text-xl">
-                            EcoSpark Hub (GreenVaya) is more than just a portal; it&apos;s a shared mission to move the needle on climate change through community-led innovation.
+                <div className="relative z-10 text-center max-w-3xl mx-auto px-4 animate-in fade-in slide-in-from-bottom-10 duration-700">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-green-500/10 px-4 py-1.5 mb-6">
+                        <Leaf className="h-4 w-4 text-green-400" />
+                        <span className="text-xs font-black uppercase tracking-widest text-green-300">Innovating Sustainability</span>
+                    </div>
+                    <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight leading-tight">
+                        We are <span className="text-primary italic">GreenVaya</span>
+                    </h1>
+                    <p className="text-green-100/70 text-lg leading-relaxed max-w-2xl mx-auto">
+                        Dedicated to bridging the gap between revolutionary sustainable ideas and the capital needed to bring them to life.
+                    </p>
+                </div>
+                {/* Decorative glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[50%] w-[50%] bg-primary/20 blur-[150px] rounded-full" />
+            </section>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                {/* Mission & Vision */}
+                <div className="grid md:grid-cols-2 gap-12 items-center mb-32">
+                    <div className="space-y-6">
+                        <h2 className="text-3xl font-black text-foreground">Our Noble Mission</h2>
+                        <p className="text-muted-foreground leading-relaxed">
+                            GreenVaya is a pioneering community platform where thinkers meet doers. We empower environmental innovators to share their visions, gain community support, and secure the funding required to make a global impact.
                         </p>
-                    </HeroFadeIn>
-                </div>
-            </section>
-
-            {/* Mission & Vision Section */}
-            <section className="py-20 lg:py-28 relative">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 items-stretch gap-12 lg:grid-cols-2">
-                        <div className="flex flex-col justify-center rounded-3xl border border-green-100 dark:border-white/10 bg-green-50/30 dark:bg-white/5 p-8 lg:p-12 backdrop-blur-sm transition-all hover:bg-green-50/50 dark:hover:bg-white/[0.08]">
-                            <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-green-600 shadow-lg shadow-green-600/20">
-                                <Target className="h-6 w-6 text-white" />
-                            </div>
-                            <h2 className="mb-4 text-3xl font-black text-gray-900 dark:text-white lg:text-4xl">Our Mission</h2>
-                            <p className="text-lg leading-relaxed text-gray-600 dark:text-green-100/60">
-                                To provide an open, transparent platform where every individual can share, discuss, and implement green ideas. We aim to bridge the gap between abstract concepts and real-world environmental impact by crowdsourcing wisdom and community support.
-                            </p>
-                        </div>
-                        <div className="flex flex-col justify-center rounded-3xl border border-emerald-100 dark:border-white/10 bg-emerald-50/30 dark:bg-white/5 p-8 lg:p-12 backdrop-blur-sm transition-all hover:bg-emerald-50/50 dark:hover:bg-white/[0.08]">
-                            <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 shadow-lg shadow-emerald-600/20">
-                                <Globe className="h-6 w-6 text-white" />
-                            </div>
-                            <h2 className="mb-4 text-3xl font-black text-gray-900 dark:text-white lg:text-4xl">Our Vision</h2>
-                            <p className="text-lg leading-relaxed text-gray-600 dark:text-green-100/60">
-                                We envision a world where sustainability is driven from the ground up. Our goal is to host a global library of validated, community-vetted solutions for solar power, zero-waste, and efficient transportation that anyone, anywhere can adopt.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* How It Works Section */}
-            <section className="bg-gray-50 dark:bg-white/[0.02] py-20 lg:py-28 transition-colors duration-500">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="mb-16 text-center">
-                        <h2 className="mb-4 text-3xl font-black text-gray-900 dark:text-white lg:text-4xl">How It Works</h2>
-                        <p className="mx-auto max-w-xl text-gray-500 dark:text-green-200/40">Creating change is easy when you have a community behind you.</p>
-                    </div>
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-                        {[
-                            {
-                                step: "01",
-                                title: "Join",
-                                desc: "Register as a member and explore thousands of green ideas already being discussed.",
-                                icon: Users
-                            },
-                            {
-                                step: "02",
-                                title: "Ideate",
-                                desc: "Share your own projects—from simple recycling hacks to complex renewable energy setups.",
-                                icon: Lightbulb
-                            },
-                            {
-                                step: "03",
-                                title: "Discuss",
-                                desc: "Empower others through nested comments and voting. Help turn good ideas into great ones.",
-                                icon: MessageSquare
-                            },
-                            {
-                                step: "04",
-                                title: "Impact",
-                                desc: "Highest voted ideas gain maximum visibility and help community members implement them.",
-                                icon: TrendingUp
-                            }
-                        ].map((item, i) => (
-                            <div key={i} className="group relative flex flex-col items-center text-center">
-                                <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-white dark:bg-white/5 shadow-sm ring-1 ring-gray-200 dark:ring-white/10 transition-all group-hover:-translate-y-1 group-hover:shadow-md group-hover:ring-green-400/50">
-                                    <item.icon className="h-8 w-8 text-green-600 dark:text-green-400" />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
+                            <div className="flex gap-4">
+                                <div className="h-12 w-12 shrink-0 rounded-2xl bg-primary/10 flex items-center justify-center">
+                                    <Target className="h-6 w-6 text-primary" />
                                 </div>
-                                <span className="mb-2 text-xs font-black tracking-widest text-green-600/40 dark:text-green-400/30 uppercase">{item.step}</span>
-                                <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">{item.title}</h3>
-                                <p className="text-sm leading-relaxed text-gray-500 dark:text-green-100/40">{item.desc}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Core Values Section */}
-            <section className="py-20 lg:py-28">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
-                        <div>
-                            <h2 className="mb-6 text-4xl font-black text-gray-900 dark:text-white lg:text-5xl">Values That <br />Drive Us</h2>
-                            <p className="mb-8 text-lg leading-relaxed text-gray-600 dark:text-green-100/60">
-                                At GreenVaya, we believe that the tools for a sustainable future should be accessible to all. Our platform is built on four non-negotiable principles.
-                            </p>
-                            <Link href="/ideas">
-                                <Button className="bg-green-600 dark:bg-green-500 hover:bg-green-700 dark:hover:bg-green-400 h-14 px-8 rounded-2xl text-base font-bold shadow-lg shadow-green-600/20 dark:shadow-green-500/30 text-white dark:text-green-950">
-                                    Explore the Ideas <ArrowRight className="ml-2 h-5 w-5" />
-                                </Button>
-                            </Link>
-                        </div>
-                        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                            {[
-                                { title: "Transparency", icon: ShieldCheck, color: "text-blue-600 bg-blue-50 dark:bg-blue-500/10 dark:text-blue-400" },
-                                { title: "Innovation", icon: Zap, color: "text-yellow-600 bg-yellow-50 dark:bg-yellow-500/10 dark:text-yellow-400" },
-                                { title: "Inclusion", icon: Users, color: "text-purple-600 bg-purple-50 dark:bg-purple-500/10 dark:text-purple-400" },
-                                { title: "Integrity", icon: Leaf, color: "text-green-600 bg-green-50 dark:bg-green-500/10 dark:text-green-400" }
-                            ].map((val, i) => (
-                                <div key={i} className="flex flex-col items-start gap-4 rounded-3xl border border-gray-100 dark:border-white/10 bg-white dark:bg-white/5 p-6 transition-all hover:border-green-100 dark:hover:border-green-500/30 hover:bg-green-50/20 dark:hover:bg-green-500/5">
-                                    <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${val.color}`}>
-                                        <val.icon className="h-6 w-6" />
-                                    </div>
-                                    <h4 className="text-lg font-bold text-gray-900 dark:text-white">{val.title}</h4>
-                                    <p className="text-sm text-gray-500 dark:text-green-200/40">Committed to maintaining the highest standards in every project shared.</p>
+                                <div className="space-y-1">
+                                    <h4 className="font-bold">Goal Oriented</h4>
+                                    <p className="text-xs text-muted-foreground">Focusing on measurable impact.</p>
                                 </div>
-                            ))}
+                            </div>
+                            <div className="flex gap-4">
+                                <div className="h-12 w-12 shrink-0 rounded-2xl bg-blue-100/10 flex items-center justify-center">
+                                    <Globe className="h-6 w-6 text-blue-500" />
+                                </div>
+                                <div className="space-y-1">
+                                    <h4 className="font-bold">Global Reach</h4>
+                                    <p className="text-xs text-muted-foreground">Empowering every corner of Earth.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="relative group">
+                        <img 
+                            src="https://res.cloudinary.com/dopurvmlr/image/upload/v1775590768/pexels-quang-nguyen-vinh-222549-6876534_lamqvw.jpg" 
+                            alt="Sustainability" 
+                            className="rounded-[2.5rem] shadow-2xl transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute -bottom-6 -left-6 bg-white dark:bg-zinc-900 border border-border p-6 rounded-3xl shadow-xl max-w-[240px]">
+                            <div className="flex items-center gap-3 mb-2">
+                                <Award className="h-5 w-5 text-accent" />
+                                <span className="font-black text-sm uppercase tracking-wider">Vaya Verified</span>
+                            </div>
+                            <p className="text-[10px] text-muted-foreground">Every idea goes through our rigorous ecosystem screening process.</p>
                         </div>
                     </div>
                 </div>
-            </section>
 
-            {/* Final CTA */}
-            <section className="mx-4 mb-20 lg:mx-8">
-                <div className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl bg-green-950 px-8 py-20 text-center lg:py-28">
-                    <div className="absolute top-0 right-0 h-48 w-48 -translate-y-1/2 translate-x-1/2 rounded-full bg-green-500/10 blur-3xl" />
-                    <div className="absolute bottom-0 left-0 h-48 w-48 -translate-x-1/2 translate-y-1/2 rounded-full bg-emerald-500/10 blur-3xl" />
-                    
-                    <HeroFadeIn className="relative z-10 flex flex-col items-center">
-                        <h2 className="mb-6 text-4xl font-black text-white lg:text-5xl">Ready to Spark Change?</h2>
-                        <p className="mb-10 max-w-xl text-lg text-green-100/60 font-light">
-                            Join eco-innovators from across the country and share your ideas for a greener Bangladesh and a sustainable planet.
-                        </p>
-                        <div className="flex flex-col gap-4 sm:flex-row">
-                            <Link href="/signup">
-                                <Button className="bg-green-500 hover:bg-green-400 text-green-950 h-14 px-10 rounded-2xl text-base font-bold shadow-xl shadow-green-500/20">
-                                    Sign Up Now
-                                </Button>
-                            </Link>
-                            <Link href="/ideas">
-                                <Button variant="outline" className="h-14 px-10 rounded-2xl text-base font-bold border-green-500/30 text-green-100 hover:bg-green-500/10 transition-colors">
-                                    View Live Projects
-                                </Button>
-                            </Link>
-                        </div>
-                    </HeroFadeIn>
+                {/* Team & Values */}
+                <div className="text-center mb-16 px-4">
+                    <h2 className="text-3xl font-black mb-4">Values that Drive Us</h2>
+                    <p className="text-muted-foreground max-w-xl mx-auto">Behind every successful project on GreenVaya, there is a set of core beliefs that ensure our integrity.</p>
                 </div>
-            </section>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
+                    {[
+                        { icon: Heart, title: "Pure Integrity", desc: "We believe in honest, transparent support for all environmental projects." },
+                        { icon: Users, title: "Inclusion", desc: "Sustainability is for everyone, regardless of background or financial status." },
+                        { icon: Leaf, title: "Sustainability First", desc: "Every decision we make is evaluated by its long-term impact on our planet." }
+                    ].map((val, i) => (
+                        <div key={i} className="p-8 rounded-[2rem] border border-border bg-muted/30 hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                             <div className="h-14 w-14 rounded-2xl bg-white dark:bg-zinc-900 shadow-sm flex items-center justify-center mb-6">
+                                <val.icon className="h-7 w-7 text-primary" />
+                             </div>
+                             <h3 className="text-xl font-black mb-3">{val.title}</h3>
+                             <p className="text-sm text-muted-foreground leading-relaxed">{val.desc}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     )
 }

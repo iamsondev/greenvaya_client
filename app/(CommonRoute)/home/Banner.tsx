@@ -1,3 +1,6 @@
+"use client"
+
+import { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import {
@@ -7,51 +10,123 @@ import {
   Zap,
   Recycle,
   Car,
+  ChevronLeft,
+  ChevronRight,
+  Target,
+  Globe,
+  Waves,
 } from "lucide-react"
 import HeroSearch from "@/components/Hero/HeroSearch"
-import HeroFadeIn from "@/components/Hero/HeroFadeIn"
 import SubmitIdeaCTA from "./SubmitIdeaCTA"
+
+const slides = [
+  {
+    badge: "The Purity of Nature",
+    title: "Eco-Innovation <span class='text-primary italic'>Starts</span> with a Seed",
+    desc: "Discover how tiny sustainable changes can lead to a global environmental revolution. Join our green movement today.",
+    image: "https://res.cloudinary.com/dopurvmlr/image/upload/v1775590768/pexels-quang-nguyen-vinh-222549-6876534_lamqvw.jpg",
+    icon: Leaf,
+  },
+  {
+    badge: "Infinite Possibilities",
+    title: "Sustainable <span class='text-primary italic'>Future</span> Beyond Boundaries",
+    desc: "Exploring the next frontier of green technology and cosmic energy blueprints. Our vision for the next century starts now.",
+    image: "https://res.cloudinary.com/dopurvmlr/image/upload/v1775590768/pexels-eclipse-chasers-716719984-30805406_wcj237.jpg",
+    icon: Target,
+  },
+  {
+    badge: "Clean Energy Revolution",
+    title: "Harness the <span class='text-primary italic'>Power</span> of the Sun",
+    desc: "Implementing residential solar solutions that empower communities and reduce carbon footprints worldwide.",
+    image: "https://res.cloudinary.com/dopurvmlr/image/upload/v1775590765/pexels-kindelmedia-9800030_md9ldl.jpg",
+    icon: Zap,
+  },
+  {
+    badge: "Pristine Environments",
+    title: "Protect Our <span class='text-primary italic'>Shared</span> Natural Heritage",
+    desc: "From mountain peaks to deep oceans, collaborate with global conservationists to preserve the beauty of our planet.",
+    image: "https://res.cloudinary.com/dopurvmlr/image/upload/v1775590765/pexels-pixabay-414905_agzeg0.jpg",
+    icon: Waves,
+  },
+  {
+    badge: "The Heart of the Forest",
+    title: "Breathing <span class='text-primary italic'>Life</span> into Our Ecosystems",
+    desc: "Rewilding forests to restore biodiversity and create a balanced, thriving natural world for future generations.",
+    image: "https://res.cloudinary.com/dopurvmlr/image/upload/v1775590762/pexels-pixabay-60013_fqn291.jpg",
+    icon: Leaf,
+  },
+  {
+    badge: "United for Change",
+    title: "Community <span class='text-primary italic'>Action</span> for Tomorrow",
+    desc: "Connecting eco-innovators and enthusiasts to build sustainable urban communities and smarter green cities.",
+    image: "https://res.cloudinary.com/dopurvmlr/image/upload/v1775590764/pexels-jonathan-david-1312107-32146752_dgquy9.jpg",
+    icon: Globe,
+  }
+]
 
 const floatingLeaves = [
   { top: "10%", left: "5%", size: 24, delay: 0, duration: 6 },
   { top: "20%", left: "90%", size: 16, delay: 1, duration: 8 },
   { top: "60%", left: "8%", size: 20, delay: 2, duration: 7 },
   { top: "75%", left: "85%", size: 14, delay: 0.5, duration: 9 },
-  { top: "40%", left: "95%", size: 18, delay: 1.5, duration: 6.5 },
-  { top: "85%", left: "15%", size: 12, delay: 3, duration: 8.5 },
 ]
 
 const categories = [
-  { label: "Energy", icon: Zap, color: "text-yellow-600 bg-yellow-50" },
-  { label: "Waste", icon: Recycle, color: "text-blue-600 bg-blue-50" },
-  { label: "Transport", icon: Car, color: "text-purple-600 bg-purple-50" },
-  { label: "Nature", icon: Leaf, color: "text-green-600 bg-green-50" },
+  { label: "Energy", icon: Zap },
+  { label: "Waste", icon: Recycle },
+  { label: "Transport", icon: Car },
+  { label: "Nature", icon: Leaf },
 ]
 
 export default function Banner() {
+  const [current, setCurrent] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const next = useCallback(() => {
+    setIsLoading(true)
+    setTimeout(() => {
+        setCurrent((s) => (s + 1) % slides.length)
+        setIsLoading(false)
+    }, 400)
+  }, [])
+  
+  const prev = () => {
+    setIsLoading(true)
+    setTimeout(() => {
+        setCurrent((s) => (s === 0 ? slides.length - 1 : s - 1))
+        setIsLoading(false)
+    }, 400)
+  }
+
+  useEffect(() => {
+    const timer = setInterval(next, 8000)
+    return () => clearInterval(timer)
+  }, [next])
+
+  const slide = slides[current]
+
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden bg-gradient-to-br from-green-950 via-green-900 to-emerald-800">
-      {/* Radial glow */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-1/4 left-1/2 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-green-400/10 blur-[120px]" />
-        <div className="absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-emerald-500/10 blur-[100px]" />
-        <div className="absolute top-0 right-0 h-[300px] w-[300px] rounded-full bg-teal-400/10 blur-[80px]" />
+    <section className="relative flex h-[85vh] items-center justify-center overflow-hidden bg-black transition-all duration-1000">
+      {/* Background Image Container */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src={slide.image} 
+          alt={slide.badge}
+          className={`h-full w-full object-cover transition-all duration-1000 scale-[1.02] brightness-[0.65] ${isLoading ? "blur-xl" : "blur-0"}`} 
+        />
+        {/* Advanced Overlays - More Transparent for Clarity */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-transparent to-black/20" />
+        <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-background via-background/20 to-transparent" />
+        
+        {/* Dynamic Radiant Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-primary/10 blur-[150px] opacity-40" />
       </div>
 
-      {/* Grid pattern overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
-          backgroundSize: "60px 60px",
-        }}
-      />
-
-      {/* Floating Leaves */}
+      {/* Floating Elements */}
       {floatingLeaves.map((leaf, i) => (
         <div
           key={i}
-          className="pointer-events-none absolute opacity-20"
+          className="pointer-events-none absolute z-[2] opacity-20"
           style={{
             top: leaf.top,
             left: leaf.left,
@@ -60,120 +135,142 @@ export default function Banner() {
         >
           <Leaf
             style={{ width: leaf.size, height: leaf.size }}
-            className="text-green-300"
+            className="text-primary/60"
           />
         </div>
       ))}
 
-      {/* Decorative circles */}
-      <div className="absolute top-20 right-20 h-64 w-64 rounded-full border border-green-500/20" />
-      <div className="absolute top-32 right-32 h-40 w-40 rounded-full border border-green-400/10" />
-      <div className="absolute bottom-20 left-10 h-48 w-48 rounded-full border border-emerald-500/15" />
+      {/* Grid pattern overlay */}
+      <div
+        className="absolute inset-0 z-[1] opacity-[0.03]"
+        style={{
+          backgroundImage: `radial-gradient(circle, white 1px, transparent 1px)`,
+          backgroundSize: "40px 40px",
+        }}
+      />
 
-      {/* Main Content */}
-      <div className="relative z-10 mx-auto max-w-7xl px-4 pt-24 pb-16 sm:px-6 lg:px-8">
+      {/* Main Content Area */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-32 pb-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          {/* Badge & Headlines */}
-          <HeroFadeIn>
-            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-green-400/30 bg-green-500/15 px-4 py-2">
-              <Sparkles className="h-4 w-4 text-green-400" />
-              <span className="text-sm font-medium tracking-wide text-green-300">
-                Community-Powered Sustainability
+          
+          {/* Glass Card Container for Headlines - More Subtle and Compact */}
+          <div 
+            key={current} 
+            className="group relative mb-8 rounded-[2rem] border border-white/10 bg-black/20 p-8 shadow-2xl backdrop-blur-md transition-all duration-700 animate-in fade-in zoom-in-95"
+          >
+            {/* Animated Badge */}
+            <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-primary/40 bg-primary/20 px-6 py-2 shadow-xl shadow-primary/5">
+              <Sparkles className="h-4 w-4 text-primary animate-pulse" />
+              <span className="text-[10px] font-black tracking-[0.3em] text-white uppercase">
+                {slide.badge}
               </span>
             </div>
 
-            <h1 className="mb-6 text-5xl leading-[1.05] font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
-              Ideas That
-              <span className="relative mx-4">
-                <span className="relative z-10 bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">
-                  Heal
-                </span>
-                <span className="absolute right-0 -bottom-1 left-0 h-[3px] rounded-full bg-gradient-to-r from-green-400 to-emerald-300" />
-              </span>
-              Our Planet
-            </h1>
+            <h1 
+              className="mb-6 text-5xl leading-[1.05] font-black tracking-tight text-white sm:text-7xl lg:text-8xl"
+              style={{ textShadow: "0 10px 20px rgba(0,0,0,0.8)" }}
+              dangerouslySetInnerHTML={{ __html: slide.title }}
+            />
 
-            <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed font-light text-green-100/70 sm:text-xl">
-              Join thousands of eco-innovators sharing bold sustainability ideas —
-              from rooftop solar to zero-waste cities. Vote, discuss, and make
-              real change happen.
+            <p className="mx-auto max-w-2xl text-lg leading-relaxed font-medium text-white sm:text-xl drop-shadow-lg">
+              {slide.desc}
             </p>
-          </HeroFadeIn>
 
-          {/* Search Bar */}
-          <HeroFadeIn delay={200} className="mx-auto mb-10 max-w-2xl">
-            <HeroSearch />
-          </HeroFadeIn>
+            {/* Subtle glow border */}
+            <div className="absolute inset-0 -z-10 rounded-[2rem] bg-gradient-to-br from-primary/10 to-transparent opacity-20 blur-xl group-hover:opacity-40 transition-opacity" />
+          </div>
 
-            <HeroFadeIn delay={400} className="mb-16 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          {/* Search Bar - Positioned specifically */}
+          <div className="relative -mt-16 mx-auto mb-12 max-w-2xl z-20 transition-transform hover:scale-[1.01]">
+             <HeroSearch />
+          </div>
+
+          <div className="mb-16 flex flex-col items-center justify-center gap-6 sm:flex-row">
             <Button
               asChild
               size="lg"
-              className="rounded-xl bg-green-500 px-8 py-6 text-base font-bold text-green-950 shadow-lg shadow-green-500/30 transition-all hover:scale-[1.03] hover:bg-green-400 hover:shadow-green-400/50"
+              className="rounded-2xl bg-primary px-12 py-8 text-lg font-black text-primary-foreground shadow-2xl shadow-primary/40 transition-all hover:scale-[1.05] hover:bg-primary hover:shadow-primary/60 active:scale-95"
             >
-              <Link href="/ideas" className="flex items-center gap-2">
-                Explore Ideas
-                <ArrowRight className="h-5 w-5" />
+              <Link href="/ideas" className="flex items-center gap-3">
+                Explore The Future
+                <ArrowRight className="h-6 w-6" />
               </Link>
             </Button>
             <SubmitIdeaCTA />
-          </HeroFadeIn>
+          </div>
 
-          {/* Category Pills */}
-          <HeroFadeIn delay={600} className="flex flex-wrap justify-center gap-3">
-            <span className="mr-1 self-center text-sm font-medium text-green-400/60">
-              Browse by:
-            </span>
+          {/* Feature categories with better spacing */}
+          <div className="flex flex-wrap justify-center gap-4">
             {categories.map((cat) => (
               <Link
                 key={cat.label}
                 href={`/ideas?category=${cat.label.toLowerCase()}`}
-                className="flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-sm font-medium text-green-100/80 backdrop-blur-sm transition-all duration-200 hover:border-green-400/40 hover:bg-green-500/20 hover:text-white"
+                className="group flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-xs font-black tracking-widest text-white/40 uppercase backdrop-blur-md transition-all duration-300 hover:border-primary/60 hover:bg-white/10 hover:text-white"
               >
-                <cat.icon className="h-3.5 w-3.5" />
+                <cat.icon className="h-4 w-4 text-primary/40 group-hover:text-primary transition-colors" />
                 {cat.label}
               </Link>
             ))}
-          </HeroFadeIn>
+          </div>
         </div>
-
-        {/* Bottom Stats Bar */}
-        <HeroFadeIn delay={800} className="mx-auto mt-20 grid max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-4">
-          {[
-            { value: "1,240+", label: "Ideas Shared" },
-            { value: "8,500+", label: "Community Members" },
-            { value: "32,000+", label: "Votes Cast" },
-            { value: "12", label: "Categories" },
-          ].map((stat) => (
-            <div
-              key={stat.label}
-              className="bg-white/5 px-6 py-5 text-center backdrop-blur-sm transition-colors hover:bg-white/10"
-            >
-              <div className="mb-1 text-2xl font-black text-green-400">
-                {stat.value}
-              </div>
-              <div className="text-xs font-medium tracking-wide text-green-200/60 uppercase">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </HeroFadeIn>
       </div>
 
-      {/* Bottom fade */}
-      <div className="pointer-events-none absolute right-0 bottom-0 left-0 h-32 bg-gradient-to-t from-white/5 to-transparent" />
+      {/* Refined Navigation Controls */}
+      <div className="absolute top-1/2 left-0 right-0 z-20 flex -translate-y-1/2 justify-between px-6 pointer-events-none">
+        <button 
+          onClick={prev}
+          disabled={isLoading}
+          className="pointer-events-auto group h-14 w-14 flex items-center justify-center rounded-full border border-white/10 bg-black/20 text-white backdrop-blur-2xl transition-all hover:bg-primary hover:border-primary hover:scale-110 active:scale-90 disabled:opacity-50"
+        >
+          <ChevronLeft className="h-7 w-7 transition-transform group-hover:-translate-x-1" />
+        </button>
+        <button 
+          onClick={next}
+          disabled={isLoading}
+          className="pointer-events-auto group h-14 w-14 flex items-center justify-center rounded-full border border-white/10 bg-black/20 text-white backdrop-blur-2xl transition-all hover:bg-primary hover:border-primary hover:scale-110 active:scale-90 disabled:opacity-50"
+        >
+          <ChevronRight className="h-7 w-7 transition-transform group-hover:translate-x-1" />
+        </button>
+      </div>
 
-      {/* Float animation (CSS for Server Component) */}
+      {/* Modern Slice Indicators */}
+      <div className="absolute bottom-16 left-1/2 flex -translate-x-1/2 items-center gap-4 z-20">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            disabled={isLoading}
+            className={`group relative h-1 transition-all duration-500 overflow-hidden ${current === i ? "w-16 bg-primary" : "w-4 bg-white/20 hover:bg-white/40 hover:w-6"}`}
+          >
+             {current === i && <div className="absolute inset-0 bg-white/40 animate-slide-progress" />}
+          </button>
+        ))}
+      </div>
+
+      {/* Animated Scroll Down Indicator */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3 opacity-40">
+        <div className="w-6 h-10 border-2 border-primary/20 rounded-full flex justify-center p-1.5">
+          <div className="w-1 h-3 bg-primary rounded-full animate-bounce-slow" />
+        </div>
+      </div>
+
+      {/* Float & Custom animations */}
       <style dangerouslySetInnerHTML={{
         __html: `
         @keyframes float {
-          0% {
-            transform: translateY(0px) rotate(0deg);
-          }
-          100% {
-            transform: translateY(-20px) rotate(15deg);
-          }
+          0% { transform: translateY(0) rotate(0deg); }
+          100% { transform: translateY(-30px) rotate(15deg); }
         }
+        @keyframes bounce-slow {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(10px); }
+        }
+        @keyframes slide-progress {
+          from { transform: translateX(-100%); }
+          to { transform: translateX(0); }
+        }
+        .animate-bounce-slow { animation: bounce-slow 2.5s infinite ease-in-out; }
+        .animate-slide-progress { animation: slide-progress 8s linear forwards; }
       ` }} />
     </section>
   )

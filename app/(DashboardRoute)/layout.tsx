@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { API_URL } from "@/lib/api-config"
 
 export default async function DashboardLayout({
     admin,
@@ -17,7 +18,7 @@ export default async function DashboardLayout({
     if (refreshToken) {
         try {
             const res = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`,
+                `${API_URL}/auth/refresh-token`,
                 {
                     method: "POST",
                     headers: { cookie: `refreshToken=${refreshToken}` },

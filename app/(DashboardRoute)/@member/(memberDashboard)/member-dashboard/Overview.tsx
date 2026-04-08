@@ -20,10 +20,10 @@ const STATUS_ICON: Record<IdeaStatus, React.ElementType> = {
 }
 
 const STATUS_COLOR: Record<IdeaStatus, string> = {
-    DRAFT: "text-zinc-500 dark:text-zinc-400 bg-zinc-400/10 border-zinc-400/20",
-    UNDER_REVIEW: "text-yellow-600 dark:text-yellow-400 bg-yellow-400/10 border-yellow-400/20",
-    APPROVED: "text-green-600 dark:text-green-400 bg-green-400/10 border-green-400/20",
-    REJECTED: "text-red-600 dark:text-red-400 bg-red-400/10 border-red-400/20",
+    DRAFT: "text-muted-foreground bg-muted/20 border-muted/30",
+    UNDER_REVIEW: "text-accent bg-accent/10 border-accent/20",
+    APPROVED: "text-primary bg-primary/10 border-primary/20",
+    REJECTED: "text-destructive bg-destructive/10 border-destructive/20",
 }
 
 const STATUS_LABEL: Record<IdeaStatus, string> = {
@@ -39,17 +39,17 @@ interface Props {
 
 export default function Overview({ ideas }: Props) {
     const stats = [
-        { v: ideas.length, label: "Total Ideas", icon: Lightbulb, a: "bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400" },
-        { v: ideas.filter(i => i.status === "APPROVED").length, label: "Approved", icon: CheckCircle, a: "bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400" },
-        { v: ideas.filter(i => i.status === "UNDER_REVIEW").length, label: "Under Review", icon: Clock, a: "bg-yellow-100 dark:bg-yellow-500/20 text-yellow-600 dark:text-yellow-400" },
-        { v: ideas.reduce((s, i) => s + (i.upvotes ?? 0), 0), label: "Total Votes", icon: TrendingUp, a: "bg-teal-100 dark:bg-teal-500/20 text-teal-600 dark:text-teal-400" },
+        { v: ideas.length, label: "Total Ideas", icon: Lightbulb, a: "bg-primary/10 text-primary" },
+        { v: ideas.filter(i => i.status === "APPROVED").length, label: "Approved", icon: CheckCircle, a: "bg-primary/10 text-primary" },
+        { v: ideas.filter(i => i.status === "UNDER_REVIEW").length, label: "Under Review", icon: Clock, a: "bg-accent/10 text-accent" },
+        { v: ideas.reduce((s, i) => s + (i.upvotes ?? 0), 0), label: "Total Votes", icon: TrendingUp, a: "bg-secondary text-secondary-foreground" },
     ]
 
     return (
         <div className="space-y-8">
             <div>
-                <h2 className="text-2xl font-black text-gray-900 dark:text-white">Overview</h2>
-                <p className="mt-1 text-sm text-gray-500 dark:text-green-200/50">Your sustainability impact at a glance</p>
+                <h2 className="text-2xl font-black text-foreground dark:text-white">Overview</h2>
+                <p className="mt-1 text-sm text-muted-foreground">Your sustainability impact at a glance</p>
             </div>
 
             {/* Stat cards */}
@@ -57,25 +57,25 @@ export default function Overview({ ideas }: Props) {
                 {stats.map(({ v, label, icon: Icon, a }) => (
                     <div
                         key={label}
-                        className="relative overflow-hidden rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 p-6 backdrop-blur-sm shadow-sm dark:shadow-none transition-all hover:border-green-400/30 hover:bg-gray-50 dark:hover:bg-white/8"
+                        className="relative overflow-hidden rounded-2xl border border-border dark:border-border bg-white dark:bg-muted p-6 backdrop-blur-sm shadow-sm dark:shadow-none transition-all hover:border-primary/30 hover:bg-muted dark:hover:bg-white/8"
                     >
                         <div className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl ${a}`}>
                             <Icon className="h-5 w-5" />
                         </div>
-                        <div className="text-3xl font-black text-gray-900 dark:text-white">{v}</div>
-                        <div className="mt-1 text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-green-200/50">{label}</div>
-                        <div className="pointer-events-none absolute -right-4 -bottom-4 h-20 w-20 rounded-full bg-green-400/5 blur-2xl" />
+                        <div className="text-3xl font-black text-foreground dark:text-white">{v}</div>
+                        <div className="mt-1 text-xs font-medium uppercase tracking-wider text-muted-foreground dark:text-green-200/50">{label}</div>
+                        <div className="pointer-events-none absolute -right-4 -bottom-4 h-20 w-20 rounded-full bg-primary/5 blur-2xl" />
                     </div>
                 ))}
             </div>
 
             {/* Recent ideas */}
-            <div className="rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 p-6 backdrop-blur-sm shadow-sm dark:shadow-none">
-                <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-green-700 dark:text-green-400/70">
+            <div className="rounded-2xl border border-border dark:border-border bg-white dark:bg-muted p-6 backdrop-blur-sm shadow-sm dark:shadow-none">
+                <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-primary/70">
                     Recent Ideas
                 </h3>
                 {ideas.length === 0 ? (
-                    <p className="py-8 text-center text-sm text-gray-500 dark:text-green-200/40">
+                    <p className="py-8 text-center text-sm text-muted-foreground dark:text-green-200/40">
                         No ideas yet. Create your first one!
                     </p>
                 ) : (
@@ -85,11 +85,11 @@ export default function Overview({ ideas }: Props) {
                             return (
                                 <div
                                     key={idea.id}
-                                    className="flex items-center justify-between rounded-xl border border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-white/3 px-4 py-3 transition-colors hover:border-green-400/20 hover:bg-gray-100 dark:hover:bg-white/8"
+                                    className="flex items-center justify-between rounded-xl border border-gray-100 dark:border-border bg-muted dark:bg-muted px-4 py-3 transition-colors hover:border-primary/20 hover:bg-muted dark:hover:bg-white/8"
                                 >
                                     <div className="flex items-center gap-3">
-                                        <div className="h-2 w-2 rounded-full bg-green-500 dark:bg-green-400" />
-                                        <span className="text-sm font-medium text-gray-900 dark:text-white">{idea.title}</span>
+                                        <div className="h-2 w-2 rounded-full bg-primary dark:bg-primary" />
+                                        <span className="text-sm font-medium text-foreground dark:text-white">{idea.title}</span>
                                     </div>
                                     <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${STATUS_COLOR[idea.status]}`}>
                                         <Icon className="h-3 w-3" />

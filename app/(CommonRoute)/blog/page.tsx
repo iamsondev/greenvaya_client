@@ -92,7 +92,7 @@ export default function BlogPage() {
             {/* Page Header / Hero */}
             <header className="relative bg-gradient-to-br from-green-950 via-green-900 to-emerald-800 pt-32 pb-20 overflow-hidden">
                 <div className="pointer-events-none absolute inset-0">
-                    <div className="absolute top-1/4 left-1/3 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-green-400/10 blur-[100px]" />
+                    <div className="absolute top-1/4 left-1/3 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-primary/10 blur-[100px]" />
                 </div>
 
                 <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -112,7 +112,7 @@ export default function BlogPage() {
                                     <input
                                         type="text"
                                         placeholder="Search articles, topics..."
-                                        className="w-full rounded-2xl border border-white/10 bg-white/5 py-4 pl-12 pr-4 text-white placeholder-green-200/30 outline-none focus:border-green-400/50 backdrop-blur-sm"
+                                        className="w-full rounded-2xl border border-white/10 bg-white/5 py-4 pl-12 pr-4 text-white placeholder-green-200/30 outline-none focus:border-primary/50 backdrop-blur-sm"
                                     />
                                 </div>
                             </div>
@@ -122,15 +122,15 @@ export default function BlogPage() {
             </header>
 
             {/* Category Pills & Filters */}
-            <section className="sticky top-16 z-20 bg-white/80 dark:bg-zinc-950/80 border-b border-gray-100 dark:border-white/10 backdrop-blur-md transition-colors duration-500">
+            <section className="sticky top-16 z-20 bg-white/80 dark:bg-zinc-950/80 border-b border-gray-100 dark:border-border backdrop-blur-md transition-colors duration-500">
                 <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8 overflow-x-auto no-scrollbar">
                     <div className="flex items-center gap-3">
                         {categories.map((cat, i) => (
                             <button
                                 key={i}
                                 className={`flex items-center gap-2 whitespace-nowrap rounded-full px-5 py-2 text-sm font-semibold transition-all ${cat.name === "All"
-                                        ? "bg-green-600 text-white shadow-lg shadow-green-600/20"
-                                        : "bg-gray-50 dark:bg-white/5 text-gray-600 dark:text-green-100/60 hover:bg-green-50 dark:hover:bg-green-500/10 hover:text-green-700 dark:hover:text-green-400"
+                                        ? "bg-primary text-white shadow-lg shadow-green-600/20"
+                                        : "bg-muted dark:bg-muted text-muted-foreground dark:text-green-100/60 hover:bg-green-50 dark:hover:bg-primary/10 hover:text-green-700 dark:hover:text-green-400"
                                     }`}
                             >
                                 {cat.icon && <cat.icon className="h-3.5 w-3.5" />}
@@ -146,7 +146,7 @@ export default function BlogPage() {
             <main className="py-20 lg:py-28">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {/* Featured Article (Top Grid) */}
-                    <Link href={`/blog/${blogPosts[0].id}`} className="group mb-16 block rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-white/10 bg-gray-50/50 dark:bg-white/5 p-4 transition-all hover:bg-white dark:hover:bg-white/[0.08] hover:shadow-xl hover:shadow-green-900/5">
+                    <Link href={`/blog/${blogPosts[0].id}`} className="group mb-16 block rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-border bg-muted/50 dark:bg-muted p-4 transition-all hover:bg-white dark:hover:bg-white/[0.08] hover:shadow-xl hover:shadow-green-900/5">
                         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                             <div className="relative aspect-[16/9] overflow-hidden rounded-[2rem] lg:aspect-auto h-full min-h-[300px]">
                                 <img
@@ -155,24 +155,24 @@ export default function BlogPage() {
                                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 <div className="absolute top-6 left-6 flex gap-2">
-                                    <span className="rounded-full bg-green-600/90 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-white backdrop-blur-md">
+                                    <span className="rounded-full bg-primary/90 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-white backdrop-blur-md">
                                         Featured
                                     </span>
                                 </div>
                             </div>
                             <div className="flex flex-col justify-center p-6 lg:p-12">
-                                <span className="mb-4 text-xs font-black uppercase tracking-widest text-green-600 dark:text-green-400">{blogPosts[0].category}</span>
-                                <h2 className="mb-6 text-3xl font-black text-gray-900 dark:text-white lg:text-5xl lg:leading-[1.1]">{blogPosts[0].title}</h2>
-                                <p className="mb-8 text-lg font-light leading-relaxed text-gray-500 dark:text-green-100/60">
+                                <span className="mb-4 text-xs font-black uppercase tracking-widest text-primary dark:text-green-400">{blogPosts[0].category}</span>
+                                <h2 className="mb-6 text-3xl font-black text-foreground dark:text-white lg:text-5xl lg:leading-[1.1]">{blogPosts[0].title}</h2>
+                                <p className="mb-8 text-lg font-light leading-relaxed text-muted-foreground dark:text-green-100/60">
                                     {blogPosts[0].excerpt}
                                 </p>
                                 <div className="flex items-center gap-4">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 font-bold border border-green-200 dark:border-green-500/20">
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 dark:bg-primary/10 text-green-700 dark:text-green-400 font-bold border border-green-200 dark:border-primary/20">
                                         {blogPosts[0].author.avatar}
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-sm font-bold text-gray-900 dark:text-white">{blogPosts[0].author.name}</span>
-                                        <span className="text-[10px] text-gray-400 dark:text-green-200/40">{blogPosts[0].date} · {blogPosts[0].readTime}</span>
+                                        <span className="text-sm font-bold text-foreground dark:text-white">{blogPosts[0].author.name}</span>
+                                        <span className="text-[10px] text-muted-foreground dark:text-green-200/40">{blogPosts[0].date} · {blogPosts[0].readTime}</span>
                                     </div>
                                 </div>
                             </div>
@@ -183,35 +183,35 @@ export default function BlogPage() {
                     <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
                         {blogPosts.slice(1).map((post, i) => (
                             <Link href={`/blog/${post.id}`} key={i} className="group relative flex flex-col items-start transition-all duration-300">
-                                <div className="relative mb-6 aspect-[4/3] w-full overflow-hidden rounded-3xl border border-gray-100 dark:border-white/10 shadow-sm transition-all hover:shadow-lg lg:aspect-[1.5/1]">
+                                <div className="relative mb-6 aspect-[4/3] w-full overflow-hidden rounded-3xl border border-gray-100 dark:border-border shadow-sm transition-all hover:shadow-lg lg:aspect-[1.5/1]">
                                     <img
                                         src={post.image}
                                         alt={post.title}
                                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                                     />
                                     <div className="absolute top-4 left-4">
-                                        <span className="rounded-full bg-white/90 dark:bg-zinc-900/90 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-gray-900 dark:text-white backdrop-blur-md">
+                                        <span className="rounded-full bg-white/90 dark:bg-background/90 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-foreground dark:text-white backdrop-blur-md">
                                             {post.category}
                                         </span>
                                     </div>
                                 </div>
                                 <div className="flex flex-1 flex-col px-1">
-                                    <div className="mb-3 flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-green-200/30">
+                                    <div className="mb-3 flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-muted-foreground dark:text-green-200/30">
                                         <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {post.date}</span>
                                         <span>·</span>
                                         <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {post.readTime}</span>
                                     </div>
-                                    <h3 className="mb-4 text-xl font-black text-gray-900 dark:text-white transition-colors group-hover:text-green-600 dark:group-hover:text-green-400">
+                                    <h3 className="mb-4 text-xl font-black text-foreground dark:text-white transition-colors group-hover:text-primary dark:group-hover:text-green-400">
                                         {post.title}
                                     </h3>
-                                    <p className="mb-6 flex-1 text-sm font-light leading-relaxed text-gray-500 dark:text-green-100/40 line-clamp-2">
+                                    <p className="mb-6 flex-1 text-sm font-light leading-relaxed text-muted-foreground dark:text-green-100/40 line-clamp-2">
                                         {post.excerpt}
                                     </p>
-                                    <div className="flex items-center gap-3 pt-4 border-t border-gray-50 dark:border-white/5">
-                                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-white/5 text-xs font-bold text-gray-500 dark:text-green-200/40 border border-gray-200 dark:border-white/10">
+                                    <div className="flex items-center gap-3 pt-4 border-t border-gray-50 dark:border-border">
+                                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted dark:bg-muted text-xs font-bold text-muted-foreground dark:text-green-200/40 border border-border dark:border-border">
                                             {post.author.avatar}
                                         </div>
-                                        <span className="text-xs font-bold text-gray-900 dark:text-white">{post.author.name}</span>
+                                        <span className="text-xs font-bold text-foreground dark:text-white">{post.author.name}</span>
                                     </div>
                                 </div>
                             </Link>
@@ -220,7 +220,7 @@ export default function BlogPage() {
 
                     {/* Pagination Placeholder */}
                     <div className="mt-20 flex justify-center">
-                        <Button variant="outline" className="h-14 px-10 rounded-2xl border-green-100 dark:border-green-500/30 text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-500/10 text-base font-bold transition-all">
+                        <Button variant="outline" className="h-14 px-10 rounded-2xl border-green-100 dark:border-primary/30 text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-primary/10 text-base font-bold transition-all">
                             Load More Articles
                         </Button>
                     </div>

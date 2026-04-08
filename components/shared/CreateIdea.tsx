@@ -16,8 +16,8 @@ interface Props {
     isModal?: boolean
 }
 
-const inputCls = "w-full rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/5 px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-white/30 backdrop-blur-sm transition-all focus:border-green-400/50 focus:outline-none dark:[&>option]:bg-zinc-900 dark:[&>option]:text-white"
-const labelCls = "mb-1.5 block text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-white/70"
+const inputCls = "w-full rounded-xl border border-border dark:border-border bg-muted dark:bg-muted px-4 py-3 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-white/30 backdrop-blur-sm transition-all focus:border-primary/50 focus:outline-none dark:[&>option]:bg-background dark:[&>option]:text-white"
+const labelCls = "mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground dark:text-white/70"
 
 export default function CreateIdea({ accessToken, onCreated, isModal = false }: Props) {
     const [categories, setCategories] = useState<Category[]>([])
@@ -160,14 +160,14 @@ export default function CreateIdea({ accessToken, onCreated, isModal = false }: 
         <div className={isModal ? "p-1" : "space-y-6"}>
             {!isModal && (
               <div>
-                  <h2 className="text-2xl font-black text-gray-900 dark:text-white">Create New Idea</h2>
-                  <p className="mt-1 text-sm text-gray-500 dark:text-green-200/50">
+                  <h2 className="text-2xl font-black text-foreground dark:text-white">Create New Idea</h2>
+                  <p className="mt-1 text-sm text-muted-foreground dark:text-green-200/50">
                       Share your sustainability idea with the community
                   </p>
               </div>
             )}
 
-            <div className={`space-y-5 rounded-2xl border border-gray-200 dark:border-white/10 ${isModal ? "bg-transparent" : "bg-white dark:bg-white/5 shadow-xl shadow-green-900/5"} p-6 backdrop-blur-sm`}>
+            <div className={`space-y-5 rounded-2xl border border-border ${isModal ? "bg-transparent" : "bg-card shadow-xl shadow-primary/5"} p-6 backdrop-blur-sm`}>
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 
                     {/* Title */}
@@ -189,11 +189,11 @@ export default function CreateIdea({ accessToken, onCreated, isModal = false }: 
                             value={form.categoryId}
                             onChange={(e) => setField("categoryId", e.target.value)}
                         >
-                            <option value="" className="dark:bg-zinc-900">
+                            <option value="" className="dark:bg-background">
                                 Select a category
                             </option>
                             {categories.map((c) => (
-                                <option key={c.id} value={c.id} className="dark:bg-zinc-900">
+                                <option key={c.id} value={c.id} className="dark:bg-background">
                                     {c.name}
                                 </option>
                             ))}
@@ -211,7 +211,7 @@ export default function CreateIdea({ accessToken, onCreated, isModal = false }: 
                                     className="h-16 w-16 rounded-xl object-cover border border-white/10"
                                 />
                             )}
-                            <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/5 px-4 py-3 text-sm text-gray-600 dark:text-green-200/60 hover:bg-gray-100 dark:hover:bg-white/10 transition-all">
+                            <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-border bg-muted px-4 py-3 text-sm text-muted-foreground hover:bg-muted/80 transition-all">
                                 <ImagePlus className="h-4 w-4" />
                                 {imageFile ? imageFile.name : "Upload Image"}
                                 <input
@@ -259,12 +259,12 @@ export default function CreateIdea({ accessToken, onCreated, isModal = false }: 
                 </div>
 
                 {/* Paid toggle */}
-                <div className="flex items-center justify-between rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50/50 dark:bg-white/3 px-4 py-3">
+                <div className="flex items-center justify-between rounded-xl border border-border dark:border-border bg-muted/50 dark:bg-muted px-4 py-3">
                     <div>
-                        <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                        <p className="text-sm font-semibold text-foreground dark:text-white">
                             Mark as Paid Idea
                         </p>
-                        <p className="text-xs text-gray-500 dark:text-green-200/40">
+                        <p className="text-xs text-muted-foreground dark:text-green-200/40">
                             Other members must pay to view this idea
                         </p>
                     </div>
@@ -275,7 +275,7 @@ export default function CreateIdea({ accessToken, onCreated, isModal = false }: 
                             checked={form.isPaid}
                             onChange={(e) => setField("isPaid", e.target.checked)}
                         />
-                        <div className="peer h-6 w-11 rounded-full border border-gray-200 dark:border-white/10 bg-gray-200 dark:bg-white/10 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all peer-checked:bg-green-500 peer-checked:after:translate-x-full" />
+                        <div className="peer h-6 w-11 rounded-full border border-border dark:border-border bg-gray-200 dark:bg-muted after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all peer-checked:bg-primary peer-checked:after:translate-x-full" />
                     </label>
                 </div>
 
@@ -297,14 +297,14 @@ export default function CreateIdea({ accessToken, onCreated, isModal = false }: 
                 )}
 
                 {error && (
-                    <div className="flex items-center gap-2 rounded-xl border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-400">
+                    <div className="flex items-center gap-2 rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
                         <AlertCircle className="h-4 w-4 shrink-0" />
                         {error}
                     </div>
                 )}
 
                 {success && (
-                    <div className="flex items-center gap-2 rounded-xl border border-green-400/20 bg-green-400/10 px-4 py-3 text-sm text-green-400">
+                    <div className="flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/10 px-4 py-3 text-sm text-primary">
                         <CheckCircle className="h-4 w-4 shrink-0" />
                         {success}
                     </div>
@@ -314,7 +314,7 @@ export default function CreateIdea({ accessToken, onCreated, isModal = false }: 
                     <Button
                         onClick={() => handleSave(false)}
                         disabled={loading || imageUploading}
-                        className="flex-1 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/5 px-6 py-6 text-sm font-semibold text-gray-700 dark:text-green-200 transition-all hover:bg-gray-100 dark:hover:bg-white/10 disabled:opacity-50"
+                        className="flex-1 rounded-xl border border-border dark:border-border bg-muted dark:bg-muted px-6 py-6 text-sm font-semibold text-gray-700 dark:text-green-200 transition-all hover:bg-muted dark:hover:bg-white/10 disabled:opacity-50"
                     >
                         {loading ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
@@ -326,10 +326,10 @@ export default function CreateIdea({ accessToken, onCreated, isModal = false }: 
                     <Button
                         onClick={() => handleSave(true)}
                         disabled={loading || imageUploading}
-                        className="flex-1 rounded-xl bg-green-500 px-6 py-6 text-sm font-bold text-green-950 shadow-lg shadow-green-500/25 transition-all hover:bg-green-400 disabled:opacity-50 h-auto"
+                        className="flex-1 rounded-xl bg-primary px-6 py-6 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 disabled:opacity-50 h-auto"
                     >
                         {loading || imageUploading ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
+                            <Loader2 className="h-4 w-4 animate-spin text-primary-foreground" />
                         ) : (
                             <Send className="h-4 w-4" />
                         )}

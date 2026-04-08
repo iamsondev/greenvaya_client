@@ -12,6 +12,7 @@ import Sidebar from "./Slidebar"
 import Topbar from "./Topbar"
 import CreateIdea from "@/components/shared/CreateIdea"
 import { API_URL } from "@/lib/api-config"
+import ChatModule from "@/components/shared/ChatModule"
 
 type IdeaStatus = "DRAFT" | "UNDER_REVIEW" | "APPROVED" | "REJECTED"
 
@@ -28,7 +29,7 @@ interface Idea {
 }
 
 interface Props {
-  user: { id?: string; name: string; email: string } | null
+  user: { id?: string; name: string; email: string; profileImage?: string } | null
   accessToken: string
 }
 
@@ -98,7 +99,7 @@ export default function DashboardClient({ user, accessToken }: Props) {
     if (loading && active !== "create" && active !== "purchased") {
       return (
         <div className="flex justify-center py-20">
-          <Loader2 className="h-8 w-8 animate-spin text-green-400" />
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
       )
     }
@@ -117,17 +118,23 @@ export default function DashboardClient({ user, accessToken }: Props) {
         )
       case "purchased":
         return <PurchasedIdeas />
+      case "support":
+        return (
+          <div className="h-[calc(100vh-200px)]">
+             <ChatModule user={user ? { ...user, role: "MEMBER" } : null} />
+          </div>
+        )
       default:
         return <Overview ideas={ideas} />
     }
   }
 
   return (
-    <div className="relative min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-green-950 dark:via-green-900 dark:to-emerald-800 transition-colors duration-500">
+    <div className="relative min-h-screen bg-muted dark:bg-gradient-to-br dark:from-secondary dark:via-secondary/90 dark:to-primary/20 transition-colors duration-500">
       {/* Background effects */}
       <div className="pointer-events-none fixed inset-0">
-        <div className="absolute top-1/4 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-green-600/5 dark:bg-green-400/8 blur-[120px]" />
-        <div className="absolute bottom-0 left-0 h-[300px] w-[300px] rounded-full bg-emerald-600/5 dark:bg-emerald-500/8 blur-[100px]" />
+        <div className="absolute top-1/4 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-primary/5 dark:bg-primary/8 blur-[120px]" />
+        <div className="absolute bottom-0 left-0 h-[300px] w-[300px] rounded-full bg-primary/5 dark:bg-primary/8 blur-[100px]" />
       </div>
       <div
         className="pointer-events-none fixed inset-0 opacity-[0.03] dark:opacity-[0.03]"

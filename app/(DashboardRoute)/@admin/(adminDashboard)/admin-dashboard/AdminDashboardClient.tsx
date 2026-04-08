@@ -6,9 +6,11 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation"
 import AdminSidebar from "./AdminSidebar"
 import AdminTopbar from "./AdminTopbar"
 import AdminOverview from "./AdminOverview"
-
 import IdeasManagement from "./IdeasManagement"
 import MembersManagement from "./MembersManagement"
+import SystemLogs from "./SystemLogs"
+import SystemSettings from "./SystemSettings"
+import ChatModule from "@/components/shared/ChatModule"
 
 interface Props {
   user: { id?: string; name: string; email: string; role: string } | null
@@ -36,16 +38,26 @@ export default function AdminDashboardClient({ user, accessToken }: Props) {
         return <MembersManagement accessToken={accessToken} />
       case "ideas":
         return <IdeasManagement accessToken={accessToken} />
+      case "support":
+        return (
+          <div className="h-[calc(100vh-200px)]">
+             <ChatModule user={user} />
+          </div>
+        )
+      case "logs":
+        return <SystemLogs />
+      case "settings":
+        return <SystemSettings />
       default:
         return <AdminOverview accessToken={accessToken} />
     }
   }
 
   return (
-    <div className="relative min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-green-950 dark:via-green-900 dark:to-emerald-800 transition-colors duration-500">
+    <div className="relative min-h-screen bg-muted dark:bg-gradient-to-br dark:from-green-950 dark:via-green-900 dark:to-emerald-800 transition-colors duration-500">
       <div className="pointer-events-none fixed inset-0">
-        <div className="absolute top-1/4 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-amber-600/5 dark:bg-amber-500/5 blur-[120px]" />
-        <div className="absolute bottom-0 left-0 h-[300px] w-[300px] rounded-full bg-emerald-600/5 dark:bg-emerald-500/5 blur-[100px]" />
+        <div className="absolute top-1/4 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-amber-600/5 dark:bg-accent/5 blur-[120px]" />
+        <div className="absolute bottom-0 left-0 h-[300px] w-[300px] rounded-full bg-primary/5 dark:bg-primary/5 blur-[100px]" />
       </div>
       <div
         className="pointer-events-none fixed inset-0 opacity-[0.03] dark:opacity-[0.03]"

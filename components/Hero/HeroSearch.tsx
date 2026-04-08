@@ -50,7 +50,7 @@ export default function HeroSearch() {
 
       <Button
         onClick={handleSearch}
-        className="rounded-xl bg-green-500 px-6 font-bold text-green-950 shadow-lg shadow-green-500/30 transition-all hover:scale-[1.02] hover:bg-green-400 hover:shadow-green-400/40"
+        className="rounded-xl bg-primary px-6 font-bold text-primary-foreground shadow-lg shadow-green-500/30 transition-all hover:scale-[1.02] hover:bg-primary hover:shadow-green-400/40"
       >
         <Search className="mr-2 h-4 w-4" />
         Search

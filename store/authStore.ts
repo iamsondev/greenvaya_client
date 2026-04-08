@@ -5,7 +5,8 @@ interface User {
   id: string
   name?: string
   email: string
-  role: "MEMBER" | "ADMIN"
+  role: "MEMBER" | "ADMIN" | "MODERATOR"
+  profileImage?: string
 }
 
 interface AuthState {

@@ -12,7 +12,7 @@ interface Category {
     name: string
 }
 
-const inputCls = "w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 backdrop-blur-sm transition-all focus:border-green-400/50 focus:outline-none [&>option]:bg-green-950 [&>option]:text-white"
+const inputCls = "w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 backdrop-blur-sm transition-all focus:border-primary/50 focus:outline-none [&>option]:bg-green-950 [&>option]:text-white"
 const labelCls = "mb-1.5 block text-xs font-semibold uppercase tracking-wider text-white/70"
 
 export default function EditIdeaPage() {
@@ -284,7 +284,7 @@ export default function EditIdeaPage() {
                                     checked={form.isPaid}
                                     onChange={(e) => setField("isPaid", e.target.checked)}
                                 />
-                                <div className="peer h-6 w-11 rounded-full border border-white/10 bg-white/10 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all peer-checked:bg-green-500 peer-checked:after:translate-x-full" />
+                                <div className="peer h-6 w-11 rounded-full border border-white/10 bg-white/10 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all peer-checked:bg-primary peer-checked:after:translate-x-full" />
                             </label>
                         </div>
 
@@ -303,14 +303,14 @@ export default function EditIdeaPage() {
                         )}
 
                         {error && (
-                            <div className="flex items-center gap-2 rounded-xl border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-400">
+                            <div className="flex items-center gap-2 rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
                                 <AlertCircle className="h-4 w-4 shrink-0" />
                                 {error}
                             </div>
                         )}
 
                         {success && (
-                            <div className="flex items-center gap-2 rounded-xl border border-green-400/20 bg-green-400/10 px-4 py-3 text-sm text-green-400">
+                            <div className="flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/10 px-4 py-3 text-sm text-green-400">
                                 <CheckCircle className="h-4 w-4 shrink-0" />
                                 {success}
                             </div>
@@ -320,7 +320,7 @@ export default function EditIdeaPage() {
                             <button
                                 onClick={() => handleSave(false)}
                                 disabled={loading || imageUploading}
-                                className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-green-200 transition-all hover:border-green-400/30 hover:bg-white/10 disabled:opacity-50"
+                                className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-green-200 transition-all hover:border-primary/30 hover:bg-white/10 disabled:opacity-50"
                             >
                                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileEdit className="h-4 w-4" />}
                                 Save Changes
@@ -328,7 +328,7 @@ export default function EditIdeaPage() {
                             <button
                                 onClick={() => handleSave(true)}
                                 disabled={loading || imageUploading}
-                                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-green-500 px-6 py-3 text-sm font-bold text-green-950 shadow-lg shadow-green-500/25 transition-all hover:bg-green-400 disabled:opacity-50"
+                                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-lg shadow-green-500/25 transition-all hover:bg-primary disabled:opacity-50"
                             >
                                 {loading || imageUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                                 {imageUploading ? "Uploading..." : "Submit for Review"}

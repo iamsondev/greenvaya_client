@@ -51,11 +51,11 @@ function PaymentSuccessContent() {
     // Loading
     if (status === "loading") {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-                <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm">
-                    <Loader2 className="mx-auto mb-6 h-16 w-16 animate-spin text-green-500" />
-                    <h1 className="mb-2 text-2xl font-black text-gray-900">Verifying Payment...</h1>
-                    <p className="text-sm text-gray-500">Please wait while we confirm your payment.</p>
+            <div className="flex min-h-screen items-center justify-center bg-muted px-4">
+                <div className="w-full max-w-md rounded-2xl border border-border bg-white p-8 text-center shadow-sm">
+                    <Loader2 className="mx-auto mb-6 h-16 w-16 animate-spin text-primary" />
+                    <h1 className="mb-2 text-2xl font-black text-foreground">Verifying Payment...</h1>
+                    <p className="text-sm text-muted-foreground">Please wait while we confirm your payment.</p>
                 </div>
             </div>
         )
@@ -64,11 +64,11 @@ function PaymentSuccessContent() {
     // Error
     if (status === "error") {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+            <div className="flex min-h-screen items-center justify-center bg-muted px-4">
                 <div className="w-full max-w-md rounded-2xl border border-red-200 bg-white p-8 text-center shadow-sm">
-                    <XCircle className="mx-auto mb-6 h-16 w-16 text-red-500" />
-                    <h1 className="mb-2 text-2xl font-black text-gray-900">Verification Failed</h1>
-                    <p className="mb-8 text-sm text-gray-500">
+                    <XCircle className="mx-auto mb-6 h-16 w-16 text-destructive" />
+                    <h1 className="mb-2 text-2xl font-black text-foreground">Verification Failed</h1>
+                    <p className="mb-8 text-sm text-muted-foreground">
                         Something went wrong. Please contact support.
                     </p>
                     <Link
@@ -84,23 +84,23 @@ function PaymentSuccessContent() {
 
     // Success
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+        <div className="flex min-h-screen items-center justify-center bg-muted px-4">
             <div className="w-full max-w-md rounded-2xl border border-green-200 bg-white p-8 text-center shadow-sm">
-                <CheckCircle className="mx-auto mb-6 h-16 w-16 text-green-500" />
-                <h1 className="mb-2 text-2xl font-black text-gray-900">Payment Successful!</h1>
-                <p className="mb-8 text-sm text-gray-500">
+                <CheckCircle className="mx-auto mb-6 h-16 w-16 text-primary" />
+                <h1 className="mb-2 text-2xl font-black text-foreground">Payment Successful!</h1>
+                <p className="mb-8 text-sm text-muted-foreground">
                     Thank you for your purchase. You can now access your unlocked idea.
                 </p>
                 <div className="flex flex-col gap-3">
                     <Link
                         href="/member-dashboard"
-                        className="rounded-xl bg-green-600 px-6 py-3 font-bold text-white hover:bg-green-700 transition-colors"
+                        className="rounded-xl bg-primary px-6 py-3 font-bold text-white hover:bg-green-700 transition-colors"
                     >
                         Go to Dashboard
                     </Link>
                     <Link
                         href="/ideas"
-                        className="rounded-xl border border-gray-200 px-6 py-3 font-bold text-gray-700 hover:bg-gray-50 transition-colors"
+                        className="rounded-xl border border-border px-6 py-3 font-bold text-gray-700 hover:bg-muted transition-colors"
                     >
                         Browse More Ideas
                     </Link>
@@ -114,11 +114,11 @@ export default function PaymentSuccessPage() {
     return (
         <Suspense
             fallback={
-                <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-                    <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm">
-                        <Loader2 className="mx-auto mb-6 h-16 w-16 animate-spin text-green-500" />
-                        <h1 className="mb-2 text-2xl font-black text-gray-900">Initialing...</h1>
-                        <p className="text-sm text-gray-500">Preparing payment verification.</p>
+                <div className="flex min-h-screen items-center justify-center bg-muted px-4">
+                    <div className="w-full max-w-md rounded-2xl border border-border bg-white p-8 text-center shadow-sm">
+                        <Loader2 className="mx-auto mb-6 h-16 w-16 animate-spin text-primary" />
+                        <h1 className="mb-2 text-2xl font-black text-foreground">Initialing...</h1>
+                        <p className="text-sm text-muted-foreground">Preparing payment verification.</p>
                     </div>
                 </div>
             }

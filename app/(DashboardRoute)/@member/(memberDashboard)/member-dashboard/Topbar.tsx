@@ -15,27 +15,27 @@ interface TopbarProps {
 
 export default function Topbar({ active, onMenuOpen }: TopbarProps) {
     return (
-        <header className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 dark:border-white/10 bg-white/80 dark:bg-green-950/60 px-6 py-4 backdrop-blur-xl transition-colors">
+        <header className="sticky top-0 z-10 flex items-center justify-between border-b border-border dark:border-border bg-white/80 dark:bg-green-950/60 px-6 py-4 backdrop-blur-xl transition-colors">
             <div className="flex items-center gap-3">
                 <button
-                    className="rounded-lg p-1.5 text-gray-500 dark:text-green-200/40 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white lg:hidden"
+                    className="rounded-lg p-1.5 text-muted-foreground dark:text-green-200/40 hover:bg-muted dark:hover:bg-white/10 hover:text-foreground dark:hover:text-white lg:hidden"
                     onClick={onMenuOpen}
                 >
                     <Menu className="h-5 w-5" />
                 </button>
                 <div>
-                    <h1 className="text-base font-bold text-gray-900 dark:text-white">
+                    <h1 className="text-base font-bold text-foreground dark:text-white">
                         {NAV_ITEMS.find((n) => n.id === active)?.label || "Overview"}
                     </h1>
-                    <p className="text-xs text-gray-500 dark:text-green-200/40">Member Dashboard</p>
+                    <p className="text-xs text-muted-foreground dark:text-green-200/40">Member Dashboard</p>
                 </div>
             </div>
             <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1.5 rounded-full border border-green-400/20 bg-green-500/10 px-3 py-1">
-                    <Sparkles className="h-3 w-3 text-green-600 dark:text-green-400" />
-                    <span className="text-xs font-semibold text-green-600 dark:text-green-400">Member</span>
+                <div className="flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
+                    <Sparkles className="h-3 w-3 text-primary dark:text-green-400" />
+                    <span className="text-xs font-semibold text-primary dark:text-green-400">Member</span>
                 </div>
-                <div className="ml-2 border-l border-gray-200 dark:border-white/10 pl-3">
+                <div className="ml-2 border-l border-border dark:border-border pl-3">
                     <ModeToggle />
                 </div>
             </div>

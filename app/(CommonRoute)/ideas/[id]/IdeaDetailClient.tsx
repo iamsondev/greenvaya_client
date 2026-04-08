@@ -56,17 +56,17 @@ const statusConfig: Record<string, { label: string; color: string; icon: ReactNo
     },
     UNDER_REVIEW: {
         label: "Under Review",
-        color: "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800",
+        color: "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-accent-foreground border-yellow-200 dark:border-yellow-800",
         icon: <Clock className="h-3.5 w-3.5" />,
     },
     REJECTED: {
         label: "Rejected",
-        color: "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800",
+        color: "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-destructive border-red-200 dark:border-red-800",
         icon: <XCircle className="h-3.5 w-3.5" />,
     },
     DRAFT: {
         label: "Draft",
-        color: "bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-400 border-gray-200 dark:border-zinc-700",
+        color: "bg-muted dark:bg-zinc-800 text-gray-700 dark:text-muted-foreground border-border dark:border-zinc-700",
         icon: <Clock className="h-3.5 w-3.5" />,
     },
 }
@@ -99,24 +99,24 @@ function CommentItem({
     return (
         <div className="py-6 first:pt-0 last:pb-0">
             <div className="flex gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-50 dark:bg-green-900/20 text-xs font-bold text-green-600 dark:text-green-400 border border-green-100 dark:border-green-800">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-50 dark:bg-green-900/20 text-xs font-bold text-primary dark:text-green-400 border border-green-100 dark:border-green-800">
                     {comment.author?.name?.[0]?.toUpperCase() || "U"}
                 </div>
                 <div className="flex-1">
-                    <div className="rounded-2xl border border-gray-100 dark:border-zinc-800 bg-gray-50/50 dark:bg-zinc-900/50 px-4 py-3 shadow-sm">
+                    <div className="rounded-2xl border border-gray-100 dark:border-zinc-800 bg-muted/50 dark:bg-background/50 px-4 py-3 shadow-sm">
                         <div className="mb-1 flex items-center justify-between">
-                            <span className="text-xs font-bold text-gray-900 dark:text-white">{comment.author?.name}</span>
-                            <span className="text-[10px] text-gray-400 dark:text-gray-500">
+                            <span className="text-xs font-bold text-foreground dark:text-white">{comment.author?.name}</span>
+                            <span className="text-[10px] text-muted-foreground dark:text-muted-foreground">
                                 {new Date(comment.createdAt).toLocaleDateString()}
                             </span>
                         </div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{comment.content}</p>
+                        <p className="text-sm text-muted-foreground dark:text-muted-foreground leading-relaxed">{comment.content}</p>
                     </div>
 
                     {isLoggedIn && (
                         <button
                             onClick={() => setIsReplying(!isReplying)}
-                            className="mt-2 text-xs font-semibold text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition-colors ml-2"
+                            className="mt-2 text-xs font-semibold text-primary dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition-colors ml-2"
                         >
                             Reply
                         </button>
@@ -124,7 +124,7 @@ function CommentItem({
 
                     {isReplying && (
                         <div className="mt-4 flex gap-3 ml-2 sm:ml-4">
-                            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-green-50 text-[10px] font-bold text-green-600 border border-green-100">
+                            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-green-50 text-[10px] font-bold text-primary border border-green-100">
                                 R
                             </div>
                             <div className="flex-1">
@@ -132,7 +132,7 @@ function CommentItem({
                                     value={replyContent}
                                     onChange={(e) => setReplyContent(e.target.value)}
                                     placeholder="Write a reply..."
-                                    className="w-full rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2 text-sm text-gray-900 dark:text-white outline-none focus:border-green-400 focus:ring-1 focus:ring-green-400 resize-none placeholder:text-gray-400 dark:placeholder:text-gray-600"
+                                    className="w-full rounded-xl border border-border dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2 text-sm text-foreground dark:text-white outline-none focus:border-primary focus:ring-1 focus:ring-primary resize-none placeholder:text-muted-foreground dark:placeholder:text-muted-foreground"
                                     rows={2}
                                 />
                                 <div className="flex gap-2 mt-2">
@@ -140,7 +140,7 @@ function CommentItem({
                                         size="sm"
                                         onClick={handleSubmit}
                                         disabled={submitting || !replyContent.trim()}
-                                        className="bg-green-600 hover:bg-green-700 text-white rounded-lg h-8 text-[11px] px-4"
+                                        className="bg-primary hover:bg-green-700 text-white rounded-lg h-8 text-[11px] px-4"
                                     >
                                         {submitting ? "Posting..." : "Post Reply"}
                                     </Button>
@@ -148,7 +148,7 @@ function CommentItem({
                                         size="sm"
                                         variant="ghost"
                                         onClick={() => setIsReplying(false)}
-                                        className="h-8 text-[11px] hover:bg-red-50 hover:text-red-600"
+                                        className="h-8 text-[11px] hover:bg-red-50 hover:text-destructive"
                                     >
                                         Cancel
                                     </Button>
@@ -299,7 +299,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 transition-colors duration-500 pt-20">
+        <div className="min-h-screen bg-muted dark:bg-zinc-950 transition-colors duration-500 pt-20">
             {/* Top Banner */}
             <div className="bg-gradient-to-br from-green-950 via-green-900 to-emerald-800 px-4 py-10">
                 <div className="mx-auto max-w-4xl">
@@ -314,7 +314,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
 
                     {/* Badges Row */}
                     <div className="mb-4 flex flex-wrap items-center gap-2">
-                        <Badge className="bg-green-500/20 border border-green-400/30 text-green-300 text-xs px-3 py-1 rounded-full">
+                        <Badge className="bg-primary/20 border border-primary/30 text-green-300 text-xs px-3 py-1 rounded-full">
                             <Tag className="mr-1.5 h-3 w-3" />
                             {idea.category?.name}
                         </Badge>
@@ -325,7 +325,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                             {status.label}
                         </Badge>
                         {idea.isPaid ? (
-                            <Badge className="bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs px-3 py-1 rounded-full flex items-center gap-1.5">
+                            <Badge className="bg-accent/20 border border-accent/30 text-amber-300 text-xs px-3 py-1 rounded-full flex items-center gap-1.5">
                                 <Lock className="h-3 w-3" />
                                 Paid · ৳{idea.price}
                             </Badge>
@@ -371,7 +371,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
 
                         {/* Image */}
                         {imageUrl && (
-                            <div className="overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
+                            <div className="overflow-hidden rounded-2xl border border-border dark:border-zinc-800 bg-white dark:bg-background shadow-sm">
                                 <img
                                     src={imageUrl}
                                     alt={idea.title}
@@ -383,22 +383,22 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                         {/* Paid Gate */}
                         {isContentLocked ? (
                             <div className="rounded-2xl border border-amber-200 dark:border-amber-900/30 bg-amber-50 dark:bg-amber-900/10 p-10 text-center shadow-sm">
-                                <Lock className="mx-auto mb-4 h-10 w-10 text-amber-400" />
-                                <h3 className="mb-2 text-lg font-bold text-gray-800 dark:text-gray-200">
+                                <Lock className="mx-auto mb-4 h-10 w-10 text-accent-foreground" />
+                                <h3 className="mb-2 text-lg font-bold text-foreground dark:text-gray-200">
                                     This is a Premium Idea
                                 </h3>
-                                <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                                <p className="mb-6 text-sm text-muted-foreground dark:text-muted-foreground">
                                     Purchase this idea to unlock the full problem statement,
                                     proposed solution, and detailed description.
                                 </p>
-                                <div className="text-2xl font-black text-amber-600 dark:text-amber-500 mb-6">
+                                <div className="text-2xl font-black text-accent-foreground dark:text-accent-foreground mb-6">
                                     ৳{idea.price}
                                 </div>
                                 {isLoggedIn ? (
                                     <Button
                                         onClick={handlePurchase}
                                         disabled={purchasing}
-                                        className="bg-amber-500 hover:bg-amber-600 text-white rounded-xl px-8"
+                                        className="bg-accent hover:bg-amber-600 text-white rounded-xl px-8"
                                     >
                                         {purchasing ? (
                                             <span className="flex items-center gap-2">
@@ -411,7 +411,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                     </Button>
                                 ) : (
                                     <div className="flex flex-col items-center gap-3">
-                                        <p className="text-xs text-gray-400 dark:text-gray-500">
+                                        <p className="text-xs text-muted-foreground dark:text-muted-foreground">
                                             You must be logged in to purchase
                                         </p>
                                         <div className="flex gap-3">
@@ -424,7 +424,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                             </Button>
                                             <Button
                                                 asChild
-                                                className="rounded-xl bg-green-600 hover:bg-green-700 text-white"
+                                                className="rounded-xl bg-primary hover:bg-green-700 text-white"
                                             >
                                                 <Link href="/signup">Register</Link>
                                             </Button>
@@ -435,40 +435,40 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                         ) : (
                             <div className="space-y-6">
                                 {/* Problem Statement */}
-                                <div className="rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-sm">
-                                    <h2 className="mb-3 flex items-center gap-2 text-base font-bold text-gray-900 dark:text-white">
-                                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-sm">
+                                <div className="rounded-2xl border border-border dark:border-zinc-800 bg-white dark:bg-background p-6 shadow-sm">
+                                    <h2 className="mb-3 flex items-center gap-2 text-base font-bold text-foreground dark:text-white">
+                                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-red-100 dark:bg-red-900/30 text-destructive dark:text-destructive text-sm">
                                             ⚠️
                                         </span>
                                         Problem Statement
                                     </h2>
-                                    <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                                    <p className="text-sm leading-relaxed text-muted-foreground dark:text-muted-foreground">
                                         {idea.problemStatement}
                                     </p>
                                 </div>
 
                                 {/* Proposed Solution */}
-                                <div className="rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-sm">
-                                    <h2 className="mb-3 flex items-center gap-2 text-base font-bold text-gray-900 dark:text-white">
-                                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-sm">
+                                <div className="rounded-2xl border border-border dark:border-zinc-800 bg-white dark:bg-background p-6 shadow-sm">
+                                    <h2 className="mb-3 flex items-center gap-2 text-base font-bold text-foreground dark:text-white">
+                                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900/30 text-primary dark:text-green-400 text-sm">
                                             💡
                                         </span>
                                         Proposed Solution
                                     </h2>
-                                    <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                                    <p className="text-sm leading-relaxed text-muted-foreground dark:text-muted-foreground">
                                         {idea.proposedSolution}
                                     </p>
                                 </div>
 
                                 {/* Description */}
-                                <div className="rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-sm">
-                                    <h2 className="mb-3 flex items-center gap-2 text-base font-bold text-gray-900 dark:text-white">
-                                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm">
+                                <div className="rounded-2xl border border-border dark:border-zinc-800 bg-white dark:bg-background p-6 shadow-sm">
+                                    <h2 className="mb-3 flex items-center gap-2 text-base font-bold text-foreground dark:text-white">
+                                        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-100 dark:bg-secondary/30 text-blue-600 dark:text-blue-400 text-sm">
                                             📄
                                         </span>
                                         Detailed Description
                                     </h2>
-                                    <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                                    <p className="text-sm leading-relaxed text-muted-foreground dark:text-muted-foreground">
                                         {idea.description}
                                     </p>
                                 </div>
@@ -476,8 +476,8 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                         )}
 
                         {/* Comments Section */}
-                        <div className="rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-sm">
-                            <h2 className="mb-4 flex items-center gap-2 text-base font-bold text-gray-900 dark:text-white">
+                        <div className="rounded-2xl border border-border dark:border-zinc-800 bg-white dark:bg-background p-6 shadow-sm">
+                            <h2 className="mb-4 flex items-center gap-2 text-base font-bold text-foreground dark:text-white">
                                 <MessageCircle className="h-5 w-5 text-blue-500" />
                                 Comments ({idea._count?.comments ?? 0})
                             </h2>
@@ -493,24 +493,24 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                             value={comment}
                                             onChange={(e) => setComment(e.target.value)}
                                             placeholder="Share your thoughts..."
-                                            className="w-full rounded-xl border border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950 px-4 py-3 text-black dark:text-white text-sm outline-none focus:border-green-400 focus:ring-1 focus:ring-green-400 resize-none placeholder:text-gray-400 dark:placeholder:text-gray-600"
+                                            className="w-full rounded-xl border border-border dark:border-zinc-800 bg-muted dark:bg-zinc-950 px-4 py-3 text-black dark:text-white text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary resize-none placeholder:text-muted-foreground dark:placeholder:text-muted-foreground"
                                             rows={3}
                                         />
                                         <Button
                                             size="sm"
                                             onClick={() => handleComment()}
                                             disabled={!comment.trim()}
-                                            className="mt-2 bg-green-600 hover:bg-green-700 text-white rounded-xl"
+                                            className="mt-2 bg-primary hover:bg-green-700 text-white rounded-xl"
                                         >
                                             Post Comment
                                         </Button>
                                     </div>
                                 </div>
                             ) : (
-                                <p className="text-sm text-gray-400 text-center py-4 mb-10">
+                                <p className="text-sm text-muted-foreground text-center py-4 mb-10">
                                     <Link
                                         href="/login"
-                                        className="text-green-600 hover:underline"
+                                        className="text-primary hover:underline"
                                     >
                                         Login
                                     </Link>{" "}
@@ -533,7 +533,7 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                 ) : (
                                     <div className="text-center py-10">
                                         <MessageCircle className="h-10 w-10 text-gray-100 dark:text-zinc-800 mx-auto mb-2" />
-                                        <p className="text-xs text-gray-400 dark:text-gray-500">No comments yet. Be the first to share your experience!</p>
+                                        <p className="text-xs text-muted-foreground dark:text-muted-foreground">No comments yet. Be the first to share your experience!</p>
                                     </div>
                                 )}
                             </div>
@@ -543,11 +543,11 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                     {/* Right — Sidebar */}
                     <div className="space-y-4">
                         {/* Vote Card */}
-                        <div className="rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-sm text-center">
+                        <div className="rounded-2xl border border-border dark:border-zinc-800 bg-white dark:bg-background p-5 shadow-sm text-center">
                             <p className="mb-4 text-sm font-semibold text-gray-700 dark:text-gray-300">
                                 Community Votes
                             </p>
-                            <div className="text-4xl font-black text-green-600 dark:text-green-400 mb-4">
+                            <div className="text-4xl font-black text-primary dark:text-green-400 mb-4">
                                 {voteCount}
                             </div>
                             {isLoggedIn ? (
@@ -565,17 +565,17 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                                         variant="outline"
                                         size="sm"
                                         onClick={() => handleVote("DOWNVOTE")}
-                                        className="flex-1 rounded-xl border-red-200 dark:border-red-900/30 text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950 gap-1.5"
+                                        className="flex-1 rounded-xl border-red-200 dark:border-red-900/30 text-destructive dark:text-destructive hover:bg-red-50 dark:hover:bg-red-950 gap-1.5"
                                     >
                                         <ThumbsDown className="h-4 w-4" />
                                         Down
                                     </Button>
                                 </div>
                             ) : (
-                                <p className="text-xs text-gray-400">
+                                <p className="text-xs text-muted-foreground">
                                     <Link
                                         href="/login"
-                                        className="text-green-600 hover:underline"
+                                        className="text-primary hover:underline"
                                     >
                                         Login
                                     </Link>{" "}
@@ -585,35 +585,35 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
                         </div>
 
                         {/* Idea Info Card */}
-                        <div className="rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-sm">
+                        <div className="rounded-2xl border border-border dark:border-zinc-800 bg-white dark:bg-background p-5 shadow-sm">
                             <p className="mb-4 text-sm font-bold text-gray-700 dark:text-gray-300">
                                 Idea Details
                             </p>
                             <div className="space-y-3 text-sm">
                                 <div className="flex justify-between">
-                                    <span className="text-gray-400 dark:text-gray-500">Author</span>
+                                    <span className="text-muted-foreground dark:text-muted-foreground">Author</span>
                                     <span className="font-medium text-gray-700 dark:text-gray-200">
                                         {idea.author?.name}
                                     </span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-400 dark:text-gray-500">Category</span>
+                                    <span className="text-muted-foreground dark:text-muted-foreground">Category</span>
                                     <span className="font-medium text-gray-700 dark:text-gray-200">
                                         {idea.category?.name}
                                     </span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-400 dark:text-gray-500">Status</span>
+                                    <span className="text-muted-foreground dark:text-muted-foreground">Status</span>
                                     <span className="font-medium text-gray-700 dark:text-gray-200">{status.label}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-400 dark:text-gray-500">Type</span>
+                                    <span className="text-muted-foreground dark:text-muted-foreground">Type</span>
                                     <span className="font-medium text-gray-700 dark:text-gray-200">
                                         {idea.isPaid ? `Paid · ৳${idea.price}` : "Free"}
                                     </span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-400 dark:text-gray-500">Submitted</span>
+                                    <span className="text-muted-foreground dark:text-muted-foreground">Submitted</span>
                                     <span className="font-medium text-gray-700 dark:text-gray-200">
                                         {formattedDate}
                                     </span>

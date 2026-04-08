@@ -12,7 +12,8 @@ export default function MemberDashboard() {
     const dashboardUser = user ? {
         id: user.id || "",
         name: user.name || "Member",
-        email: user.email || ""
+        email: user.email || "",
+        profileImage: user.profileImage
     } : null;
 
     return <DashboardClient user={dashboardUser} accessToken={accessToken} />
