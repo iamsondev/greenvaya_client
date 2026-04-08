@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react"
-import { Shield, User, Power, Loader2 } from "lucide-react"
+import { Shield, User, UserCheck, Power, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 import { API_URL } from "@/lib/api-config"
 
@@ -9,7 +9,7 @@ interface Member {
     id: string
     name: string
     email: string
-    role: "MEMBER" | "ADMIN"
+    role: "MEMBER" | "ADMIN" | "MODERATOR"
     isActive: boolean
 }
 
@@ -117,9 +117,11 @@ export default function MembersManagement({ accessToken }: { accessToken: string
                                         <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold ${
                                             member.role === "ADMIN" 
                                             ? "border-accent/20 bg-accent/10 text-accent-foreground dark:text-accent-foreground"
+                                            : member.role === "MODERATOR"
+                                            ? "border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400"
                                             : "border-primary/20 bg-primary/10 text-primary dark:text-green-400"
                                         }`}>
-                                            {member.role === "ADMIN" ? <Shield className="h-3 w-3" /> : <User className="h-3 w-3" />}
+                                            {member.role === "ADMIN" ? <Shield className="h-3 w-3" /> : member.role === "MODERATOR" ? <UserCheck className="h-3 w-3" /> : <User className="h-3 w-3" />}
                                             {member.role}
                                         </span>
                                     </td>
@@ -153,6 +155,7 @@ export default function MembersManagement({ accessToken }: { accessToken: string
                                                 className="rounded-lg border border-border dark:border-border bg-white dark:bg-green-950/50 px-3 py-1.5 text-xs text-foreground dark:text-white outline-none focus:border-accent/50 focus:ring-1 focus:ring-amber-400/50"
                                             >
                                                 <option value="MEMBER">Member</option>
+                                                <option value="MODERATOR">Moderator</option>
                                                 <option value="ADMIN">Admin</option>
                                             </select>
                                         </div>

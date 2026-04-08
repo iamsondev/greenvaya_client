@@ -15,6 +15,7 @@ import {
     Lock,
     ShieldCheck,
     User,
+    UserCheck,
     Sparkles,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -45,10 +46,13 @@ export default function LoginForm() {
         resolver: zodResolver(loginSchema),
     })
 
-    const handleDemoLogin = (role: 'ADMIN' | 'MEMBER') => {
+    const handleDemoLogin = (role: 'ADMIN' | 'MEMBER' | 'MODERATOR') => {
         if (role === 'ADMIN') {
             setValue('email', 'admin@gmail.com')
             setValue('password', 'admin1234')
+        } else if (role === 'MODERATOR') {
+            setValue('email', 'moderator@gmail.com')
+            setValue('password', 'moderator123')
         } else {
             setValue('email', 'hikaru@gmail.com')
             setValue('password', 'password1234')
@@ -85,6 +89,8 @@ export default function LoginForm() {
 
             if (user.role === "ADMIN") {
                 router.push("/admin-dashboard")
+            } else if (user.role === "MODERATOR") {
+                router.push("/moderator-dashboard")
             } else {
                 router.push("/member-dashboard")
             }
@@ -275,7 +281,7 @@ export default function LoginForm() {
                             <Sparkles className="h-3 w-3 text-primary" />
                             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/50">Developer Sandbox</span>
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-3 gap-3">
                             <button
                                 type="button"
                                 onClick={() => handleDemoLogin('ADMIN')}
@@ -283,6 +289,14 @@ export default function LoginForm() {
                             >
                                 <ShieldCheck className="h-4 w-4 text-primary" />
                                 <div className="text-[10px] font-bold text-foreground">Admin Demo</div>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => handleDemoLogin('MODERATOR')}
+                                className="flex flex-col items-center gap-2 p-3 rounded-xl border border-dashed border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors group"
+                            >
+                                <UserCheck className="h-4 w-4 text-primary" />
+                                <div className="text-[10px] font-bold text-foreground">Mod Demo</div>
                             </button>
                             <button
                                 type="button"
