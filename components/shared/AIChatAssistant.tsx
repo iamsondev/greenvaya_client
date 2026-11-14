@@ -4,8 +4,9 @@ import { useState, useRef, useEffect } from "react"
 import {
     MessageSquare, X, Send, Bot, User, Sparkles,
     Minus, BookOpen, TrendingUp, ShieldCheck,
-    Zap, Cpu, Globe, Rocket
+    Zap, Cpu, Globe, Rocket, ArrowUp
 } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useAuthStore } from "@/store/authStore"
@@ -29,7 +30,29 @@ export default function AIChatAssistant() {
     const [status, setStatus] = useState<string | null>(null)
     const [messages, setMessages] = useState<AIMessage[]>([])
     const [input, setInput] = useState("")
+    const [showScrollTop, setShowScrollTop] = useState(false)
     const scrollRef = useRef<HTMLDivElement>(null)
+
+    // Track page scroll to show/hide scroll-to-top arrow button right above chatbox
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 280) {
+                setShowScrollTop(true)
+            } else {
+                setShowScrollTop(false)
+            }
+        }
+        window.addEventListener("scroll", handleScroll, { passive: true })
+        handleScroll()
+        return () => window.removeEventListener("scroll", handleScroll)
+    }, [])
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
+    }
 
     // Initialize greeting after hydration
     useEffect(() => {
@@ -134,10 +157,34 @@ export default function AIChatAssistant() {
     }
 
     return (
-        <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end">
+        <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end pointer-events-none">
+            {/* Scroll-To-Top Arrow Sign - Positioned right above chatbox / launcher */}
+            <AnimatePresence>
+                {showScrollTop && (
+                    <motion.button
+                        key="scroll-to-top"
+                        initial={{ opacity: 0, scale: 0.5, y: 15 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.5, y: 15 }}
+                        transition={{ duration: 0.25, ease: "easeOut" }}
+                        whileHover={{ scale: 1.15, y: -3 }}
+                        whileTap={{ scale: 0.92 }}
+                        onClick={scrollToTop}
+                        aria-label="Scroll to top"
+                        title="Scroll to top"
+                        className="pointer-events-auto group relative mb-3.5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/95 dark:bg-zinc-900/95 text-primary border border-primary/25 shadow-[0_10px_30px_rgba(0,0,0,0.18)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-colors hover:bg-primary hover:text-white"
+                    >
+                        <ArrowUp className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1" />
+                        <span className="absolute -left-32 hidden group-hover:flex items-center justify-center rounded-xl bg-zinc-900 dark:bg-zinc-800 px-3 py-1.5 text-[11px] font-bold text-white shadow-xl whitespace-nowrap">
+                            Scroll to top
+                        </span>
+                    </motion.button>
+                )}
+            </AnimatePresence>
+
             {/* Chat Window */}
             {isOpen && (
-                <div className="mb-4 flex h-[640px] w-[420px] flex-col overflow-hidden rounded-[2.5rem] border border-primary/20 bg-white/95 dark:bg-zinc-900/95 shadow-[0_32px_128px_-16px_rgba(0,0,0,0.5)] backdrop-blur-3xl animate-in fade-in slide-in-from-bottom-10 duration-500 origin-bottom-right">
+                <div className="pointer-events-auto mb-4 flex h-[640px] w-[420px] flex-col overflow-hidden rounded-[2.5rem] border border-primary/20 bg-white/95 dark:bg-zinc-900/95 shadow-[0_32px_128px_-16px_rgba(0,0,0,0.5)] backdrop-blur-3xl animate-in fade-in slide-in-from-bottom-10 duration-500 origin-bottom-right">
                     {/* Header */}
                     <div className="relative overflow-hidden bg-primary px-6 py-6 text-white shrink-0">
                         <div className="relative z-10 flex items-center justify-between">
@@ -150,7 +197,7 @@ export default function AIChatAssistant() {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-sm font-black tracking-widest leading-none mb-1">VAYA INTEL v2.0</span>
-                                    <span className="flex items-center gap-2 text-[10px] text-green-100/60 font-black uppercase tracking-tighter">
+                                    <span className="flex items-center gap-2 text-[10px] text-green-100/80 font-black uppercase tracking-tighter">
                                         <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-ping" />
                                         Neural Core Active
                                     </span>
@@ -209,7 +256,7 @@ export default function AIChatAssistant() {
                                                 <button
                                                     key={i}
                                                     onClick={() => processMessage(s)}
-                                                    className="px-4 py-2 rounded-full bg-muted/40 border border-border text-[10px] font-black uppercase tracking-wider text-muted-foreground hover:bg-primary hover:text-white hover:border-primary transition-all active:scale-95 shadow-sm"
+                                                    className="px-4 py-2 rounded-full bg-muted/40 border border-border text-[10px] font-black uppercase tracking-wider text-muted-foreground dark:text-zinc-300 hover:bg-primary hover:text-white hover:border-primary transition-all active:scale-95 shadow-sm"
                                                 >
                                                     {s}
                                                 </button>
@@ -232,7 +279,7 @@ export default function AIChatAssistant() {
                                         <div className="h-1.5 w-1.5 rounded-full bg-primary/40 animate-bounce [animation-delay:-0.15s]" />
                                         <div className="h-1.5 w-1.5 rounded-full bg-primary/40 animate-bounce" />
                                     </div>
-                                    <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 italic">{status}</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-400 italic">{status}</span>
                                 </div>
                             </div>
                         )}
@@ -242,7 +289,7 @@ export default function AIChatAssistant() {
                     <div className="px-6 py-5 border-t border-border bg-muted/20 shrink-0">
                         <div className="flex items-center gap-2 mb-4">
                             <Zap className="h-4 w-4 text-amber-500 fill-amber-500" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">Quick Intelligence</span>
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground dark:text-zinc-400">Quick Intelligence</span>
                         </div>
                         <div className="grid grid-cols-3 gap-4">
                             {[
@@ -256,7 +303,7 @@ export default function AIChatAssistant() {
                                     className="flex flex-col items-center gap-2 p-3 rounded-2xl border border-border bg-white dark:bg-zinc-900/40 hover:border-primary/40 hover:bg-primary/5 transition-all group shadow-sm active:scale-95"
                                 >
                                     <hub.i className={cn("h-4 w-4 transition-transform group-hover:scale-110", hub.c)} />
-                                    <span className="text-[9px] font-black uppercase text-muted-foreground group-hover:text-foreground">{hub.t}</span>
+                                    <span className="text-[9px] font-black uppercase text-muted-foreground dark:text-zinc-300 group-hover:text-foreground">{hub.t}</span>
                                 </button>
                             ))}
                         </div>
@@ -292,7 +339,7 @@ export default function AIChatAssistant() {
             {!isOpen && (
                 <button
                     onClick={() => setIsOpen(true)}
-                    className="group relative flex h-[72px] w-[72px] items-center justify-center rounded-[28px] bg-primary text-white shadow-[0_20px_50px_rgba(34,197,94,0.3)] transition-all hover:scale-110 active:scale-95 hover:-translate-y-2 animate-bounce-slow"
+                    className="pointer-events-auto group relative flex h-[72px] w-[72px] items-center justify-center rounded-[28px] bg-primary text-white shadow-[0_20px_50px_rgba(34,197,94,0.3)] transition-all hover:scale-110 active:scale-95 hover:-translate-y-2 animate-bounce-slow"
                 >
                     <div className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-accent text-[11px] font-black text-white ring-4 ring-background animate-pulse">!</div>
                     <Cpu className="h-8 w-8 transition-transform group-hover:scale-110" />
