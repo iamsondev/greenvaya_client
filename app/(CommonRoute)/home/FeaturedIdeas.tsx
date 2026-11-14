@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { motion, Variants } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -36,6 +37,25 @@ interface Props {
     categories: Category[]
 }
 
+const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+        },
+    },
+}
+
+const cardVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.5, ease: "easeOut" },
+    },
+}
+
 export default function FeaturedIdeas({ ideas, categories }: Props) {
     if (!ideas || ideas.length === 0) return null
 
@@ -49,7 +69,13 @@ export default function FeaturedIdeas({ ideas, categories }: Props) {
 
             <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {/* Section Header */}
-                <div className="mb-14 flex flex-col items-center text-center">
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="mb-14 flex flex-col items-center text-center"
+                >
                     <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 shadow-sm">
                         <Sparkles className="h-3.5 w-3.5 text-primary" />
                         <span className="text-xs font-semibold tracking-wide text-primary uppercase">
@@ -62,18 +88,24 @@ export default function FeaturedIdeas({ ideas, categories }: Props) {
                             Best Ideas
                         </span>
                     </h2>
-                    <p className="mt-4 max-w-xl text-base text-muted-foreground dark:text-muted-foreground">
+                    <p className="mt-4 max-w-xl text-base text-muted-foreground dark:text-zinc-300">
                         Explore top-voted sustainability ideas shared by our community
                         members from around the world.
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Categories Pills */}
                 {categories.length > 0 && (
-                    <div className="mb-10 flex flex-wrap justify-center gap-2">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 15 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.15 }}
+                        className="mb-10 flex flex-wrap justify-center gap-2"
+                    >
                         <Link
                             href="/ideas"
-                            className="rounded-full bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground transition-all hover:bg-primary/95"
+                            className="rounded-full bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground transition-all hover:bg-primary/95 hover:scale-105 active:scale-95"
                         >
                             All
                         </Link>
@@ -81,34 +113,46 @@ export default function FeaturedIdeas({ ideas, categories }: Props) {
                             <Link
                                 key={cat.id}
                                 href={`/ideas?category=${cat.name}`}
-                                className="rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold text-muted-foreground transition-all hover:border-primary hover:bg-primary/5 hover:text-primary"
+                                className="rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold text-muted-foreground dark:text-zinc-300 transition-all hover:border-primary hover:bg-primary/5 hover:text-primary hover:scale-105 active:scale-95"
                             >
                                 {cat.name}
                             </Link>
                         ))}
-                    </div>
+                    </motion.div>
                 )}
 
                 {/* Ideas Grid */}
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <motion.div 
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-60px" }}
+                    className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                >
                     {ideas.slice(0, 6).map((idea, index) => (
                         <FeaturedIdeaCard key={idea.id} idea={idea} index={index} />
                     ))}
-                </div>
+                </motion.div>
 
                 {/* View All Button */}
-                <div className="mt-14 flex justify-center">
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="mt-14 flex justify-center"
+                >
                     <Button
                         asChild
                         size="lg"
-                        className="rounded-xl bg-primary px-10 py-6 text-base font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/95 transition-all hover:scale-[1.02]"
+                        className="rounded-xl bg-primary px-10 py-6 text-base font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/95 transition-all hover:scale-[1.03] active:scale-95"
                     >
                         <Link href="/ideas" className="flex items-center gap-2">
                             View All Ideas
                             <ArrowRight className="h-5 w-5" />
                         </Link>
                     </Button>
-                </div>
+                </motion.div>
             </div>
         </section>
     )
@@ -136,7 +180,11 @@ function FeaturedIdeaCard({
     ]
 
     return (
-        <div className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/5">
+        <motion.div 
+            variants={cardVariants}
+            whileHover={{ y: -8, transition: { duration: 0.25, ease: "easeOut" } }}
+            className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10"
+        >
             {/* Image */}
             <div
                 className={`relative h-48 w-full overflow-hidden bg-gradient-to-br ${gradients[index % gradients.length]}`}
@@ -186,7 +234,7 @@ function FeaturedIdeaCard({
                 </h3>
 
                 {/* Description */}
-                <p className="mb-4 line-clamp-2 flex-1 text-sm leading-relaxed text-muted-foreground dark:text-muted-foreground">
+                <p className="mb-4 line-clamp-2 flex-1 text-sm leading-relaxed text-muted-foreground dark:text-zinc-300">
                     {idea.description}
                 </p>
 
@@ -195,28 +243,28 @@ function FeaturedIdeaCard({
                     <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-emerald-600 text-xs font-bold text-white shadow-sm">
                         {idea.author?.name?.[0]?.toUpperCase()}
                     </div>
-                    <span className="text-xs font-medium text-muted-foreground dark:text-muted-foreground">
+                    <span className="text-xs font-medium text-muted-foreground dark:text-zinc-300">
                         {idea.author?.name}
                     </span>
                 </div>
 
                 {/* Stats + Button */}
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3 text-xs text-muted-foreground dark:text-muted-foreground">
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground dark:text-zinc-300">
                         <span className="flex items-center gap-1">
                             <ThumbsUp className="h-3.5 w-3.5 text-primary" />
-                            <span className="font-semibold text-muted-foreground dark:text-muted-foreground">
+                            <span className="font-semibold text-foreground dark:text-zinc-200">
                                 {idea._count?.votes ?? 0}
                             </span>
                         </span>
                         <span className="flex items-center gap-1">
                             <MessageCircle className="h-3.5 w-3.5 text-blue-400" />
-                            <span className="font-semibold text-muted-foreground dark:text-muted-foreground">
+                            <span className="font-semibold text-foreground dark:text-zinc-200">
                                 {idea._count?.comments ?? 0}
                             </span>
                         </span>
                         {idea.isPaid && idea.price > 0 && (
-                            <span className="font-bold text-accent-foreground dark:text-accent-foreground">৳{idea.price}</span>
+                            <span className="font-bold text-accent-foreground dark:text-amber-400">৳{idea.price}</span>
                         )}
                     </div>
 
@@ -230,6 +278,6 @@ function FeaturedIdeaCard({
                     </Link>
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }
