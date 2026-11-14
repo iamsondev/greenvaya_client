@@ -4,8 +4,6 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { Toaster } from "sonner"
-import AIChatAssistant from "@/components/shared/AIChatAssistant"
-
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
 const fontMono = Geist_Mono({
@@ -28,7 +26,6 @@ export default function RootLayout({
         <ThemeProvider>
           {children}
           <Toaster richColors position="top-right" />
-          <AIChatAssistant />
         </ThemeProvider>
       </body>
     </html>
