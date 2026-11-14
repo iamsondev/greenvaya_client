@@ -110,7 +110,7 @@ export default function Navbar() {
                   "rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200",
                   pathname === link.href
                     ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:bg-primary/5 hover:text-primary"
+                    : "text-muted-foreground dark:text-zinc-300 hover:bg-primary/5 hover:text-primary"
                 )}
               >
                 {link.label}
@@ -124,7 +124,7 @@ export default function Navbar() {
               <>
                 <Link
                   href={user?.role === "ADMIN" ? "/admin-dashboard" : user?.role === "MODERATOR" ? "/moderator-dashboard" : "/member-dashboard"}
-                  className="rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground transition-all hover:bg-primary/5 hover:text-primary"
+                  className="rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground dark:text-zinc-300 transition-all hover:bg-primary/5 hover:text-primary"
                 >
                   Dashboard
                 </Link>
@@ -172,7 +172,7 @@ export default function Navbar() {
                   variant="ghost"
                   size="sm"
                   asChild
-                  className="text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                  className="text-muted-foreground dark:text-zinc-300 hover:bg-primary/10 hover:text-primary"
                 >
                   <Link href="/login" className="flex items-center gap-2">
                     <LogIn className="h-4 w-4" />
@@ -230,7 +230,7 @@ export default function Navbar() {
                         "rounded-lg px-4 py-3 text-sm font-medium transition-all",
                         pathname === link.href
                           ? "bg-primary/10 text-primary"
-                          : "text-muted-foreground hover:bg-primary/5 hover:text-primary"
+                          : "text-muted-foreground dark:text-zinc-300 hover:bg-primary/5 hover:text-primary"
                       )}
                     >
                       {link.label}
