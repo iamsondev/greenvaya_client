@@ -43,7 +43,7 @@ export default function Footer() {
                 Green<span className="text-primary">Vaya</span>
               </span>
             </Link>
-            <p className="max-w-xs text-sm leading-relaxed text-muted-foreground font-light">
+            <p className="max-w-xs text-sm leading-relaxed text-muted-foreground dark:text-zinc-300 font-light">
               Empowering communities to share, discuss, and implement sustainable ideas for a greener, healthier planet. Join the eco-innovation movement today.
             </p>
 
@@ -81,7 +81,7 @@ export default function Footer() {
                 { name: "Help Center", path: "/help" },
               ].map((link) => (
                 <li key={link.name}>
-                  <Link href={link.path} className="text-sm transition-colors text-muted-foreground hover:text-primary font-medium italic">
+                  <Link href={link.path} className="text-sm transition-colors text-muted-foreground dark:text-zinc-300 hover:text-primary font-medium italic">
                     {link.name}
                   </Link>
                 </li>
@@ -100,7 +100,7 @@ export default function Footer() {
                 { name: "Cookie Policy", path: "/cookies" },
               ].map((link) => (
                 <li key={link.name}>
-                  <Link href={link.path} className="text-sm transition-colors text-muted-foreground hover:text-primary font-medium italic">
+                  <Link href={link.path} className="text-sm transition-colors text-muted-foreground dark:text-zinc-300 hover:text-primary font-medium italic">
                     {link.name}
                   </Link>
                 </li>
@@ -117,7 +117,7 @@ export default function Footer() {
                   <Mail className="h-5 w-5" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-primary/60">Email Support</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-primary/80">Email Support</span>
                   <span className="text-sm font-bold text-foreground">sondipkumarsk@gmail.com</span>
                 </div>
               </li>
@@ -126,7 +126,7 @@ export default function Footer() {
                   <Phone className="h-5 w-5" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-primary/60">Help Line</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-primary/80">Help Line</span>
                   <span className="text-sm font-bold text-foreground">+880 1774032681</span>
                 </div>
               </li>
@@ -137,16 +137,23 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-20 border-t border-border pt-8">
           <div className="flex flex-col items-center justify-between gap-6 text-center sm:flex-row sm:text-left">
-            <p className="text-xs font-medium text-muted-foreground/60 italic">
+            <p className="text-xs font-medium text-muted-foreground dark:text-zinc-400 italic">
               © {currentYear} GreenVaya. All rights reserved. Built with passion for a greener world.
             </p>
-            <div className="flex items-center gap-8 text-[10px] font-black uppercase tracking-widest text-muted-foreground/40">
+            <div className="flex items-center gap-8 text-[10px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-400">
               <Link href="/terms" className="hover:text-primary transition-colors">Terms</Link>
               <Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link>
               <Link href="/cookies" className="hover:text-primary transition-colors">Cookies</Link>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Massive Faded Background Project Watermark */}
+      <div className="pointer-events-none select-none relative -mb-8 sm:-mb-12 md:-mb-16 mt-8 flex justify-center overflow-hidden">
+        <span className="text-[14vw] font-black uppercase tracking-tighter leading-none text-primary/[0.15] dark:text-white/[0.12] whitespace-nowrap">
+          GREENVAYA
+        </span>
       </div>
     </footer>
   )
