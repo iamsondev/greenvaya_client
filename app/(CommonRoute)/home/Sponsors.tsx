@@ -1,6 +1,7 @@
 "use client"
 
 import { ShieldCheck, Zap, Globe, Leaf } from "lucide-react"
+import { motion } from "framer-motion"
 
 const partners = [
   { name: "EcoTrust", icon: ShieldCheck },
@@ -13,23 +14,34 @@ const partners = [
 
 export default function Sponsors() {
   return (
-    <section className="bg-background py-16 border-b border-border">
+    <section className="bg-background py-16 border-b border-border overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center">
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground/50 mb-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col items-center"
+        >
+            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground dark:text-zinc-400 mb-10">
                 Pioneering Partners & Global Supporters
             </p>
-            <div className="flex flex-wrap justify-center items-center gap-12 lg:gap-20 opacity-40 hover:opacity-100 transition-opacity">
+            <div className="flex flex-wrap justify-center items-center gap-10 lg:gap-16 opacity-50 hover:opacity-100 transition-opacity">
                 {partners.map((partner, i) => (
-                    <div key={i} className="flex items-center gap-2 group">
+                    <motion.div 
+                      key={i} 
+                      whileHover={{ scale: 1.08, y: -2 }}
+                      transition={{ duration: 0.2 }}
+                      className="flex items-center gap-2 group cursor-pointer"
+                    >
                         <partner.icon className="h-6 w-6 text-foreground group-hover:text-primary transition-colors" />
                         <span className="text-xl font-black text-foreground group-hover:text-primary transition-colors tracking-tighter">
                             {partner.name}
                         </span>
-                    </div>
+                    </motion.div>
                 ))}
             </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
