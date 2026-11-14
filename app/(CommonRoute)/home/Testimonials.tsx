@@ -1,6 +1,7 @@
 "use client"
 
 import { Quote, Star, ThumbsUp, Leaf } from "lucide-react"
+import { motion, Variants } from "framer-motion"
 
 interface Idea {
     id: string
@@ -13,6 +14,25 @@ interface Idea {
 
 interface Props {
     ideas: Idea[]
+}
+
+const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.15,
+        },
+    },
+}
+
+const cardVariants: Variants = {
+    hidden: { opacity: 0, y: 35 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.55, ease: "easeOut" },
+    },
 }
 
 export default function Testimonials({ ideas }: Props) {
@@ -30,7 +50,13 @@ export default function Testimonials({ ideas }: Props) {
             </div>
 
             <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="mb-16 flex flex-col items-center text-center">
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="mb-16 flex flex-col items-center text-center"
+                >
                     <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 shadow-sm">
                         <Star className="h-3.5 w-3.5 text-accent-foreground fill-accent" />
                         <span className="text-xs font-semibold tracking-wide text-primary uppercase">
@@ -40,14 +66,25 @@ export default function Testimonials({ ideas }: Props) {
                     <h2 className="text-4xl font-black tracking-tight text-foreground dark:text-white sm:text-5xl">
                         Community <span className="text-primary">Favorites</span>
                     </h2>
-                    <p className="mt-4 max-w-xl text-base text-muted-foreground dark:text-muted-foreground font-light">
+                    <p className="mt-4 max-w-xl text-base text-muted-foreground dark:text-zinc-300 font-light">
                         Discover the sustainability ideas that have gained the most traction and inspired our members worldwide.
                     </p>
-                </div>
+                </motion.div>
 
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                <motion.div 
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-60px" }}
+                    className="grid grid-cols-1 gap-8 md:grid-cols-3"
+                >
                     {top3.map((idea, i) => (
-                        <div key={idea.id} className="group relative rounded-2xl bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 border border-border">
+                        <motion.div 
+                            key={idea.id} 
+                            variants={cardVariants}
+                            whileHover={{ y: -8, transition: { duration: 0.25 } }}
+                            className="group relative rounded-2xl bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 border border-border flex flex-col"
+                        >
                             <div className="absolute -top-4 left-8 flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-lg shadow-primary/20">
                                 <Quote className="h-4 w-4" />
                             </div>
@@ -67,7 +104,7 @@ export default function Testimonials({ ideas }: Props) {
                             <h3 className="mb-4 line-clamp-2 text-lg font-bold text-foreground dark:text-white group-hover:text-green-700 dark:group-hover:text-green-400 transition-colors">
                                 {idea.title}
                             </h3>
-                            <p className="mb-8 line-clamp-4 text-sm leading-relaxed text-muted-foreground italic font-light">
+                            <p className="mb-8 line-clamp-4 text-sm leading-relaxed text-muted-foreground dark:text-zinc-300 italic font-light flex-1">
                                 &ldquo;{idea.description}&rdquo;
                             </p>
 
@@ -78,7 +115,7 @@ export default function Testimonials({ ideas }: Props) {
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-sm font-bold text-foreground dark:text-white">{idea.author?.name}</span>
-                                    <span className="text-[10px] font-medium text-muted-foreground dark:text-muted-foreground uppercase tracking-wider">Top Contributor</span>
+                                    <span className="text-[10px] font-medium text-muted-foreground dark:text-zinc-400 uppercase tracking-wider">Top Contributor</span>
                                 </div>
                             </div>
 
@@ -86,9 +123,9 @@ export default function Testimonials({ ideas }: Props) {
                             <div className="absolute top-6 right-6 h-12 w-12 flex items-center justify-center opacity-5 group-hover:opacity-10 transition-opacity">
                                 <span className="text-6xl font-black text-primary-foreground dark:text-white">#{i + 1}</span>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
 
                 <div className="mt-16 flex items-center justify-center gap-8 opacity-40">
                   <Leaf className="h-6 w-6 text-green-400" />
