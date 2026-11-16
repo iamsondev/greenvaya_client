@@ -9,7 +9,11 @@ import ModeratorOverview from "./ModeratorOverview"
 import IdeasManagement from "./IdeasManagement"
 import MembersManagement from "./MembersManagement"
 import CategoryManagement from "./CategoryManagement"
-import ChatModule from "@/components/shared/ChatModule"
+import dynamic from "next/dynamic"
+
+const ChatModule = dynamic(() => import("@/components/shared/ChatModule"), {
+  ssr: false,
+})
 
 
 // Member components for reuse

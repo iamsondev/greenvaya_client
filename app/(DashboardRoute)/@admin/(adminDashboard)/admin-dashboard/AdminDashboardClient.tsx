@@ -10,7 +10,11 @@ import IdeasManagement from "./IdeasManagement"
 import MembersManagement from "./MembersManagement"
 import SystemLogs from "./SystemLogs"
 import SystemSettings from "./SystemSettings"
-import ChatModule from "@/components/shared/ChatModule"
+import dynamic from "next/dynamic"
+
+const ChatModule = dynamic(() => import("@/components/shared/ChatModule"), {
+  ssr: false,
+})
 
 interface Props {
   user: { id?: string; name: string; email: string; role: string } | null

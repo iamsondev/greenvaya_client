@@ -12,7 +12,11 @@ import Sidebar from "./Slidebar"
 import Topbar from "./Topbar"
 import CreateIdea from "@/components/shared/CreateIdea"
 import { API_URL } from "@/lib/api-config"
-import ChatModule from "@/components/shared/ChatModule"
+import dynamic from "next/dynamic"
+
+const ChatModule = dynamic(() => import("@/components/shared/ChatModule"), {
+  ssr: false,
+})
 
 type IdeaStatus = "DRAFT" | "UNDER_REVIEW" | "APPROVED" | "REJECTED"
 
