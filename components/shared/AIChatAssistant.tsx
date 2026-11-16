@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useRef, useEffect } from "react"
 import {
@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useAuthStore } from "@/store/authStore"
+import { getSmartLocalResponse } from "@/lib/aiChatEngine"
 
 interface AICard {
     title: string
@@ -124,7 +125,7 @@ export default function AIChatAssistant() {
         }
     }
 
-    const processMessage = (text: string) => {
+    const processMessage = async (text: string) => {
         if (!text.trim() || status) return
 
         const userMsg: AIMessage = { role: 'user', content: text }
@@ -133,27 +134,48 @@ export default function AIChatAssistant() {
         setInput("")
 
         // Multi-Stage Thinking Simulation
-        const thinkingSteps = [
-            "Consulting local project database...",
-            "Analyzing environmental impact vectors...",
-            "Generating strategic response..."
-        ]
+        setStatus("Consulting AI Neural Engine...")
 
-        let step = 0
-        const interval = setInterval(() => {
-            if (step < thinkingSteps.length) {
-                setStatus(thinkingSteps[step])
-                step++
-            } else {
-                clearInterval(interval)
-                const result = getAIResponse(text)
-                setMessages([...newMessages, {
-                    role: 'assistant',
-                    ...result
-                }])
-                setStatus(null)
+        try {
+            // Attempt live generative AI via server route (Gemini)
+            const res = await fetch("/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    message: text,
+                    history: messages.slice(-4),
+                }),
+            })
+
+            if (res.ok) {
+                const data = await res.json()
+                if (data.content && !data.fallback) {
+                    setMessages([
+                        ...newMessages,
+                        {
+                            role: 'assistant',
+                            content: data.content,
+                            suggestions: data.suggestions || ["Explore More", "Browse Ideas"],
+                        },
+                    ])
+                    setStatus(null)
+                    return
+                }
             }
-        }, 800)
+        } catch {
+            // Network failure or offline -> gracefully fallback to local engine
+        }
+
+        // Offline / Fallback Smart Knowledge Base Engine
+        const localResult = getSmartLocalResponse(text, user?.name, user?.role)
+        setMessages([
+            ...newMessages,
+            {
+                role: 'assistant',
+                ...localResult,
+            },
+        ])
+        setStatus(null)
     }
 
     return (
@@ -279,7 +301,7 @@ export default function AIChatAssistant() {
                                         <div className="h-1.5 w-1.5 rounded-full bg-primary/40 animate-bounce [animation-delay:-0.15s]" />
                                         <div className="h-1.5 w-1.5 rounded-full bg-primary/40 animate-bounce" />
                                     </div>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-400 italic">{status}</span>
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-400 italic">{status}</span>
                                 </div>
                             </div>
                         )}

@@ -149,9 +149,9 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Massive Faded Background Project Watermark */}
+      {/* Massive Project Watermark */}
       <div className="pointer-events-none select-none relative -mb-8 sm:-mb-12 md:-mb-16 mt-8 flex justify-center overflow-hidden">
-        <span className="text-[14vw] font-black uppercase tracking-tighter leading-none text-primary/[0.15] dark:text-white/[0.12] whitespace-nowrap">
+        <span className="text-[14vw] font-black uppercase tracking-tighter leading-none text-primary dark:text-white whitespace-nowrap">
           GREENVAYA
         </span>
       </div>
