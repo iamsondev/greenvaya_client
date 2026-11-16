@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useAuthStore } from "@/store/authStore"
 import { ShoppingBag, Leaf, ExternalLink } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { API_URL } from "@/lib/api-config"
 
 interface Purchase {
@@ -94,10 +95,12 @@ export default function PurchasedIdeas() {
                                 {/* Image */}
                                 <div className="relative h-40 w-full overflow-hidden bg-gradient-to-br from-green-400/10 to-emerald-600/10">
                                     {imageUrl ? (
-                                        <img
+                                        <Image
                                             src={imageUrl}
                                             alt={idea.title}
-                                            className="h-full w-full object-cover"
+                                            fill
+                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                            className="object-cover"
                                         />
                                     ) : (
                                         <div className="flex h-full w-full items-center justify-center">

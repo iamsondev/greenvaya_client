@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import { useParams, useRouter } from "next/navigation"
 import { CheckCircle, AlertCircle, FileEdit, Send, Loader2, ImagePlus, ArrowLeft } from "lucide-react"
 import { useAuthStore } from "@/store/authStore"
@@ -218,9 +219,12 @@ export default function EditIdeaPage() {
                                 <label className={labelCls}>Image</label>
                                 <div className="flex items-center gap-4">
                                     {(imagePreview || existingImage) && (
-                                        <img
+                                        <Image
                                             src={imagePreview || existingImage!}
                                             alt="Preview"
+                                            width={64}
+                                            height={64}
+                                            unoptimized={(imagePreview || existingImage || "").startsWith("data:")}
                                             className="h-16 w-16 rounded-xl object-cover border border-white/10"
                                         />
                                     )}

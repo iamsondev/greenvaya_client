@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import {
     LogOut,
     X,
@@ -78,16 +79,14 @@ export default function Sidebar({
                 {/* User info */}
                 <div className="border-b border-border dark:border-border px-6 py-4">
                     <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-sm font-black text-primary-foreground shadow-lg shadow-primary/20 overflow-hidden">
+                        <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-primary text-sm font-black text-primary-foreground shadow-lg shadow-primary/20 overflow-hidden">
                             {user?.profileImage ? (
-                                <img 
+                                <Image 
                                     src={user.profileImage} 
-                                    alt={user.name} 
+                                    alt={user.name || "Member"} 
+                                    width={36}
+                                    height={36}
                                     className="h-full w-full object-cover"
-                                    onError={(e) => {
-                                        // Fallback if image fails to load
-                                        (e.target as HTMLImageElement).style.display = 'none';
-                                    }}
                                 />
                             ) : (
                                 <span>{user?.name?.[0]?.toUpperCase() || "M"}</span>
