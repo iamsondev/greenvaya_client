@@ -13,7 +13,6 @@ export default async function DashboardLayout({
     const cookieStore = await cookies();
 
     const refreshToken = cookieStore.get("refreshToken")?.value;
-    console.log("refreshToken:", refreshToken);
 
     let role = null;
 
@@ -30,7 +29,6 @@ export default async function DashboardLayout({
 
             if (res.ok) {
                 const data = await res.json();
-                console.log("refresh response:", data);
                 const accessToken = data?.data?.accessToken;
 
                 if (accessToken && typeof accessToken === "string") {
@@ -40,7 +38,6 @@ export default async function DashboardLayout({
                             Buffer.from(parts[1], "base64").toString()
                         );
                         role = payload.role;
-                        console.log("role:", role);
                     }
                 }
             } else {
