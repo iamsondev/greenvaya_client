@@ -1,7 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { motion, Variants } from "framer-motion"
+import Image from "next/image"
+import { LazyMotion, domAnimation, m, Variants } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -60,101 +61,103 @@ export default function FeaturedIdeas({ ideas, categories }: Props) {
     if (!ideas || ideas.length === 0) return null
 
     return (
-        <section className="relative overflow-hidden bg-white dark:bg-zinc-950 transition-colors duration-500 py-24">
-            {/* Background decoration */}
-            <div className="pointer-events-none absolute inset-0">
-                <div className="absolute -top-32 -right-32 h-96 w-96 rounded-full bg-primary/5 blur-[80px]" />
-                <div className="absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-primary/5 blur-[80px]" />
-            </div>
+        <LazyMotion features={domAnimation}>
+            <section className="relative overflow-hidden bg-white dark:bg-zinc-950 transition-colors duration-500 py-24">
+                {/* Background decoration */}
+                <div className="pointer-events-none absolute inset-0">
+                    <div className="absolute -top-32 -right-32 h-96 w-96 rounded-full bg-primary/5 blur-[80px]" />
+                    <div className="absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-primary/5 blur-[80px]" />
+                </div>
 
-            <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                {/* Section Header */}
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="mb-14 flex flex-col items-center text-center"
-                >
-                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 shadow-sm">
-                        <Sparkles className="h-3.5 w-3.5 text-primary" />
-                        <span className="text-xs font-semibold tracking-wide text-primary uppercase">
-                            Featured Ideas
-                        </span>
-                    </div>
-                    <h2 className="text-4xl font-black tracking-tight text-foreground dark:text-white sm:text-5xl">
-                        Community&apos;s{" "}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">
-                            Best Ideas
-                        </span>
-                    </h2>
-                    <p className="mt-4 max-w-xl text-base text-muted-foreground dark:text-zinc-300">
-                        Explore top-voted sustainability ideas shared by our community
-                        members from around the world.
-                    </p>
-                </motion.div>
-
-                {/* Categories Pills */}
-                {categories.length > 0 && (
-                    <motion.div 
-                        initial={{ opacity: 0, y: 15 }}
+                <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    {/* Section Header */}
+                    <m.div 
+                        initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.15 }}
-                        className="mb-10 flex flex-wrap justify-center gap-2"
+                        transition={{ duration: 0.6 }}
+                        className="mb-14 flex flex-col items-center text-center"
                     >
-                        <Link
-                            href="/ideas"
-                            className="rounded-full bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground transition-all hover:bg-primary/95 hover:scale-105 active:scale-95"
+                        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 shadow-sm">
+                            <Sparkles className="h-3.5 w-3.5 text-primary" />
+                            <span className="text-xs font-semibold tracking-wide text-primary uppercase">
+                                Featured Ideas
+                            </span>
+                        </div>
+                        <h2 className="text-4xl font-black tracking-tight text-foreground dark:text-white sm:text-5xl">
+                            Community&apos;s{" "}
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">
+                                Best Ideas
+                            </span>
+                        </h2>
+                        <p className="mt-4 max-w-xl text-base text-muted-foreground dark:text-zinc-300">
+                            Explore top-voted sustainability ideas shared by our community
+                            members from around the world.
+                        </p>
+                    </m.div>
+
+                    {/* Categories Pills */}
+                    {categories.length > 0 && (
+                        <m.div 
+                            initial={{ opacity: 0, y: 15 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.15 }}
+                            className="mb-10 flex flex-wrap justify-center gap-2"
                         >
-                            All
-                        </Link>
-                        {categories.slice(0, 6).map((cat) => (
                             <Link
-                                key={cat.id}
-                                href={`/ideas?category=${cat.name}`}
-                                className="rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold text-muted-foreground dark:text-zinc-300 transition-all hover:border-primary hover:bg-primary/5 hover:text-primary hover:scale-105 active:scale-95"
+                                href="/ideas"
+                                className="rounded-full bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground transition-all hover:bg-primary/95 hover:scale-105 active:scale-95"
                             >
-                                {cat.name}
+                                All
                             </Link>
-                        ))}
-                    </motion.div>
-                )}
+                            {categories.slice(0, 6).map((cat) => (
+                                <Link
+                                    key={cat.id}
+                                    href={`/ideas?category=${cat.name}`}
+                                    className="rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold text-muted-foreground dark:text-zinc-300 transition-all hover:border-primary hover:bg-primary/5 hover:text-primary hover:scale-105 active:scale-95"
+                                >
+                                    {cat.name}
+                                </Link>
+                            ))}
+                        </m.div>
+                    )}
 
-                {/* Ideas Grid */}
-                <motion.div 
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-60px" }}
-                    className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-                >
-                    {ideas.slice(0, 6).map((idea, index) => (
-                        <FeaturedIdeaCard key={idea.id} idea={idea} index={index} />
-                    ))}
-                </motion.div>
-
-                {/* View All Button */}
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    className="mt-14 flex justify-center"
-                >
-                    <Button
-                        asChild
-                        size="lg"
-                        className="rounded-xl bg-primary px-10 py-6 text-base font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/95 transition-all hover:scale-[1.03] active:scale-95"
+                    {/* Ideas Grid */}
+                    <m.div 
+                        variants={containerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-60px" }}
+                        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
                     >
-                        <Link href="/ideas" className="flex items-center gap-2">
-                            View All Ideas
-                            <ArrowRight className="h-5 w-5" />
-                        </Link>
-                    </Button>
-                </motion.div>
-            </div>
-        </section>
+                        {ideas.slice(0, 6).map((idea, index) => (
+                            <FeaturedIdeaCard key={idea.id} idea={idea} index={index} />
+                        ))}
+                    </m.div>
+
+                    {/* View All Button */}
+                    <m.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="mt-14 flex justify-center"
+                    >
+                        <Button
+                            asChild
+                            size="lg"
+                            className="rounded-xl bg-primary px-10 py-6 text-base font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/95 transition-all hover:scale-[1.03] active:scale-95"
+                        >
+                            <Link href="/ideas" className="flex items-center gap-2">
+                                View All Ideas
+                                <ArrowRight className="h-5 w-5" />
+                            </Link>
+                        </Button>
+                    </m.div>
+                </div>
+            </section>
+        </LazyMotion>
     )
 }
 
@@ -180,7 +183,7 @@ function FeaturedIdeaCard({
     ]
 
     return (
-        <motion.div 
+        <m.div 
             variants={cardVariants}
             whileHover={{ y: -8, transition: { duration: 0.25, ease: "easeOut" } }}
             className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10"
@@ -190,10 +193,12 @@ function FeaturedIdeaCard({
                 className={`relative h-48 w-full overflow-hidden bg-gradient-to-br ${gradients[index % gradients.length]}`}
             >
                 {imageUrl ? (
-                    <img
+                    <Image
                         src={imageUrl}
                         alt={idea.title}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                 ) : (
                     <div className="flex h-full w-full items-center justify-center">
@@ -278,6 +283,6 @@ function FeaturedIdeaCard({
                     </Link>
                 </div>
             </div>
-        </motion.div>
+        </m.div>
     )
 }

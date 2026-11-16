@@ -1,7 +1,7 @@
 "use client"
 
 import { UserPlus, Lightbulb, ThumbsUp, Leaf } from "lucide-react"
-import { motion, Variants } from "framer-motion"
+import { LazyMotion, domAnimation, m, Variants } from "framer-motion"
 
 const steps = [
   {
@@ -51,61 +51,63 @@ const itemVariants: Variants = {
 
 export default function HowItWorks() {
   return (
-    <section className="bg-muted py-24 relative overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-20 text-center"
-        >
-          <h2 className="text-3xl font-black tracking-tight text-foreground sm:text-5xl">
-            How <span className="text-primary italic">GreenVaya</span> Works
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground dark:text-zinc-300 max-w-2xl mx-auto">
-            Your journey from a simple spark of inspiration to a global environmental solution in four simple steps.
-          </p>
-        </motion.div>
+    <LazyMotion features={domAnimation}>
+      <section className="bg-muted py-24 relative overflow-hidden">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+          <m.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-20 text-center"
+          >
+            <h2 className="text-3xl font-black tracking-tight text-foreground sm:text-5xl">
+              How <span className="text-primary italic">GreenVaya</span> Works
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground dark:text-zinc-300 max-w-2xl mx-auto">
+              Your journey from a simple spark of inspiration to a global environmental solution in four simple steps.
+            </p>
+          </m.div>
 
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-          className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4"
-        >
-          {steps.map((step, i) => (
-            <motion.div 
-              key={i} 
-              variants={itemVariants}
-              whileHover={{ y: -6 }}
-              className="group relative"
-            >
-              {/* Connector line for desktop */}
-              {i < steps.length - 1 && (
-                <div className="absolute top-1/4 left-full hidden h-px w-full -translate-y-1/2 bg-gradient-to-r from-primary/30 to-transparent lg:block z-0" />
-              )}
-              
-              <div className="relative z-10 flex flex-col items-center text-center p-6 rounded-3xl bg-card/60 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all">
-                <div className={`mb-8 flex h-20 w-20 items-center justify-center rounded-[2rem] bg-gradient-to-br ${step.color} shadow-2xl shadow-primary/20 transition-transform group-hover:scale-110 group-hover:rotate-6`}>
-                  <step.icon className="h-10 w-10 text-white" />
-                  <div className="absolute -top-2 -right-2 flex h-8 w-8 items-center justify-center rounded-full bg-card border border-border text-xs font-black text-foreground shadow-lg">
-                    {i + 1}
+          <m.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4"
+          >
+            {steps.map((step, i) => (
+              <m.div
+                key={i}
+                variants={itemVariants}
+                whileHover={{ y: -6 }}
+                className="group relative"
+              >
+                {/* Connector line for desktop */}
+                {i < steps.length - 1 && (
+                  <div className="absolute top-1/4 left-full hidden h-px w-full -translate-y-1/2 bg-gradient-to-r from-primary/30 to-transparent lg:block z-0" />
+                )}
+
+                <div className="relative z-10 flex flex-col items-center text-center p-6 rounded-3xl bg-card/60 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all">
+                  <div className={`mb-8 flex h-20 w-20 items-center justify-center rounded-[2rem] bg-gradient-to-br ${step.color} shadow-2xl shadow-primary/20 transition-transform group-hover:scale-110 group-hover:rotate-6`}>
+                    <step.icon className="h-10 w-10 text-white" />
+                    <div className="absolute -top-2 -right-2 flex h-8 w-8 items-center justify-center rounded-full bg-card border border-border text-xs font-black text-foreground shadow-lg">
+                      {i + 1}
+                    </div>
                   </div>
+                  <h3 className="mb-4 text-xl font-bold text-foreground">{step.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground dark:text-zinc-300 font-normal">{step.desc}</p>
                 </div>
-                <h3 className="mb-4 text-xl font-bold text-foreground">{step.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground dark:text-zinc-300 font-normal">{step.desc}</p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-      
-      {/* Background decoration */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] select-none pointer-events-none">
+              </m.div>
+            ))}
+          </m.div>
+        </div>
+
+        {/* Background decoration */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] select-none pointer-events-none">
           <div className="text-[20rem] font-black italic">PROCESS</div>
-      </div>
-    </section>
+        </div>
+      </section>
+    </LazyMotion>
   )
 }
