@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect, ReactNode } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -371,11 +372,13 @@ export default function IdeaDetailClient({ idea }: { idea: Idea }) {
 
                         {/* Image */}
                         {imageUrl && (
-                            <div className="overflow-hidden rounded-2xl border border-border dark:border-zinc-800 bg-white dark:bg-background shadow-sm">
-                                <img
+                            <div className="relative h-72 w-full overflow-hidden rounded-2xl border border-border dark:border-zinc-800 bg-white dark:bg-background shadow-sm">
+                                <Image
                                     src={imageUrl}
                                     alt={idea.title}
-                                    className="h-72 w-full object-cover"
+                                    fill
+                                    sizes="(max-width: 1024px) 100vw, 66vw"
+                                    className="object-cover"
                                 />
                             </div>
                         )}

@@ -5,6 +5,7 @@ import IdeaCardSkeleton from "@/components/shared/IdeaCardSkeleton"
 import axios from "axios"
 import { API_URL } from "@/lib/api-config"
 import Link from "next/link"
+import Image from "next/image"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -81,6 +82,42 @@ export default function IdeasClient({
     const [showSuggestions, setShowSuggestions] = useState(false)
     const [isSuggesting, setIsSuggesting] = useState(false)
     const searchRef = useRef<HTMLDivElement>(null)
+    const abortControllerRef = useRef<AbortController | null>(null)
+
+    // Escape regex special characters
+    const escapeRegex = (string: string) => {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+    }
+
+    // Helper for windowed pagination: first, last, current ±2 with ellipsis
+    const getPaginationRange = (current: number, total: number) => {
+        const delta = 2
+        const range: (number | string)[] = []
+        const rangeWithDots: (number | string)[] = []
+        let l: number | undefined
+
+        for (let i = 1; i <= total; i++) {
+            if (i === 1 || i === total || (i >= current - delta && i <= current + delta)) {
+                range.push(i)
+            }
+        }
+
+        for (const i of range) {
+            if (l) {
+                if (typeof i === "number" && i - l === 2) {
+                    rangeWithDots.push(l + 1)
+                } else if (typeof i === "number" && i - l !== 1) {
+                    rangeWithDots.push("...")
+                }
+            }
+            rangeWithDots.push(i)
+            if (typeof i === "number") {
+                l = i
+            }
+        }
+
+        return rangeWithDots
+    }
 
     // Close suggestions dropdown when clicking outside
     useEffect(() => {
@@ -93,35 +130,48 @@ export default function IdeasClient({
         return () => document.removeEventListener("mousedown", handleClickOutside)
     }, [])
 
-    // Suggestion fetch with debounce
+    // Suggestion fetch with debounce and AbortController (does NOT call router.push)
     useEffect(() => {
-        const fetchSuggestions = async () => {
-            if (!search.trim() || search.length < 2) {
-                setSuggestions([])
-                setShowSuggestions(false)
-                return
+        if (!search.trim() || search.length < 2) {
+            setSuggestions([])
+            setShowSuggestions(false)
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort()
             }
+            return
+        }
+
+        const timer = setTimeout(async () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort()
+            }
+
+            const controller = new AbortController()
+            abortControllerRef.current = controller
 
             setIsSuggesting(true)
             try {
-                const res = await axios.get(`${API_URL}/ideas?searchTerm=${search}&limit=5`)
+                const encodedSearch = encodeURIComponent(search.trim())
+                const res = await axios.get(`${API_URL}/ideas?searchTerm=${encodedSearch}&limit=5`, {
+                    signal: controller.signal,
+                })
                 setSuggestions(res.data?.data || [])
                 setShowSuggestions(true)
-            } catch (err) {
-                console.error("Suggestion fetch error:", err)
+            } catch (err: any) {
+                if (err.name !== "CanceledError" && !axios.isCancel(err)) {
+                    console.error("Suggestion fetch error:", err)
+                }
             } finally {
                 setIsSuggesting(false)
             }
-        }
+        }, 300)
 
-        const timer = setTimeout(() => {
-            fetchSuggestions()
-            // Also update the main URL to filter the list instantly
-            if (search.length >= 2 || search.length === 0) {
-                updateParams({ q: search, page: "1" })
+        return () => {
+            clearTimeout(timer)
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort()
             }
-        }, 500)
-        return () => clearTimeout(timer)
+        }
     }, [search])
 
     const updateParams = (updates: Record<string, string>) => {
@@ -215,10 +265,10 @@ export default function IdeasClient({
                                                 </div>
                                                 <div className="flex flex-col overflow-hidden">
                                                     <span className="truncate text-sm font-bold text-foreground dark:text-white">
-                                                        {suggestion.title.split(new RegExp(`(${search})`, 'gi')).map((part, i) => (
+                                                        {suggestion.title.split(new RegExp(`(${escapeRegex(search.trim())})`, 'gi')).map((part, i) => (
                                                             <span 
                                                                 key={i} 
-                                                                className={part.toLowerCase() === search.toLowerCase() ? "text-primary italic" : ""}
+                                                                className={part.toLowerCase() === search.trim().toLowerCase() ? "text-primary italic" : ""}
                                                             >
                                                                 {part}
                                                             </span>
@@ -377,22 +427,34 @@ export default function IdeasClient({
                             Prev
                         </Button>
 
-                        {Array.from({ length: meta.totalPage }, (_, i) => i + 1).map(
-                            (p) => (
+                        {getPaginationRange(currentPage, meta.totalPage).map((p, idx) => {
+                            if (p === "...") {
+                                return (
+                                    <span
+                                        key={`ellipsis-${idx}`}
+                                        className="flex h-9 w-9 items-center justify-center text-sm font-bold text-muted-foreground"
+                                    >
+                                        ...
+                                    </span>
+                                )
+                            }
+                            const pageNumber = Number(p)
+                            return (
                                 <Button
-                                    key={p}
+                                    key={pageNumber}
                                     size="sm"
-                                    variant={p === currentPage ? "default" : "outline"}
-                                    onClick={() => updateParams({ page: String(p) })}
-                                    className={`w-9 rounded-xl ${p === currentPage
+                                    variant={pageNumber === currentPage ? "default" : "outline"}
+                                    onClick={() => updateParams({ page: String(pageNumber) })}
+                                    className={`w-9 rounded-xl ${
+                                        pageNumber === currentPage
                                             ? "bg-primary hover:bg-green-700 text-white"
                                             : ""
-                                        }`}
+                                    }`}
                                 >
-                                    {p}
+                                    {pageNumber}
                                 </Button>
                             )
-                        )}
+                        })}
 
                         <Button
                             variant="outline"
@@ -423,10 +485,12 @@ function IdeaCard({ idea }: { idea: Idea }) {
             {/* Image */}
             <div className="relative h-44 w-full overflow-hidden bg-gradient-to-br from-green-50 to-emerald-100">
                 {imageUrl ? (
-                    <img
+                    <Image
                         src={imageUrl}
                         alt={idea.title}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                 ) : (
                     <div className="flex h-full w-full items-center justify-center">
