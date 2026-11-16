@@ -9,17 +9,26 @@ export default async function IdeaDetailPage({
 }) {
     const { id } = await params
 
-    const res = await fetch(
-        `${API_URL}/ideas/${id}`,
-        { cache: "no-store" }
-    )
+    try {
+        const res = await fetch(
+            `${API_URL}/ideas/${id}`,
+            {
+                next: {
+                    revalidate: 60,
+                    tags: [`idea-${id}`],
+                },
+            }
+        )
 
-    if (!res.ok) notFound()
+        if (!res.ok) notFound()
 
-    const data = await res.json()
-    const idea = data?.data
+        const data = await res.json()
+        const idea = data?.data
 
-    if (!idea) notFound()
+        if (!idea) notFound()
 
-    return <IdeaDetailClient idea={idea} />
+        return <IdeaDetailClient idea={idea} />
+    } catch (error) {
+        notFound()
+    }
 }

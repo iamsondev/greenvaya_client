@@ -36,22 +36,31 @@ export default async function IdeasPage({
     if (sort === "commented") queryParams.set("sortBy", "comments")
     if (sort === "recent") queryParams.set("sortBy", "createdAt")
 
-    const res = await fetch(
-        `${API_URL}/ideas?${queryParams.toString()}`,
-        { cache: "no-store" }
-    )
-    const data = await res.json()
+    // Parallel independent fetch with error handling & revalidation
+    const [ideasData, categoriesData] = await Promise.all([
+        fetch(`${API_URL}/ideas?${queryParams.toString()}`, {
+            next: { revalidate: 60 },
+        })
+            .then(async (res) => {
+                if (!res.ok) return null
+                return res.json()
+            })
+            .catch(() => null),
 
-    const categoriesRes = await fetch(
-        `${API_URL}/categories`,
-        { cache: "no-store" }
-    )
-    const categoriesData = await categoriesRes.json()
+        fetch(`${API_URL}/categories`, {
+            next: { revalidate: 3600 },
+        })
+            .then(async (res) => {
+                if (!res.ok) return null
+                return res.json()
+            })
+            .catch(() => null),
+    ])
 
     return (
         <IdeasClient
-            ideas={data?.data || []}
-            meta={data?.meta || { page: 1, limit: 12, total: 0, totalPage: 1 }}
+            ideas={ideasData?.data || []}
+            meta={ideasData?.meta || { page: 1, limit: 12, total: 0, totalPage: 1 }}
             categories={categoriesData?.data || []}
             currentPage={Number(page)}
             currentSort={sort}
